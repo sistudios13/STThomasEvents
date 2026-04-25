@@ -1,10 +1,14 @@
 
 <?php
 
+if (!function_exists('basePath')) {
+
 function basePath() {
     $scriptName = $_SERVER['SCRIPT_NAME']; 
-    return rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
+    return rtrim(str_replace('\\', '/', dirname($scriptName)), '/'); 
 }
+
+
 define('BASE_PATH', basePath());
 
 function url($path = '') {
@@ -65,4 +69,16 @@ function verify_csrf() {
             exit;
         }
     }
+}
+
+function render($view, $layout, $data = [])
+    {
+        extract($data); // makes variables available in view
+        ob_start();
+        require __DIR__ . '/../app/views/' . $view . '.php';
+        $content = ob_get_clean();
+        // Include layout
+        require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+    }
+
 }

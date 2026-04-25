@@ -2,25 +2,17 @@
 
 require_once __DIR__ . '/../models/Users.php';
 require __DIR__ . '/../../vendor/autoload.php';
-
+require __DIR__ . '/../../config/helpers.php';
 use Respect\Validation\Validator as v;
 
 
 class AuthController
 {
-    private function render($view, $data = [])
-    {
-        extract($data); // makes variables available in view
-        ob_start();
-        require __DIR__ . '/../views/' . $view . '.php';
-        $content = ob_get_clean();
-        // Include layout
-        require __DIR__ . '/../views/layouts/main.php';
-    }
+
     public function login_form()
     {
         NotLoggedInOnly();
-        $this->render('login_form', [
+        render('login_form', 'main', [
             'pageTitle' => 'Login'
         ]);
     }
@@ -28,7 +20,7 @@ class AuthController
     public function register_form()
     {
         NotLoggedInOnly();
-        $this->render('register_form', [
+        render('register_form', 'main', [
             'pageTitle' => 'Register'
         ]);
     }
