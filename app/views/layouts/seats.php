@@ -17,32 +17,6 @@
     
     <body class="bg-gray-50 flex flex-col ">
     
-        <!-- Navigation Header -->
-        <header class="bg-white sticky top-0 w-full z-10 shadow-sm border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center=">
-                    <!-- Logo -->
-                    <div class="flex items-center">
-                        <a href="<?= url('/') ?>" class="flex items-center gap-2">
-                            <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-14 md:size-16">
-                            <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Tickets</span>
-                        </a>
-                    </div>
-    
-                    <!-- Right Side Actions -->
-                    <nav class="flex items-center gap-3">
-                        <?php if (isAdmin()): ?>
-                            <a href="<?= url('/admin/dashboard') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Dashboard</a>
-                            <a href="<?= url('/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Logout</a>
-                        <?php else: ?>
-                            <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                            <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-    
-                        <?php endif; ?>
-                    </nav>
-                </div>
-            </div>
-        </header>
     
     
     
@@ -60,12 +34,43 @@
         </div>
     
         <!-- Main Content -->
-        <main class="flex-grow py-12 md:py-16 lg:py-20 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <?= $content ?? '' ?>
-        </main>
+        
+            <main>
+                <section class="pt-12 bg-white">
+                    <div class="max-w-4xl mx-auto px-4">
+                        <!-- Steps Progress Bar -->
+                        <div class="flex items-center justify-center pb-8">
+                            <div class="flex items-center w-full max-w-2xl">
+                                <!-- Step 1: Select Seats (Active) -->
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-10 h-10 rounded-full <?php echo $step === 1 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">1</div>
+                                    <span class="mt-2 text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Select Seats</span>
+                                </div>
+                                <!-- Connector -->
+                                <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                <!-- Step 2: Enter Details -->
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-10 h-10 rounded-full <?php echo $step === 2 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">2</div>
+                                    <span class="mt-2 text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Enter Details</span>
+                                </div>
+                                <!-- Connector -->
+                                <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                
+                                <!-- Step 3: Confirmation -->
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-10 h-10 rounded-full <?php echo $step === 3 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">3</div>
+                                    <span class="mt-2 text-sm font-medium <?php echo $step === 3 ? 'text-green-700' : 'text-gray-700'; ?>">Confirmation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?= $content ?? '' ?>
+            </main>
+        
     
         <!-- Footer -->
-        <footer class="bg-gray-900 text-white mt-16">
+        <footer class="bg-gray-900 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     <div>

@@ -4,7 +4,7 @@ $prices = json_decode($eventData['price'], true);
 
 ?>
 
-<section class="py-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12">
     <div>
         <div class="pb-10 items-center gap-10">
             <h1 class=" text-4xl md:text-5xl font-semibold text-pretty mb-4"><?= htmlspecialchars($eventData['name']) ?></h1>
@@ -14,9 +14,18 @@ $prices = json_decode($eventData['price'], true);
         <div class=" max-w-3xl mx-auto">
             <p class="text-lg text-gray-700"><?= nl2br(htmlspecialchars($eventData['description'])) ?></p>
         </div>
+        <div class="flex items-center gap-3 pt-8">
+            <a href="<?= url('/events') ?>" class=" inline-flex items-center gap-2 font-semibold text-emerald-700 transition hover:text-emerald-900">
+                ← Back to Events
+            </a><a href="<?= url('/events/' . $eventData['id'] . '/seats') ?>" class=" inline-flex items-center gap-2 font-semibold text-white bg-emerald-700 px-4 py-2 rounded-lg transition hover:bg-emerald-900">
+                Book Tickets
+            </a>
+            
+        </div>
+        
     </div>
-    <div class="p-8 shadow-sm bg-white">
+    <div class="p-8 shadow-sm border border-slate-200 bg-white rounded-3xl">
         <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
-        <p class="text-lg text-gray-700 mb-6"><?php foreach ($prices as $key => $price): ?><?= htmlspecialchars($key) ?>: $<?= htmlspecialchars($price) ?><?php endforeach; ?></p>
+        <p class="text-lg text-gray-700 mb-6"><b><?php foreach ($prices as $key => $price): ?><?= htmlspecialchars($key) ?>:</b> $<?= htmlspecialchars($price) ?><?php endforeach; ?></p>
     </div>
 </section>

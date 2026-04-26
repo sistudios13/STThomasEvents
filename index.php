@@ -25,10 +25,14 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
+    $r->addRoute('GET', '/events/{id:\d+}/seats', ['BookingController', 'eventSeats']);
+    $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
+
 
 
     // post routes
     $r->addRoute('POST', '/dashboard/add-user', ['DashboardController', 'addUser']);
+    $r->addRoute('POST', '/events/{id:\d+}/reserve', ['BookingController', 'reserveSeats']);
 
 });
 

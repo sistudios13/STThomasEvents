@@ -39,6 +39,8 @@ function adminOnly() {
     }
 }
 
+
+
 function isLoggedIn() {
     return isset($_SESSION['user_id']);
 }
@@ -80,5 +82,58 @@ function render($view, $layout, $data = [])
         // Include layout
         require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
     }
+
+function hasValidReservation() {
+    if (empty($_SESSION['reservation_token']) || empty($_SESSION['reservation_expires']) || empty($_SESSION['step'])) {
+        return false;
+    }
+
+    echo "Current time: " . date('Y-m-d H:i:s') . " | Reservation expires at: " . $_SESSION['reservation_expires'] . " | Step: " . $_SESSION['step'];
+    
+    if (date('Y-m-d H:i:s') > $_SESSION['reservation_expires']) {
+        clearReservation();
+        return false;
+    }
+    
+    return true;
+}
+
+function clearReservation() {
+    unset($_SESSION['reservation_token']);
+    unset($_SESSION['reservation_expires']);
+    unset($_SESSION['step']);
+    deleteExpiredReservations();
+}
+
+function redirectToRightStep($eventId) {
+    if (!hasValidReservation()) {
+        clearReservation();
+        header('HX-Redirect: ' . url('/events/' . $eventId . '/seats'));
+        header('Location: ' . url('/events/' . $eventId . '/seats'));
+        exit;
+    } 
+
+    if ($_SESSION['step'] == 2) {
+        header('HX-Redirect: ' . url('/events/' . $eventId . '/book/'));
+        header('Location: ' . url('/events/' . $eventId . '/book/'));
+        exit;
+    } 
+
+    if ($_SESSION['step'] == 3) {
+        header('HX-Redirect: ' . url('/events/' . $eventId . '/confirm'));
+        header('Location: ' . url('/events/' . $eventId . '/confirm'));
+        exit;
+    } 
+}
+
+function deleteExpiredReservations() {
+    $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at < NOW()");
+    $stmt->execute();
+    $stmt->close();
+}
+
+
+
+
 
 }

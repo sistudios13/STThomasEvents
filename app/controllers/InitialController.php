@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../models/Events.php';
 require __DIR__ . '/../../config/helpers.php';
 class InitialController
-{   
+{
 
 
     public function index()
@@ -34,4 +34,9 @@ class InitialController
             'eventData' => $event
         ]);
     }
+
+    
+
+
+
 }

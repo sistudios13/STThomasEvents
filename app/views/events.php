@@ -5,7 +5,7 @@
         
     </div>
 </section>
-<section class="py-12">
+<section class="pt-12">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php foreach ($eventsData as $event) : ?>
             <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
