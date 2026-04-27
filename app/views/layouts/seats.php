@@ -5,6 +5,7 @@
         <title><?= $pageTitle ?? 'St. Thomas Tickets' ?></title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <!-- Icons -->
          <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
@@ -15,7 +16,7 @@
         <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
     </head>
     
-    <body class="bg-gray-50 flex flex-col ">
+    <body class="bg-white flex flex-col ">
     
     
     
@@ -40,26 +41,33 @@
                     <div class="max-w-4xl mx-auto px-4">
                         <!-- Steps Progress Bar -->
                         <div class="flex items-center justify-center pb-8">
-                            <div class="flex items-center w-full max-w-2xl">
+                            <div class="grid grid-cols-5 items-start text-center w-full max-w-2xl">
                                 <!-- Step 1: Select Seats (Active) -->
                                 <div class="flex flex-col items-center flex-1">
                                     <div class="w-10 h-10 rounded-full <?php echo $step === 1 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">1</div>
-                                    <span class="mt-2 text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Select Seats</span>
+                                    <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Select Seats</span>
+                                    <span class="mt-2 inline-block sm:hidden text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Seats</span>
                                 </div>
                                 <!-- Connector -->
-                                <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                <div class="flex h-full items-center">
+                                    <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                </div>
                                 <!-- Step 2: Enter Details -->
                                 <div class="flex flex-col items-center flex-1">
                                     <div class="w-10 h-10 rounded-full <?php echo $step === 2 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">2</div>
-                                    <span class="mt-2 text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Enter Details</span>
+                                    <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Enter Details</span>
+                                    <span class="mt-2 inline-block sm:hidden text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Details</span>
                                 </div>
                                 <!-- Connector -->
-                                <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                <div class="flex h-full items-center">
+                                    <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                                </div>
                                 
                                 <!-- Step 3: Confirmation -->
                                 <div class="flex flex-col items-center flex-1">
                                     <div class="w-10 h-10 rounded-full <?php echo $step === 3 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">3</div>
-                                    <span class="mt-2 text-sm font-medium <?php echo $step === 3 ? 'text-green-700' : 'text-gray-700'; ?>">Confirmation</span>
+                                    <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 3 ? 'text-green-700' : 'text-gray-700'; ?>">Confirmation</span>
+                                    <span class="mt-2 inline-block sm:hidden text-sm font-medium <?php echo $step === 3 ? 'text-green-700' : 'text-gray-700'; ?>">Confirm</span>
                                 </div>
                             </div>
                         </div>
@@ -81,14 +89,16 @@
                             </div>
                         </div>
                         <p class="text-gray-400 text-sm">St. Thomas Tickets is the place to book tickets for various events at St. Thomas High School.</p>
-                        <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp</a>
+                        <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp<br> <span class="font-normal">simonsites.com</span></a>
                     </div>
                     <div>
                         <h4 class="font-semibold mb-4">Quick Links</h4>
                         <ul class="space-y-2 text-gray-400 text-sm">
                             <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                             <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                            <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
+                            <?php if (isAdmin()): ?>
+                                <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     <div>

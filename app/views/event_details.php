@@ -27,5 +27,6 @@ $prices = json_decode($eventData['price'], true);
     <div class="p-8 shadow-sm border border-slate-200 bg-white rounded-3xl">
         <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
         <p class="text-lg text-gray-700 mb-6"><b><?php foreach ($prices as $key => $price): ?><?= htmlspecialchars($key) ?>:</b> $<?= htmlspecialchars($price) ?><?php endforeach; ?></p>
+        <p class="text-sm text-gray-500">* Payments will take place at the door. Cash only</p>
     </div>
 </section>

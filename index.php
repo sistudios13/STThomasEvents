@@ -27,6 +27,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
     $r->addRoute('GET', '/events/{id:\d+}/seats', ['BookingController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
+    $r->addRoute('GET', '/events/{id:\d+}/expired', ['BookingController', 'eventExpired']);
+    $r->addRoute('GET', '/events/{id:\d+}/cancel', ['BookingController', 'cancelReservation']);
 
 
 

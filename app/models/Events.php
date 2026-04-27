@@ -63,5 +63,14 @@ class Events
         // ADD FOR BOOKED SEATS WHEN IMPLEMENTED
     }
 
-}
+    public static function getSeatsByToken($event_id, $token)
+    {
+        $stmt = Database::$con->prepare("SELECT r.seat FROM reservations r JOIN reservation_sessions s ON r.session_id = s.id WHERE s.token = ? AND s.event_id = ? AND s.expires_at > NOW()");
+        $stmt->bind_param("si", $token, $event_id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return array_column($result, 'seat');
 
+}
+}

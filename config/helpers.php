@@ -80,7 +80,12 @@ function render($view, $layout, $data = [])
         require __DIR__ . '/../app/views/' . $view . '.php';
         $content = ob_get_clean();
         // Include layout
-        require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+        if (isset($layout)) {
+            require __DIR__ . '/../app/views/layouts/' . $layout . '.php';
+        } else {
+            echo $content;
+        }
+
     }
 
 function hasValidReservation() {
@@ -88,7 +93,6 @@ function hasValidReservation() {
         return false;
     }
 
-    echo "Current time: " . date('Y-m-d H:i:s') . " | Reservation expires at: " . $_SESSION['reservation_expires'] . " | Step: " . $_SESSION['step'];
     
     if (date('Y-m-d H:i:s') > $_SESSION['reservation_expires']) {
         clearReservation();
@@ -103,6 +107,19 @@ function clearReservation() {
     unset($_SESSION['reservation_expires']);
     unset($_SESSION['step']);
     deleteExpiredReservations();
+}
+
+function cancelReservation() {
+    $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE token = ?");
+    $stmt->bind_param("s", $_SESSION['reservation_token']);
+    $stmt->execute();
+    $stmt->close();
+
+
+    unset($_SESSION['reservation_token']);
+    unset($_SESSION['reservation_expires']);
+    unset($_SESSION['step']);
+    
 }
 
 function redirectToRightStep($eventId) {

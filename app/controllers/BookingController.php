@@ -44,6 +44,12 @@ class BookingController
 
         $seats =  explode(',', $_POST['seats']);
 
+        if (count($seats) > 6) {
+            http_response_code(400);
+            echo 'You cannot book more than 6 seats at once!';
+            return;
+        }
+
         foreach ($seats as $seat) {
             if (!Events::seatExists($seat)) {
                 http_response_code(400);
@@ -91,12 +97,58 @@ class BookingController
                 exit;
             }
 
+        $event = Events::getById($id);
+        if (!$event) {
+            http_response_code(404);
+            header('Location: ' . url('/404.html'));
+            return;
+        }
 
         render('event_booking', 'seats', [
             'pageTitle' => 'Enter Details - St. Thomas Tickets',
-            'step' => 2
+            'eventData' => $event,
+            'step' => 2,
+            'seats' => Events::getSeatsByToken($id, $_SESSION['reservation_token'])
         ]);
     }
 
+    public function eventExpired($id) {
 
+        if (hasValidReservation()) {
+            redirectToRightStep($id);
+        }
+        
+        $event = Events::getById($id);
+        if (!$event) {
+            http_response_code(404);
+            header('Location: ' . url('/404.html'));
+            return;
+        }
+
+        render('event_expired', null, [
+            'pageTitle' => 'Reservation Expired - St. Thomas Tickets',
+            'eventData' => $event,
+            'step' => 1
+        ]);
+    }
+
+    public function cancelReservation($id) {
+        if (hasValidReservation()) {
+            cancelReservation();
+        } 
+
+        $event = Events::getById($id);
+        if (!$event) {
+            http_response_code(404);
+            header('Location: ' . url('/404.html'));
+            return;
+        }
+
+        
+        render('event_cancel', null, [
+            'pageTitle' => 'Reservation Cancelled - St. Thomas Tickets',
+            'eventData' => $event,
+
+        ]);
+    }
 }

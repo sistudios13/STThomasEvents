@@ -296,7 +296,7 @@
                 <span class="text-xs text-gray-400 italic">No seats selected — tap a green seat</span>
             </template>
             <template x-for="k in selected" :key="k">
-                <span class="chip" @click="removeKey(k)" :title="'Remove ' + label(k)">
+                <span class="px-3 py-1 bg-green-700 text-white flex items-center gap-1 rounded-lg text-sm cursor-pointer font-medium" @click="removeKey(k)" :title="'Remove ' + label(k)">
                     <span x-text="label(k)"></span>
                     <span class="text-[10px] leading-none opacity-60">✕</span>
                 </span>
@@ -309,7 +309,7 @@
             <form hx-post="<?= url('/events/' . $eventData['id'] . '/reserve/') ?>" class="mb-0">
                 <input type="hidden" name="seats" :value="selected.join(',')">
                 <?= csrf_input() ?>
-                <button :disabled="selected.length === 0 || selected.length > 6" class="text-xs font-bold bg-green-500 h-full text-gray-900 px-4 py-1.5 rounded-lg hover:bg-green-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                <button :disabled="selected.length === 0 || selected.length > 6" class="text-xs font-semibold bg-green-500 h-full text-gray-900 px-4 py-1.5 rounded-lg hover:bg-green-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                     Next Step
                 </button>
             </form>
@@ -453,6 +453,7 @@
                     this._ps = { x: e.touches[0].clientX - this.tx, y: e.touches[0].clientY - this.ty }
                 } else if (e.touches.length === 2) {
                     this.panning = false
+                    this._didMove = true
                     this._pinchD = this._td(e.touches)
                     this._pinchS = this.scale
                 }

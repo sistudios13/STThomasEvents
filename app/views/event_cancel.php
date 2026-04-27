@@ -16,55 +16,7 @@
     </head>
     
     <body class="bg-gray-50 flex flex-col ">
-    
-        <!-- Navigation Header -->
-        <header x-data="{ open: false }" class="bg-white fixed top-0 w-full z-10 shadow-sm border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <div class="flex items-center">
-                <a href="<?= url('/') ?>" class="flex items-center gap-2">
-                    <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-14 md:size-16">
-                    <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Tickets</span>
-                </a>
-                </div>
 
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex items-center gap-3">
-                <?php if (isAdmin()): ?>
-                    <a href="<?= url('/admin/dashboard') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Dashboard</a>
-                    <a href="<?= url('/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Logout</a>
-                <?php else: ?>
-                    <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                    <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                    <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                <?php endif; ?>
-                </nav>
-
-                <!-- Mobile Menu Button -->
-                <button @click="open = !open" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    <path x-show="open" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-                </button>
-            </div>
-
-            <!-- Mobile Navigation Menu -->
-            <div  x-show="open" x-cloak x-transition class="md:hidden mt-4 pb-4 border-t border-gray-200">
-                <nav class="flex flex-col items-end gap-3 pt-6">
-                <?php if (isAdmin()): ?>
-                    <a href="<?= url('/admin/dashboard') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Dashboard</a>
-                    <a href="<?= url('/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Logout</a>
-                <?php else: ?>
-                    <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                    <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                    <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                <?php endif; ?>
-                </nav>
-            </div>
-            </div>
-        </header>
     
     
     
@@ -82,8 +34,14 @@
         </div>
     
         <!-- Main Content -->
-        <main class="flex-grow mt-[72px] md:mt-20 py-12 md:py-16 lg:py-20 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <?= $content ?? '' ?>
+        <main class="flex-grow py-12 md:py-16 lg:py-20 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <section class="text-center">
+                <h1 class="text-4xl font-bold text-red-700 mb-4"> Reservation Cancelled</h1>
+                <p class="text-lg text-gray-700 mb-6">Your seat reservation has been cancelled. Please select your seats again to proceed with booking.</p>
+                <a href="<?= url('/events/' . $eventData['id'] . '/seats') ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-700 px-4 py-2 rounded-lg transition hover:bg-green-900">
+                    Select Seats Again
+                </a>
+            </section>
         </main>
     
         <!-- Footer -->
@@ -98,16 +56,14 @@
                             </div>
                         </div>
                         <p class="text-gray-400 text-sm">St. Thomas Tickets is the place to book tickets for various events at St. Thomas High School.</p>
-                        <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">simonsites.com</span></a>
+                        <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp</a>
                     </div>
                     <div>
                         <h4 class="font-semibold mb-4">Quick Links</h4>
                         <ul class="space-y-2 text-gray-400 text-sm">
                             <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                             <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                            <?php if (isAdmin()): ?>
-                                <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
-                            <?php endif; ?>
+                            <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
                         </ul>
                     </div>
                     <div>
