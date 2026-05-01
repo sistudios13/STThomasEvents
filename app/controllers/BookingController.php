@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../models/Events.php';
 require_once __DIR__ . '/../models/Reservations.php';
 require __DIR__ . '/../../config/helpers.php';
 class BookingController
 {
 
-    public function eventSeats($id)
+    public function eventSeats(int|string $id): void
     {
         if (hasValidReservation()) {
-            redirectToRightStep($id);
+            redirectToRightStep(intval($id));
         }
 
-        $event = Events::getById($id);
+        $event = Events::getById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404.html'));
@@ -22,13 +24,13 @@ class BookingController
             'pageTitle' => 'Choose Seats - St. Thomas Tickets',
             'eventData' => $event,
             'step' => 1,
-            'reservedSeats' => Events::getUnavailableSeats($id)
+            'reservedSeats' => Events::getUnavailableSeats(intval($id))
         ]);
     }
 
-    public function reserveSeats($id)
+    public function reserveSeats(int|string $id): void
     {
-        $event = Events::getById($id);
+        $event = Events::getById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404.html'));
@@ -42,7 +44,7 @@ class BookingController
         }
 
 
-        $seats =  explode(',', $_POST['seats']);
+        $seats = explode(',', $_POST['seats']);
 
         if (count($seats) > 6) {
             http_response_code(400);
@@ -59,14 +61,14 @@ class BookingController
         }
 
         foreach ($seats as $seat) {
-            if (!Events::isSeatAvailable($id, $seat)) {
+            if (!Events::isSeatAvailable(intval($id), $seat)) {
                 http_response_code(400);
                 echo "Seat $seat is not available! Try refreshing the page.";
                 return;
             }
         }
 
-        $reservation = new Reservation($id, $seats);
+        $reservation = new Reservation(intval($id), $seats);
         $reservation->create_session();
         $reservation->save_seats();
 
@@ -82,7 +84,7 @@ class BookingController
 
     }
 
-    public function eventBooking($id)
+    public function eventBooking(int|string $id): void
     {
 
         if (hasValidReservation()) {
@@ -92,12 +94,12 @@ class BookingController
                 exit;
             }
         } else {
-                header('HX-Redirect: ' . url('/events/' . $id . '/seats'));
-                header('Location: ' . url('/events/' . $id . '/seats'));
-                exit;
-            }
+            header('HX-Redirect: ' . url('/events/' . $id . '/seats'));
+            header('Location: ' . url('/events/' . $id . '/seats'));
+            exit;
+        }
 
-        $event = Events::getById($id);
+        $event = Events::getById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404.html'));
@@ -108,17 +110,18 @@ class BookingController
             'pageTitle' => 'Enter Details - St. Thomas Tickets',
             'eventData' => $event,
             'step' => 2,
-            'seats' => Events::getSeatsByToken($id, $_SESSION['reservation_token'])
+            'seats' => Events::getSeatsByToken(intval($id), $_SESSION['reservation_token'])
         ]);
     }
 
-    public function eventExpired($id) {
+    public function eventExpired(int|string $id): void
+    {
 
         if (hasValidReservation()) {
-            redirectToRightStep($id);
+            redirectToRightStep(intval($id));
         }
-        
-        $event = Events::getById($id);
+
+        $event = Events::getById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404.html'));
@@ -132,19 +135,20 @@ class BookingController
         ]);
     }
 
-    public function cancelReservation($id) {
+    public function cancelReservation(int|string $id): void
+    {
         if (hasValidReservation()) {
             cancelReservation();
-        } 
+        }
 
-        $event = Events::getById($id);
+        $event = Events::getById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404.html'));
             return;
         }
 
-        
+
         render('event_cancel', null, [
             'pageTitle' => 'Reservation Cancelled - St. Thomas Tickets',
             'eventData' => $event,

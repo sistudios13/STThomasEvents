@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types= 1);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../config');
@@ -10,7 +12,7 @@ class Database
 
     public static $con;
 
-    public static function init()
+    public static function init(): void
     {
         if (self::$con === null) {
             self::$con = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);

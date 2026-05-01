@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types= 1);
+
 require_once __DIR__ . '/../../core/db.php';
 class Events
 {
 
-    public static function getAll()
+    public static function getAll(): array|null
     {
         $stmt = Database::$con->prepare("SELECT * FROM events WHERE date >= NOW() ORDER BY date ASC");
         $stmt->execute();
@@ -14,7 +16,7 @@ class Events
 
     }
 
-    public static function getById($id)
+    public static function getById(int $id): array|null
     {
         $stmt = Database::$con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() ORDER BY date ASC");
         $stmt->bind_param("i", $id);
@@ -25,7 +27,7 @@ class Events
 
     }
 
-    public static function seatExists($label)
+    public static function seatExists(string $label): bool
     {
         $json = file_get_contents(__DIR__ . '/../../config/seats.json');
 
@@ -39,10 +41,10 @@ class Events
         return false;
     }
 
-    public static function isSeatAvailable($eventId, $seat)
+    public static function isSeatAvailable(int $event_id, string $seat): bool
     {
         $stmt = Database::$con->prepare("SELECT COUNT(*) as count FROM reservations WHERE event_id = ? AND seat = ? AND expires_at > NOW()");
-        $stmt->bind_param("is", $eventId, $seat);
+        $stmt->bind_param("is", $event_id, $seat);
         $stmt->execute();
         $result = $stmt->get_result();
         $result = $result->fetch_assoc();
@@ -52,10 +54,10 @@ class Events
 
     }
 
-    public static function getUnavailableSeats($eventId)
+    public static function getUnavailableSeats(int $event_id): array|null
     {
         $stmt = Database::$con->prepare("SELECT seat FROM reservations WHERE event_id = ? AND expires_at > NOW()");
-        $stmt->bind_param("i", $eventId);
+        $stmt->bind_param("i", $event_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
@@ -63,7 +65,7 @@ class Events
         // ADD FOR BOOKED SEATS WHEN IMPLEMENTED
     }
 
-    public static function getSeatsByToken($event_id, $token)
+    public static function getSeatsByToken(int $event_id, string $token): array|null
     {
         $stmt = Database::$con->prepare("SELECT r.seat FROM reservations r JOIN reservation_sessions s ON r.session_id = s.id WHERE s.token = ? AND s.event_id = ? AND s.expires_at > NOW()");
         $stmt->bind_param("si", $token, $event_id);

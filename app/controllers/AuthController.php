@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types= 1);
+
 require_once __DIR__ . '/../models/Users.php';
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../config/helpers.php';
@@ -9,7 +11,7 @@ use Respect\Validation\Validator as v;
 class AuthController
 {
 
-    public function login_form()
+    public function login_form(): void
     {
         NotLoggedInOnly();
         render('login_form', 'main', [
@@ -17,7 +19,7 @@ class AuthController
         ]);
     }
 
-    public function register_form()
+    public function register_form(): void
     {
         NotLoggedInOnly();
         render('register_form', 'main', [
@@ -25,7 +27,7 @@ class AuthController
         ]);
     }
 
-    public function register()
+    public function register(): void
     {
 
         NotLoggedInOnly();
@@ -60,7 +62,7 @@ class AuthController
         exit;
     }
 
-    public function login()
+    public function login(): void
     {
 
         NotLoggedInOnly();
@@ -97,7 +99,7 @@ class AuthController
         exit;
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_unset();
         session_destroy();

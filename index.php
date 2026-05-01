@@ -1,8 +1,13 @@
 <?php
+
+declare(strict_types= 1);
+
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';
 session_start();
 verify_csrf();
+
+ini_set('display_errors', 1);
 
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;

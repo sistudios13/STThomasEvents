@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types= 1);
 class Reservation
 {
-    public $id;
-    public $event_id;
-    public $seats;
-    public $session_id;
-    public $token;
-    public $expires_at;
+    public int $id;
+    public int $event_id;
+    public array $seats;
+    public int $session_id;
+    public string $token;
+    public string $expires_at;
 
-    public function __construct($event_id, $seats)
+    public function __construct(int $event_id, array $seats)
     {
 
         $this->event_id = $event_id;
@@ -17,9 +18,9 @@ class Reservation
 
     }
 
-    public function create_session()
+    public function create_session(): void
     {
-        $expiration = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+        $expiration = date('Y-m-d H:i:s', time() + 300);
         $token = bin2hex(random_bytes(50));
 
         $stmt = Database::$con->prepare("INSERT INTO reservation_sessions (token, event_id, expires_at) VALUES (?, ?, ?)");
@@ -33,16 +34,16 @@ class Reservation
         $stmt->close();
     }
 
-    public function save_seats()
+    public function save_seats(): void
     {
         foreach ($this->seats as $seat) {
             $stmt = Database::$con->prepare("INSERT INTO reservations (event_id, seat, session_id, expires_at) VALUES (?, ?, ?, ?)");
-            
+
             $stmt->bind_param("isis", $this->event_id, $seat, $this->session_id, $this->expires_at);
             $stmt->execute();
 
             $stmt->close();
-            
+
         }
     }
 
