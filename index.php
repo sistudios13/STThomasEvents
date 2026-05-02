@@ -30,17 +30,22 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
-    $r->addRoute('GET', '/events/{id:\d+}/seats', ['BookingController', 'eventSeats']);
+    $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
-    $r->addRoute('GET', '/events/{id:\d+}/expired', ['BookingController', 'eventExpired']);
-    $r->addRoute('GET', '/events/{id:\d+}/cancel', ['BookingController', 'cancelReservation']);
+    $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
+    $r->addRoute('GET', '/events/{id:\d+}/cancel', ['ReservationController', 'cancelReservation']);
 
 
 
     // post routes
     $r->addRoute('POST', '/dashboard/add-user', ['DashboardController', 'addUser']);
-    $r->addRoute('POST', '/events/{id:\d+}/reserve', ['BookingController', 'reserveSeats']);
+    $r->addRoute('POST', '/events/{id:\d+}/reserve', ['ReservationController', 'reserveSeats']);
 
+
+    // error routes
+    $r->addRoute('GET', '/404', ['ErrorController', 'notFound']);
+    $r->addRoute('GET', '/403', ['ErrorController', 'forbidden']);
+    $r->addRoute('GET', '/500', ['ErrorController', 'internalError']);
 });
 
 // Dispatch the request
@@ -49,11 +54,11 @@ $routeInfo = $dispatcher->dispatch($method, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         http_response_code(404);
-        header('Location: ' . $subfolder . '/404.html');
+        header('Location: ' . $subfolder . '/404');
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         http_response_code(403);
-        header('Location: ' . $subfolder . '/403.html');
+        header('Location: ' . $subfolder . '/403');
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
@@ -67,7 +72,7 @@ switch ($routeInfo[0]) {
             call_user_func_array([$controller, $action], $vars);
         } else {
             http_response_code(500);
-            header('Location: ' . $subfolder . '/500.html');
+            header('Location: ' . $subfolder . '/500');
         }
         break;
 }

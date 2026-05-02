@@ -25,8 +25,16 @@ $prices = json_decode($eventData['price'], true);
         
     </div>
     <div class="p-8 shadow-sm border border-slate-200 bg-white rounded-3xl">
-        <h2 class="text-2xl font-semibold mb-4">Pricing</h2>
-        <p class="text-lg text-gray-700 mb-6"><b><?php foreach ($prices as $key => $price): ?><?= htmlspecialchars($key) ?>:</b> $<?= htmlspecialchars($price) ?><?php endforeach; ?></p>
-        <p class="text-sm text-gray-500">* Payments will take place at the door. Cash only</p>
+        <h2 class="text-2xl font-semibold mb-4">More Info</h2>
+        <div class="flex flex-col">
+            <h3 class="text-xl font-medium mb-4">Pricing</h3>
+            <p class="text-base text-gray-700 mb-2"><b><?php foreach ($prices as $key => $price): ?><?= htmlspecialchars($key) ?>:</b> $<?= htmlspecialchars($price) ?><?php endforeach; ?></p>
+            <p class="text-sm text-gray-500 mb-2">* Payments will take place at the door. Cash only</p>
+        </div>
+        <hr>
+        <div class="flex flex-col">
+            <h3 class="text-xl font-medium mt-4 mb-4">Location</h3>
+            <p class="text-base text-gray-700 mb-2">St. Thomas High School Auditorium (111 Broadview Ave)</p>
+        </div>
     </div>
 </section>
