@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/BaseRepository.php';
 
-class EventRepository
+class EventRepository extends BaseRepository
 {
     public function findAll(): ?array
     {
-        $stmt = Database::$con->prepare("SELECT * FROM events WHERE date >= NOW() ORDER BY date ASC");
+        $stmt = $this->con->prepare("SELECT * FROM events WHERE date >= NOW() ORDER BY date ASC");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
@@ -18,7 +18,7 @@ class EventRepository
 
     public function findById(int $id): ?array
     {
-        $stmt = Database::$con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() ORDER BY date ASC");
+        $stmt = $this->con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() ORDER BY date ASC");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $event = $stmt->get_result()->fetch_assoc();
@@ -27,9 +27,9 @@ class EventRepository
         return $event ?: null;
     }
 
-    public static function getSeatsByToken(int $event_id, string $token): ?array
+    public function getSeatsByToken(int $event_id, string $token): ?array
     {
-        $stmt = Database::$con->prepare("SELECT r.seat FROM reservations r JOIN reservation_sessions s ON r.session_id = s.id WHERE s.token = ? AND s.event_id = ? AND s.expires_at > NOW()");
+        $stmt = $this->con->prepare("SELECT r.seat FROM reservations r JOIN reservation_sessions s ON r.session_id = s.id WHERE s.token = ? AND s.event_id = ? AND s.expires_at > NOW()");
         $stmt->bind_param("si", $token, $event_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -38,9 +38,9 @@ class EventRepository
 
     }
 
-    public static function getUnavailableSeats(int $event_id): ?array
+    public function getUnavailableSeats(int $event_id): ?array
     {
-        $stmt = Database::$con->prepare("SELECT seat FROM reservations WHERE event_id = ? AND expires_at > NOW()");
+        $stmt = $this->con->prepare("SELECT seat FROM reservations WHERE event_id = ? AND expires_at > NOW()");
         $stmt->bind_param("i", $event_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -49,9 +49,9 @@ class EventRepository
         // ADD FOR BOOKED SEATS WHEN IMPLEMENTED
     }
 
-        public static function isSeatAvailable(int $event_id, string $seat): bool
+        public function isSeatAvailable(int $event_id, string $seat): bool
     {
-        $stmt = Database::$con->prepare("SELECT COUNT(*) as count FROM reservations WHERE event_id = ? AND seat = ? AND expires_at > NOW()");
+        $stmt = $this->con->prepare("SELECT COUNT(*) as count FROM reservations WHERE event_id = ? AND seat = ? AND expires_at > NOW()");
         $stmt->bind_param("is", $event_id, $seat);
         $stmt->execute();
         $result = $stmt->get_result();

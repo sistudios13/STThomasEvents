@@ -19,13 +19,14 @@ class ReservationService
 
     public function reserveSeats(int $event_id, array $seats): Reservation
     {
+        // Validate seats
         $this->validateSeatSelection($seats);
         $this->ensureSeatsExist($seats);
         $this->ensureSeatsAvailable($event_id, $seats);
 
         $reservation = new Reservation($event_id, $seats);
         $reservation->generateToken();
-        $reservation->setExpiry(300);
+        $reservation->setExpiry(20);
 
         $reservation->session_id = $this->reservationRepository->createSession(
             $reservation->token,

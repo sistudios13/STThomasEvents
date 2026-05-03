@@ -101,7 +101,7 @@ if (!function_exists('basePath')) {
 
     function hasValidReservation(): bool
     {
-        if (empty($_SESSION['reservation_token']) || empty($_SESSION['reservation_expires']) || empty($_SESSION['step'])) {
+        if (empty($_SESSION['reservation_token']) || empty($_SESSION['reservation_expires'])) {
             return false;
         }
 
@@ -114,12 +114,30 @@ if (!function_exists('basePath')) {
         return true;
     }
 
+    function hasValidBooking(): bool
+    {
+        if (empty($_SESSION['booking_token']) || empty($_SESSION['code_expires_at'])) {
+            return false;
+        }
+
+        if (date('Y-m-d H:i:s') > $_SESSION['code_expires_at']) {
+            clearBooking();
+            return false;
+        }
+
+        return true;
+    }
+
     function clearReservation(): void
     {
-        unset($_SESSION['reservation_token']);
-        unset($_SESSION['reservation_expires']);
-        unset($_SESSION['step']);
+        session_unset();
         deleteExpiredReservations();
+    }
+
+    function clearBooking(): void
+    {
+        session_unset();
+        deleteExpiredBookings();
     }
 
     function cancelReservation(): void
@@ -128,39 +146,28 @@ if (!function_exists('basePath')) {
         $stmt->bind_param("s", $_SESSION['reservation_token']);
         $stmt->execute();
         $stmt->close();
-
-
-        unset($_SESSION['reservation_token']);
-        unset($_SESSION['reservation_expires']);
-        unset($_SESSION['step']);
+        session_unset();
 
     }
 
-    function redirectToRightStep(int $event_id): void
+    function redirectToUrl(string $url): void
     {
-        if (!hasValidReservation()) {
-            clearReservation();
-            header('HX-Redirect: ' . url('/events/' . $event_id . '/seats'));
-            header('Location: ' . url('/events/' . $event_id . '/seats'));
-            exit;
-        }
-
-        if ($_SESSION['step'] == 2) {
-            header('HX-Redirect: ' . url('/events/' . $event_id . '/book/'));
-            header('Location: ' . url('/events/' . $event_id . '/book/'));
-            exit;
-        }
-
-        if ($_SESSION['step'] == 3) {
-            header('HX-Redirect: ' . url('/events/' . $event_id . '/confirm'));
-            header('Location: ' . url('/events/' . $event_id . '/confirm'));
-            exit;
-        }
+        header('HX-Redirect: ' . $url);
+        header('Location: ' . $url);
+        exit;
     }
+
 
     function deleteExpiredReservations(): void
     {
         $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at < NOW()");
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    function deleteExpiredBookings(): void
+    {
+        $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at < NOW() AND email_verified = 0");
         $stmt->execute();
         $stmt->close();
     }

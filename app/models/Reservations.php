@@ -3,7 +3,6 @@
 declare(strict_types=1);
 class Reservation
 {
-    public ?int $id = null;
     public int $event_id;
     public array $seats;
     public ?int $session_id = null;

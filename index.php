@@ -30,16 +30,17 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
-    $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
+    $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats', 'allowStep' => 1]);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
     $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
     $r->addRoute('GET', '/events/{id:\d+}/cancel', ['ReservationController', 'cancelReservation']);
+    $r->addRoute('GET', '/events/{id:\d+}/confirm', ['ConfirmationController', 'eventConfirmation']);
 
 
 
     // post routes
-    $r->addRoute('POST', '/dashboard/add-user', ['DashboardController', 'addUser']);
     $r->addRoute('POST', '/events/{id:\d+}/reserve', ['ReservationController', 'reserveSeats']);
+    $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
 
 
     // error routes

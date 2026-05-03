@@ -19,8 +19,15 @@ class ReservationController
 
     public function eventSeats(int|string $id): void
     {
-        if (hasValidReservation()) {
-            redirectToRightStep(intval($id));
+
+        if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
+            redirectToUrl(url('/events/' . $id . '/book'));
+            exit;
+        }
+
+        if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
+            redirectToUrl(url('/events/' . $id . '/confirm'));
+            exit;
         }
 
         $event = $this->eventService->getEventById(intval($id));
@@ -39,10 +46,22 @@ class ReservationController
 
     public function reserveSeats(int|string $id): void
     {
+    
+        if ($_SESSION['step'] == 2) {
+            redirectToUrl(url('/events/' . $id . '/book'));
+            exit;
+        }
+
+        if ($_SESSION['step'] == 3) {
+            redirectToUrl(url('/events/' . $id . '/confirm'));
+            exit;
+        }
+
+
         $event = $this->eventService->getEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('Location: ' . url('/404'));
+            header('HX-Redirect: ' . url('/404'));
             return;
         }
 
@@ -77,10 +96,10 @@ class ReservationController
 
     public function eventExpired(int|string $id): void
     {
-
         if (hasValidReservation()) {
-            redirectToRightStep(intval($id));
-        }
+            redirectToUrl(url('/events/' . $id . '/seats'));
+            exit;
+        } 
 
         $event = $this->eventService->getEventById(intval($id));
         if (!$event) {
@@ -90,7 +109,7 @@ class ReservationController
         }
 
         render('event_expired', null, [
-            'pageTitle' => 'Reservation Expired - St. Thomas Tickets',
+            'pageTitle' => 'Session Expired - St. Thomas Tickets',
             'eventData' => $event,
             'step' => 1
         ]);
@@ -98,8 +117,12 @@ class ReservationController
 
     public function cancelReservation(int|string $id): void
     {
+
         if (hasValidReservation()) {
             cancelReservation();
+        } else {
+            redirectToUrl(url('/events/' . $id . '/seats'));
+            exit;
         }
 
         $event = $this->eventService->getEventById(intval($id));
