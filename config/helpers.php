@@ -106,7 +106,7 @@ if (!function_exists('basePath')) {
         }
 
 
-        if (date('Y-m-d H:i:s') > $_SESSION['reservation_expires']) {
+        if (date('Y-m-d H:i:s') >= $_SESSION['reservation_expires']) {
             clearReservation();
             return false;
         }
@@ -120,7 +120,7 @@ if (!function_exists('basePath')) {
             return false;
         }
 
-        if (date('Y-m-d H:i:s') > $_SESSION['code_expires_at']) {
+        if (date('Y-m-d H:i:s') >= $_SESSION['code_expires_at']) {
             clearBooking();
             return false;
         }

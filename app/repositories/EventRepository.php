@@ -18,7 +18,7 @@ class EventRepository extends BaseRepository
 
     public function findById(int $id): ?array
     {
-        $stmt = $this->con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() ORDER BY date ASC");
+        $stmt = $this->con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() + INTERVAL 15 MINUTE ORDER BY date ASC"); //added 15 min buffer to prevent last minute bookings
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $event = $stmt->get_result()->fetch_assoc();
@@ -38,27 +38,30 @@ class EventRepository extends BaseRepository
 
     }
 
-    public function getUnavailableSeats(int $event_id): ?array
+    public function getUnavailableSeats(int $event_id): ?array //reserved and booked seats
     {
-        $stmt = $this->con->prepare("SELECT seat FROM reservations WHERE event_id = ? AND expires_at > NOW()");
-        $stmt->bind_param("i", $event_id);
+        $stmt = $this->con->prepare("SELECT seat FROM reservations WHERE event_id = ? AND expires_at > NOW()
+        UNION
+        SELECT seat FROM bookings WHERE event_id = ? AND (email_verified = 1 OR (email_verified = 0 AND code_expires_at > NOW()));");
+        $stmt->bind_param("ii", $event_id, $event_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         return array_column($result, 'seat');
-        // ADD FOR BOOKED SEATS WHEN IMPLEMENTED
+
     }
 
-        public function isSeatAvailable(int $event_id, string $seat): bool
+    public function isSeatAvailable(int $event_id, string $seat): bool //reserved and booked seats
     {
-        $stmt = $this->con->prepare("SELECT COUNT(*) as count FROM reservations WHERE event_id = ? AND seat = ? AND expires_at > NOW()");
-        $stmt->bind_param("is", $event_id, $seat);
+        $stmt = $this->con->prepare("SELECT COUNT(*) AS count FROM ( SELECT seat FROM reservations WHERE event_id = ? AND seat = ? AND expires_at > NOW()
+        UNION
+        SELECT seat FROM bookings WHERE event_id = ? AND seat = ? AND ( email_verified = 1 OR (email_verified = 0 AND code_expires_at > NOW()) ) ) AS unavailable_seat;");
+        $stmt->bind_param("isis", $event_id, $seat, $event_id, $seat);
         $stmt->execute();
         $result = $stmt->get_result();
         $result = $result->fetch_assoc();
         $stmt->close();
         return $result['count'] == 0;
-        // ADD CHECK FOR BOOKED SEATS WHEN IMPLEMENTED
 
     }
 }

@@ -35,12 +35,16 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
     $r->addRoute('GET', '/events/{id:\d+}/cancel', ['ReservationController', 'cancelReservation']);
     $r->addRoute('GET', '/events/{id:\d+}/confirm', ['ConfirmationController', 'eventConfirmation']);
+    //add confirmed, then portal functionality. Prob send email with link to portal where they can see their booking details and cancel if they want to.
 
 
 
     // post routes
     $r->addRoute('POST', '/events/{id:\d+}/reserve', ['ReservationController', 'reserveSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
+    $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
+    $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['ConfirmationController', 'resendVerification']); //COMPLETE
+    
 
 
     // error routes

@@ -4,7 +4,7 @@
         <div x-data="countdown('<?= $_SESSION['reservation_expires'] ?? date('Y-m-d H:i:s', time() + 300) ?>')" class="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg">
             <div class="flex items-center gap-2 justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-green-900 text-pretty mb-1">⏱️ Seats on Temporary Hold</h3>
+                    <h3 class="text-lg font-semibold text-green-900 text-pretty mb-1">Seats on Temporary Hold</h3>
                     <p class="text-sm text-green-800">Your seats will expire in:</p>
                 </div>
                 <div class="text-center">
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="flex justify-between items-center">
-                        <button type="submit" class="bg-green-500 hover:bg-green-400 font-semibold text-gray-900 py-2 px-4 rounded-lg">Confirm Booking</button>
+                        <button type="submit" class="bg-green-700 hover:bg-green-800 font-semibold text-white py-2 px-4 rounded-lg">Confirm Booking</button>
                         <a href="<?= url('/events/' . $eventData['id'] . '/cancel/') ?>" class="text-sm text-gray-700 hover:text-gray-900 transition">Cancel Booking</a>
                     </div>
 
@@ -84,6 +84,10 @@
                 const minutes = Math.floor(this.timeLeft / 60);
                 const seconds = this.timeLeft % 60;
                 this.formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (this.timeLeft <= 0) {
+                    this.formattedTime = '0:00';
+                }
             },
 
             handleExpired() {

@@ -32,7 +32,7 @@ class EventService
     public function getUnavailableSeats(int $event_id): ?array
     {
         return $this->eventRepository->getUnavailableSeats($event_id);
-        // ADD FOR BOOKED SEATS WHEN IMPLEMENTED
+
     }
 
     

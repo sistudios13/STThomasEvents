@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+
 require_once __DIR__ . '/../models/Reservations.php';
 require_once __DIR__ . '/../services/ReservationService.php';
 require_once __DIR__ . '/../services/EventService.php';
 require __DIR__ . '/../../config/helpers.php';
+
+
 class ReservationController
 {
     private ReservationService $reservationService;
@@ -100,6 +103,11 @@ class ReservationController
             redirectToUrl(url('/events/' . $id . '/seats'));
             exit;
         } 
+
+        if (hasValidBooking()) {
+            redirectToUrl(url('/events/' . $id . '/confirm'));
+            exit;
+        }
 
         $event = $this->eventService->getEventById(intval($id));
         if (!$event) {

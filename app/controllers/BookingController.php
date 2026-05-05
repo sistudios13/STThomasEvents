@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+
 require_once __DIR__ . '/../models/Reservations.php';
 require_once __DIR__ . '/../services/BookingService.php';
 require_once __DIR__ . '/../services/EventService.php';
@@ -92,7 +93,7 @@ class BookingController
         }
 
         if (!$booking) {
-            http_response_code(500);
+            http_response_code(400);
             echo 'Failed to create booking.';
             return;
         }
@@ -104,6 +105,8 @@ class BookingController
 
         header('HX-Redirect: ' . url('/events/' . $id . '/confirm'));
     }
+
+    
 
 
 }

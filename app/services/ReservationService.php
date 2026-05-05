@@ -26,7 +26,7 @@ class ReservationService
 
         $reservation = new Reservation($event_id, $seats);
         $reservation->generateToken();
-        $reservation->setExpiry(20);
+        $reservation->setExpiry(300); // Reservation valid for 5 minutes
 
         $reservation->session_id = $this->reservationRepository->createSession(
             $reservation->token,
@@ -67,7 +67,6 @@ class ReservationService
     {
         return $this->eventRepository->isSeatAvailable($event_id, $seat);
     }
-    // ADD CHECK FOR BOOKED SEATS WHEN IMPLEMENTED (in repository obv)
 
     private function ensureSeatsExist(array $seats): void
     {

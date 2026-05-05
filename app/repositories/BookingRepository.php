@@ -9,7 +9,7 @@ class BookingRepository extends BaseRepository
     public function emailExists(string $email, int $event_id): bool
     {
         $count = 0;
-        $stmt = $this->con->prepare("SELECT COUNT(*) as count FROM booking_sessions WHERE email = ? AND event_id = ?");
+        $stmt = $this->con->prepare("SELECT COUNT(*) as count FROM booking_sessions WHERE email = ? AND event_id = ? AND (email_verified = 1 OR (email_verified = 0 AND code_expires_at > NOW()))");
         $stmt->bind_param('si', $email, $event_id);
         $stmt->execute();
         $stmt->bind_result($count);

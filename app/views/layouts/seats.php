@@ -6,6 +6,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
         <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <!-- Icons -->
          <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
@@ -14,6 +15,18 @@
         <link rel="apple-touch-icon" sizes="180x180" href="<?= url('/assets/apple-touch-icon.png') ?>" />
         <meta name="apple-mobile-web-app-title" content="St. Thomas Tickets" />
         <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
+        <style>
+            .htmx-indicator {
+
+                display: none !important;
+
+            }
+            .htmx-request .htmx-indicator,
+            .htmx-request.htmx-indicator {
+                display: inline-block !important;
+
+            }
+        </style>
     </head>
     
     <body class="bg-white flex flex-col ">

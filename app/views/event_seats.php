@@ -309,7 +309,7 @@
             <form hx-post="<?= url('/events/' . $eventData['id'] . '/reserve/') ?>" class="mb-0">
                 <input type="hidden" name="seats" :value="selected.join(',')">
                 <?= csrf_input() ?>
-                <button :disabled="selected.length === 0 || selected.length > 6" class="text-xs font-semibold bg-green-500 h-full text-gray-900 px-4 py-1.5 rounded-lg hover:bg-green-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                <button :disabled="selected.length === 0 || selected.length > 6" class="text-xs font-semibold bg-green-700 h-full text-white px-4 py-1.5 rounded-lg hover:bg-green-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                     Next Step
                 </button>
             </form>

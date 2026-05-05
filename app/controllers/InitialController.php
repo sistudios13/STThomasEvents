@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+
 require_once __DIR__ . '/../services/EventService.php';
 require __DIR__ . '/../../config/helpers.php';
+
+
 class InitialController
 {
     private EventService $eventService;
