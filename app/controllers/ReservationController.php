@@ -40,7 +40,7 @@ class ReservationController
             return;
         }
         render('event_seats', 'seats', [
-            'pageTitle' => 'Choose Seats - St. Thomas Tickets',
+            'pageTitle' => 'Choose Seats - St. Thomas Events',
             'eventData' => $event,
             'step' => 1,
             'reservedSeats' => $this->eventService->getUnavailableSeats(intval($id))
@@ -117,7 +117,7 @@ class ReservationController
         }
 
         render('event_expired', null, [
-            'pageTitle' => 'Session Expired - St. Thomas Tickets',
+            'pageTitle' => 'Session Expired - St. Thomas Events',
             'eventData' => $event,
             'step' => 1
         ]);
@@ -142,7 +142,7 @@ class ReservationController
 
 
         render('event_cancel', null, [
-            'pageTitle' => 'Reservation Cancelled - St. Thomas Tickets',
+            'pageTitle' => 'Reservation Cancelled - St. Thomas Events',
             'eventData' => $event,
 
         ]);

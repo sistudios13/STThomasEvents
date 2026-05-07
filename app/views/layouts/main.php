@@ -2,7 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $pageTitle ?? 'St. Thomas Tickets' ?></title>
+        <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -11,7 +11,7 @@
         <link rel="icon" type="image/svg+xml" href="<?= url('/assets/favicon.svg') ?>" />
         <link rel="shortcut icon" href="<?= url('/assets/favicon.ico') ?>" />
         <link rel="apple-touch-icon" sizes="180x180" href="<?= url('/assets/apple-touch-icon.png') ?>" />
-        <meta name="apple-mobile-web-app-title" content="St. Thomas Tickets" />
+        <meta name="apple-mobile-web-app-title" content="St. Thomas Events" />
         <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
     </head>
     
@@ -25,7 +25,7 @@
                 <div class="flex items-center">
                 <a href="<?= url('/') ?>" class="flex items-center gap-2">
                     <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-14 md:size-16">
-                    <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Tickets</span>
+                    <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Events</span>
                 </a>
                 </div>
 
@@ -94,10 +94,10 @@
                         <div class="flex items-center gap-2 mb-4">
                             <div href="<?= url('/') ?>" class="flex items-center gap-2">
                                 <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-16">
-                                <span class="text-lg leading-5 font-bold text-white">St. Thomas <br> Tickets</span>
+                                <span class="text-lg leading-5 font-bold text-white">St. Thomas <br> Events</span>
                             </div>
                         </div>
-                        <p class="text-gray-400 text-sm">St. Thomas Tickets is the place to book tickets for various events at St. Thomas High School.</p>
+                        <p class="text-gray-400 text-sm">St. Thomas Events is the place to book tickets for various events at St. Thomas High School.</p>
                         <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">simonsites.com</span></a>
                     </div>
                     <div>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="border-t border-gray-800 pt-8 flex justify-between items-center">
-                    <p class="text-gray-400 text-sm">&copy; <?= date('Y') ?> St. Thomas Tickets. All rights reserved.</p>
+                    <p class="text-gray-400 text-sm">&copy; <?= date('Y') ?> St. Thomas Events. All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -20,14 +20,14 @@ class InitialController
     {
 
         render('home', 'main', [
-            'pageTitle' => 'St. Thomas Tickets'
+            'pageTitle' => 'St. Thomas Events'
         ]);
     }
 
     public function events(): void
     {
         render('events', 'main', [
-            'pageTitle' => 'Events - St. Thomas Tickets',
+            'pageTitle' => 'Events - St. Thomas Events',
             'eventsData' => $this->eventService->getAllEvents()
         ]);
     }
@@ -41,7 +41,7 @@ class InitialController
             return;
         }
         render('event_details', 'main', [
-            'pageTitle' => 'Event Details - St. Thomas Tickets',
+            'pageTitle' => 'Event Details - St. Thomas Events',
             'eventData' => $event
         ]);
     }

@@ -47,7 +47,7 @@ class BookingController
         }
 
         render('event_booking', 'seats', [
-            'pageTitle' => 'Enter Details - St. Thomas Tickets',
+            'pageTitle' => 'Enter Details - St. Thomas Events',
             'eventData' => $event,
             'step' => 2,
             'seats' => $this->eventService->getSeatsByToken(intval($id), $_SESSION['reservation_token'])

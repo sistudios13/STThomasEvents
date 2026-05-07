@@ -13,7 +13,7 @@ use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
 
-$subfolder = '/stthomas-tickets';
+$subfolder = '/stthomas-events';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Remove subfolder from URI

@@ -1,6 +1,6 @@
 {
-  "name": "St. Thomas Tickets",
-  "short_name": "STTT",
+  "name": "St. Thomas Events",
+  "short_name": "STTE",
   "icons": [
     {
       "src": "/assets/web-app-manifest-192x192.png",

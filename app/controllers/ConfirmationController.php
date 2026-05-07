@@ -47,7 +47,7 @@ class ConfirmationController
         $email = $this->confirmationService->getEmailByToken($_SESSION['booking_token']);
 
         render('event_confirmation', 'seats', [
-            'pageTitle' => 'Booking Confirmation - St. Thomas Tickets',
+            'pageTitle' => 'Booking Confirmation - St. Thomas Events',
             'eventData' => $event,
             'step' => 3,
             'email' => $email
@@ -100,41 +100,5 @@ class ConfirmationController
 
         header('HX-Redirect: ' . url('/events/' . $id . '/confirmed'));
 
-    }
-
-    public function resendVerification(int|string $id): void
-    {
-        if (!isset($_SESSION['step'])) {
-            redirectToUrl(url('/events/' . $id . '/seats'));
-            exit;
-        }
-
-        if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
-            exit;
-        }
-
-        if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
-            exit;
-        }
-
-        $email = $this->confirmationService->getEmailByToken($_SESSION['booking_token']); //FIX:: connect back to boooking serivice for the email, but the validation or maybe new otp can be in confirmation section.
-        if (!$email) {
-            http_response_code(400);
-            echo "No email associated with this booking session.";
-            return;
-        }
-
-        $name = "Customer"; 
-        $otp = rand(100000, 999999); 
-
-        try {
-            $this->confirmationService->sendConfirmationEmail($email, $name, $otp);
-            echo "Verification code resent successfully.";
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo "Failed to resend verification code. Please try again later.";
-        }
     }
 }
