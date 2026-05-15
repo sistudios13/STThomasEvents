@@ -177,43 +177,60 @@
 
 
 <!-- HEADER -->
-<header class="flex-shrink-0 bg-white border-b border-gray-200 text-center py-3 shadow-sm z-10">
-    <p class="text-[10px] font-semibold tracking-[0.2em] text-gray-400 uppercase">Select your seats</p>
-    <h1 class="text-xl font-bold text-gray-800 tracking-tight"><?= htmlspecialchars($eventData['name']) ?? 'Event' ?></h1>
+<header class="flex-shrink-0 bg-white border-b border-gray-100 py-6 z-10">
+    <div class="max-w-7xl mx-auto px-4 md:text-center">
+        <p class="text-sm font-semibold text-gray-500 mb-2">Select your seats</p>
+        <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($eventData['name']) ?? 'Event' ?></h1>
+    </div>
 </header>
 
 <div x-data="app()" class="flex flex-col">
 
     <!-- TOOLBAR -->
-    <div class="flex-shrink-0 bg-white border-b border-gray-200 px-3 py-2 flex flex-wrap items-center gap-x-4 gap-y-2 z-10 shadow-sm">
+    <div class="flex-shrink-0 bg-white border-b border-gray-100 px-4 py-4 z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <!-- Legend -->
+                <div class="flex items-center gap-6 flex-wrap">
+                    <div class="flex items-center gap-2">
+                        <span class="seat s-available" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
+                        <span class="text-sm text-gray-600">Available</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="seat s-selected" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
+                        <span class="text-sm text-gray-600">Selected</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="seat s-taken" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
+                        <span class="text-sm text-gray-600">Unavailable</span>
+                    </div>
+                </div>
 
-        <!-- Legend -->
-        <div class="flex items-center gap-3 flex-wrap">
-            <div class="flex items-center gap-1">
-                <span class="seat s-available" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
-                <span class="text-xs text-gray-500">Available</span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span class="seat s-selected" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
-                <span class="text-xs text-gray-500">Selected</span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span class="seat s-taken" style="pointer-events:none;width:14px;height:14px;font-size:0"></span>
-                <span class="text-xs text-gray-500">Unavailable</span>
+                <!-- Right side: zoom controls and count -->
+                <div class="flex items-center gap-4">
+                    <!-- Zoom controls -->
+                    <div class="flex items-center gap-2 border border-gray-200 rounded-lg p-1">
+                        <button class="zbtn" @click="zoomBy(-0.15)" aria-label="Zoom out" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+</svg>
+</button>
+                        <span class="text-xs text-gray-500 w-8 text-center tabular-nums select-none" x-text="Math.round(scale*100)+'%'"></span>
+                        <button class="zbtn" @click="zoomBy(+0.15)" aria-label="Zoom in" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+</svg>
+</button>
+                        <button class="zbtn text-sm" @click="fit()" aria-label="Fit to screen" title="Fit" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+</svg>
+</button>
+                    </div>
+
+                    <!-- Count badge -->
+                    <span class="text-sm font-semibold text-green-700" x-text="selected.length + ' seat' + (selected.length !== 1 ? 's' : '') + ' selected'">
+                    </span>
+                </div>
             </div>
         </div>
-
-        <!-- Zoom controls -->
-        <div class="flex items-center gap-1 ml-auto">
-            <button class="zbtn" @click="zoomBy(-0.15)" aria-label="Zoom out">−</button>
-            <span class="text-xs text-gray-400 w-10 text-center tabular-nums select-none" x-text="Math.round(scale*100)+'%'"></span>
-            <button class="zbtn" @click="zoomBy(+0.15)" aria-label="Zoom in">+</button>
-            <button class="zbtn text-sm" @click="fit()" aria-label="Fit to screen" title="Fit">⌂</button>
-        </div>
-
-        <!-- Count badge -->
-        <span class="text-sm font-bold text-green-700" x-text="selected.length + ' seat' + (selected.length !== 1 ? 's' : '') + ' selected'">
-        </span>
     </div>
 
     <!-- PAN/ZOOM VIEWPORT -->
@@ -290,29 +307,33 @@
     </div>
 
     <!-- BOOKING BAR -->
-    <div class=" bg-white border-t border-gray-200 px-3 py-2 flex items-center gap-2 shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
-        <div class="flex flex-wrap gap-1.5 flex-1 min-w-0 items-center">
-            <template x-if="selected.length === 0">
-                <span class="text-xs text-gray-400 italic">No seats selected — tap a green seat</span>
-            </template>
-            <template x-for="k in selected" :key="k">
-                <span class="px-3 py-1 bg-green-700 text-white flex items-center gap-1 rounded-lg text-sm cursor-pointer font-medium" @click="removeKey(k)" :title="'Remove ' + label(k)">
-                    <span x-text="label(k)"></span>
-                    <span class="text-[10px] leading-none opacity-60">✕</span>
-                </span>
-            </template>
-        </div>
-        <div class="flex gap-2 flex-shrink-0">
-            <button @click="clearAll()" class="text-xs font-medium border border-gray-300 text-gray-500 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors">
-                Clear
-            </button>
-            <form hx-post="<?= url('/events/' . $eventData['id'] . '/reserve/') ?>" class="mb-0">
-                <input type="hidden" name="seats" :value="selected.join(',')">
-                <?= csrf_input() ?>
-                <button :disabled="selected.length === 0 || selected.length > 6" class="text-xs font-semibold bg-green-700 h-full text-white px-4 py-1.5 rounded-lg hover:bg-green-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                    Next Step
-                </button>
-            </form>
+    <div class="bg-white border-t border-gray-100 px-4 py-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex flex-wrap gap-2 flex-1 min-w-0 items-center">
+                    <template x-if="selected.length === 0">
+                        <span class="text-sm text-gray-500">Select seats to continue</span>
+                    </template>
+                    <template x-for="k in selected" :key="k">
+                        <span class="px-3 py-1 bg-green-100 text-green-700 flex items-center gap-1 rounded text-sm font-medium cursor-pointer hover:bg-green-200 transition" @click="removeKey(k)" :title="'Remove ' + label(k)">
+                            <span x-text="label(k)"></span>
+                            <span class="text-xs leading-none">✕</span>
+                        </span>
+                    </template>
+                </div>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button @click="clearAll()" class="text-sm font-medium border border-gray-300 text-gray-600 px-4 py-2 rounded hover:bg-gray-50 transition">
+                        Clear
+                    </button>
+                    <form hx-post="<?= url('/events/' . $eventData['id'] . '/reserve/') ?>" class="mb-0">
+                        <input type="hidden" name="seats" :value="selected.join(',')">
+                        <?= csrf_input() ?>
+                        <button :disabled="selected.length === 0 || selected.length > 6" class="text-sm font-semibold bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            Next Step
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

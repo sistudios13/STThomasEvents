@@ -83,9 +83,10 @@ class BookingController
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
         $phone = trim($_POST['phone']);
+        $role = trim($_POST['role']);
 
         try {
-            $booking = $this->bookingService->bookSeats(intval($id), $name, $email, $phone);
+            $booking = $this->bookingService->bookSeats(intval($id), $name, $email, $phone, $role);
         } catch (InvalidArgumentException $exception) {
             http_response_code(400);
             echo $exception->getMessage();
@@ -104,6 +105,55 @@ class BookingController
         $_SESSION['code_expires_at'] = $booking->code_expires_at;
 
         header('HX-Redirect: ' . url('/events/' . $id . '/confirm'));
+    }
+
+    public function resendVerification(int|string $id): void //confirmation section
+    {
+        if (!isset($_SESSION['step'])) {
+            redirectToUrl(url('/events/' . $id . '/seats'));
+            exit;
+        }
+
+        if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
+            redirectToUrl(url('/events/' . $id . '/book'));
+            exit;
+        }
+
+        if (!hasValidBooking()) {
+            redirectToUrl(url('/events/' . $id . '/expired'));
+            exit;
+        }
+
+        $event = $this->eventService->getEventById(intval($id));
+        if (!$event) {
+            http_response_code(404);
+            header('HX-Redirect: ' . url('/404'));
+            return;
+        }
+
+        try {
+            $info = $this->bookingService->getResendInfoByToken($_SESSION['booking_token']);
+        } catch (InvalidArgumentException $exception) {
+            http_response_code(400);
+            echo $exception->getMessage();
+            return;
+        }
+
+        try {
+            $this->bookingService->sendConfirmationEmail($info['email'], $info['name'], $info['verification_code']);
+        } catch (InvalidArgumentException $exception) {
+            http_response_code(400);
+            echo $exception->getMessage();
+            return;
+        }
+
+        header('HX-Success-Message: Verification code resent successfully.');
+        exit;
+
+
+        
+
+        
     }
 
     

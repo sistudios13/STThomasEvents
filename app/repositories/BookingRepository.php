@@ -26,14 +26,16 @@ class BookingRepository extends BaseRepository
         $name = $bookingObject->name;
         $email = $bookingObject->email;
         $phone = $bookingObject->phone;
+        $role = $bookingObject->role;
         $token = $bookingObject->token;
         $verification_code = $bookingObject->otp;
         $code_expires_at = $bookingObject->code_expires_at;
+        $reference = $bookingObject->reference;
 
         $stmt = $this->con->prepare(
-            "INSERT INTO booking_sessions (event_id, name, email, phone, token, verification_code, code_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO booking_sessions (event_id, name, email, phone, role, token, verification_code, code_expires_at, reference) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        $stmt->bind_param('issssis', $event_id, $name, $email, $phone, $token, $verification_code, $code_expires_at);
+        $stmt->bind_param('isssssiss', $event_id, $name, $email, $phone, $role, $token, $verification_code, $code_expires_at, $reference);
         $stmt->execute();
 
         $session_id = $this->con->insert_id;
@@ -72,6 +74,22 @@ class BookingRepository extends BaseRepository
         $stmt->close();
     }
 
+    public function getResendInfoByToken(string $token): ?array
+    {
+        $stmt = $this->con->prepare("SELECT email, name, verification_code FROM booking_sessions WHERE token = ?");
+        $stmt->bind_param('s', $token);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $info = null;
+
+        if ($result->num_rows > 0) {
+            $info = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+        return $info;
+
 }
 
 
+}

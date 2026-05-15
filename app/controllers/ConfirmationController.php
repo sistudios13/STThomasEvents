@@ -86,6 +86,12 @@ class ConfirmationController
             return;
         }
 
+        if (strlen($code) != 6 || !ctype_digit($code)) {
+            http_response_code(400);
+            echo "Invalid code format. Please enter a 6-digit code.";
+            return;
+        }
+
         $code = intval($code);
 
         try {
@@ -97,7 +103,6 @@ class ConfirmationController
         }
 
         session_unset();
-
         header('HX-Redirect: ' . url('/events/' . $id . '/confirmed'));
 
     }

@@ -9,21 +9,20 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php if (!empty($eventsData)): ?>
             <?php foreach ($eventsData as $event): ?>
-                <div class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div class="group overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm transition duration-300 ">
                     <div class="p-6">
                         <div class="mb-5 flex items-center justify-between gap-2 text-sm text-slate-500">
-                            <span class="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 font-medium text-emerald-700">
+                            <span class="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-1 font-medium text-green-700">
                                 <?= date('F j, Y \a\t g:i A', strtotime($event['date'])) ?>
                             </span>
-                            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                                Upcoming
-                            </span>
                         </div>
-                        <h2 class="text-2xl font-semibold tracking-tight text-slate-900 mb-3"><?= htmlspecialchars($event['name']) ?></h2>
-                        <p class="text-slate-600 mb-6 line-clamp-3"><?= nl2br(htmlspecialchars($event['description'])) ?></p>
-                        <a href="<?= url('/events/' . $event['id']) ?>" class="inline-flex items-center gap-2 font-semibold text-emerald-700 transition hover:text-emerald-900">
+                        <h2 class="text-2xl font-semibold tracking-tight text-gray-900 mb-3"><?= htmlspecialchars($event['name']) ?></h2>
+                        <p class="text-gray-700 mb-6 line-clamp-3"><?= nl2br(htmlspecialchars($event['description'])) ?></p>
+                        <a href="<?= url('/events/' . $event['id']) ?>" class="inline-flex items-center gap-2 font-semibold text-green-700 transition hover:text-green-800">
                             View Details
-                            <span aria-hidden="true">→</span>
+                            <span aria-hidden="true"><svg class="w-5 h-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+</svg></span>
                         </a>
                     </div>
                 </div>

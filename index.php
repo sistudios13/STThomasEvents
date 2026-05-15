@@ -13,6 +13,7 @@ use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
 
+
 $subfolder = '/stthomas-events';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -30,7 +31,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
-    $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats', 'allowStep' => 1]);
+    $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
     $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
     $r->addRoute('GET', '/events/{id:\d+}/cancel', ['ReservationController', 'cancelReservation']);
@@ -43,7 +44,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/events/{id:\d+}/reserve', ['ReservationController', 'reserveSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
-    $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['ConfirmationController', 'resendVerification']); //COMPLETE
+    $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
     
 
 

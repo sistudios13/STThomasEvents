@@ -1,98 +1,168 @@
 <main class="flex-grow py-12 md:py-16 lg:py-20 bg-white text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <section>
-        <!-- Temporary Hold Warning with Countdown -->
-        <div x-data="countdown('<?= $_SESSION['reservation_expires'] ?? date('Y-m-d H:i:s', time() + 300) ?>')" class="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <div class="flex items-center gap-2 justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-green-900 text-pretty mb-1">Seats on Temporary Hold</h3>
-                    <p class="text-sm text-green-800">Your seats will expire in:</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-green-600" x-text="formattedTime"></div>
-                </div>
+    <div x-data="countdown('<?= $_SESSION['reservation_expires'] ?? date('Y-m-d H:i:s', time() + 300) ?>')" class="mb-12 p-6 bg-green-50 border border-green-200 rounded-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">Seats on Hold</h3>
+                <p class="text-sm text-gray-600">Complete your booking before your seats expire</p>
             </div>
-            <p class="text-xs text-green-700 mt-3">Please complete your booking before time runs out or your seats will be released.</p>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-green-600" x-text="formattedTime"></div>
+                <p class="text-xs text-gray-500 mt-1">remaining</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Booking Form -->
+        <div class="lg:col-span-2">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Complete Your Booking</h2>
+            <form hx-post=" <?= url('/events/' . $eventData['id'] . '/book/') ?>">
+                <?= csrf_input() ?>
+
+                <div class="space-y-8">
+                    <div class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
+                        <label for="name" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Full Name</label>
+                        <input type="text" name="name" id="name" maxlength="100" minlength="2" autocomplete="name" required class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base">
+                    </div>
+
+                    <div class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
+                        <label for="email" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Email</label>
+                        <input type="email" name="email" id="email" maxlength="200" minlength="5" autocomplete="email" required class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base">
+                    </div>
+
+                    <div class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
+                        <label for="phone" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Phone Number</label>
+                        <input type="text" name="phone" id="phone" x-data x-mask="(999) 999-9999" autocomplete="tel" placeholder="(999) 999-9999" required class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base">
+                    </div>
+
+                    <div x-data="customSelect()" class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
+                        <label for="role" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Role</label>
+
+                        <!-- Hidden input for form submission -->
+                        <input type="hidden" name="role" id="role" :value="selected" required>
+
+                        <!-- Custom dropdown button -->
+                        <button type="button" @click="open = !open" class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base text-left flex items-center justify-between">
+                            <span x-text="selected ? getLabel(selected) : 'Select your role'" class="flex-1"></span>
+                            <svg class="w-5 h-5 text-gray-500" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Custom dropdown menu -->
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute z-10 w-fit mt-2 mr-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <div class="py-1">
+                                <button type="button" class="w-full px-4 py-2 text-left text-gray-500  transition text-sm">
+                                    Select your role
+                                </button>
+                                <button type="button" @click="select('student'); open = false" :class="{ 'bg-green-100 text-green-700': selected === 'student' }" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-green-50 transition text-sm">
+                                    Student
+                                </button>
+                                <button type="button" @click="select('parent'); open = false" :class="{ 'bg-green-100 text-green-700': selected === 'parent' }" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-green-50 transition text-sm">
+                                    Parent
+                                </button>
+                                <button type="button" @click="select('teacher'); open = false" :class="{ 'bg-green-100 text-green-700': selected === 'teacher' }" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-green-50 transition text-sm">
+                                    Teacher
+                                </button>
+                                <button type="button" @click="select('other'); open = false" :class="{ 'bg-green-100 text-green-700': selected === 'other' }" class="w-full px-4 py-2 text-left text-gray-900 hover:bg-green-50 transition text-sm">
+                                    Other
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 mt-8">
+                    <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
+                        Confirm Booking
+                    </button>
+                    <a href="<?= url('/events/' . $eventData['id'] . '/cancel/') ?>" class="px-6 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-50 transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-                <h2 class="text-2xl font-semibold mb-4">Booking Information</h2>
-                <form hx-post=" <?= url('/events/' . $eventData['id'] . '/book/') ?>">
-                    <?= csrf_input() ?>
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" name="name" id="name" maxlength="100" minlength="2" autocomplete="name" required class="mt-1 w-full md:max-w-sm rounded-md border border-slate-200-300 bg-gray-50 px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:cursor-not-allowed disabled:opacity-75">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email" maxlength="100" minlength="5" autocomplete="email" required class="mt-1 w-full rounded-md border border-slate-200-300 bg-gray-50 px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:cursor-not-allowed disabled:opacity-75">
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" name="phone" id="phone" x-data x-mask="(999) 999-9999" name="phone" autocomplete="tel-national" placeholder="(999) 999-9999" autocomplete="tel" required class="mt-1 w-full md:max-w-80 rounded-md border border-slate-200-300 bg-gray-50 px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:cursor-not-allowed disabled:opacity-75">
-                    </div>
-
-                    <div class="flex justify-between items-center">
-                        <button type="submit" class="bg-green-700 hover:bg-green-800 font-semibold text-white py-2 px-4 rounded-lg">Confirm Booking</button>
-                        <a href="<?= url('/events/' . $eventData['id'] . '/cancel/') ?>" class="text-sm text-gray-700 hover:text-gray-900 transition">Cancel Booking</a>
-                    </div>
-
-                </form>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Your Seats</h3>
-                <div class="flex flex-wrap gap-2">
+        <!-- Seats Summary -->
+        <div>
+            <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Your Seats</h3>
+                <div class="space-y-2">
                     <?php if (!empty($seats)): ?>
-
                         <?php foreach ($seats as $seat): ?>
-                            <div class="px-3 py-1 bg-green-700 text-white rounded-lg text-sm font-medium"><?= htmlspecialchars($seat) ?></div>
+                            <div class="px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-green-700 font-semibold text-center">
+                                <?= htmlspecialchars($seat) ?>
+                            </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+                <p class="text-xs text-gray-500 mt-4 text-center">
+                    <?php echo count($seats) ?? 0; ?> seat<?php echo (count($seats) ?? 0) !== 1 ? 's' : ''; ?> selected
+                </p>
             </div>
-
         </div>
-    </section>
-</main>
+    </div>
 
-<script>
-    function countdown(expirationDatetime) {
-        return {
-            timeLeft: 0,
-            formattedTime: '0:00',
+    <script>
+        function customSelect() {
+            return {
+                open: false,
+                selected: '',
 
-            init() {
-                // Parse the datetime string "YYYY-MM-DD HH:MM:SS" 
-                const expirationTime = new Date(expirationDatetime.replace(' ', 'T')).getTime();
-                const now = new Date().getTime();
-                this.timeLeft = Math.floor((expirationTime - now) / 1000);
+                select(value) {
+                    this.selected = value;
+                },
 
-                this.updateDisplay();
-                const interval = setInterval(() => {
-                    this.timeLeft--;
-                    this.updateDisplay();
-
-                    // When time expires
-                    if (this.timeLeft <= 0) {
-                        clearInterval(interval);
-                        this.handleExpired();
-                    }
-                }, 1000);
-            },
-
-            updateDisplay() {
-                const minutes = Math.floor(this.timeLeft / 60);
-                const seconds = this.timeLeft % 60;
-                this.formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-                if (this.timeLeft <= 0) {
-                    this.formattedTime = '0:00';
+                getLabel(value) {
+                    const labels = {
+                        'student': 'Student',
+                        'parent': 'Parent',
+                        'teacher': 'Teacher',
+                        'other': 'Other'
+                    };
+                    return labels[value] || '';
                 }
-            },
-
-            handleExpired() {
-                window.location.href = '<?= url("/events/" . $eventData["id"] . "/expired") ?>';
             }
         }
-    }
-</script>
+
+        function countdown(expirationDatetime) {
+            return {
+                timeLeft: 0,
+                formattedTime: '0:00',
+
+                init() {
+                    // Parse the datetime string "YYYY-MM-DD HH:MM:SS"
+                    const expirationTime = new Date(expirationDatetime.replace(' ', 'T')).getTime();
+                    const now = new Date().getTime();
+                    this.timeLeft = Math.floor((expirationTime - now) / 1000);
+
+                    this.updateDisplay();
+                    const interval = setInterval(() => {
+                        this.timeLeft--;
+                        this.updateDisplay();
+
+                        // When time expires
+                        if (this.timeLeft <= 0) {
+                            clearInterval(interval);
+                            this.handleExpired();
+                        }
+                    }, 1000);
+                },
+
+                updateDisplay() {
+                    const minutes = Math.floor(this.timeLeft / 60);
+                    const seconds = this.timeLeft % 60;
+                    this.formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                    if (this.timeLeft <= 0) {
+                        this.formattedTime = '0:00';
+                    }
+                },
+
+                handleExpired() {
+                    window.location.href = '<?= url("/events/" . $eventData["id"] . "/expired") ?>';
+                }
+            }
+        }
+    </script>
+</main>
