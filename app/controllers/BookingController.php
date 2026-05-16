@@ -151,12 +151,12 @@ class BookingController
         exit;
 
 
-        
 
-        
+
+
     }
 
-    
+
 
 
 }

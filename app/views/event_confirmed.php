@@ -15,7 +15,7 @@
         <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
     </head>
     
-    <body class="bg-gray-50 flex flex-col min-h-screen ">
+    <body class="bg-gray-50 flex flex-col min-h-screen">
 
     
     
@@ -36,16 +36,20 @@
         <!-- Main Content -->
         <main class="flex-grow flex items-center py-24 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <section class="text-center">
-                <h1 class="text-4xl font-bold text-red-700 mb-4">Session Expired</h1>
-                <p class="text-lg text-gray-700 mb-6">Unfortunately, your session has expired. Please select your seats again to proceed with booking.</p>
-                <a href="<?= url('/events/' . $eventData['id'] . '/seats') ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-600 px-4 py-2 rounded transition hover:bg-green-700">
-                    Select Seats Again
+                <h1 class="text-4xl font-bold mb-4">Tickets Confirmed!</h1>
+                <p class="text-lg text-gray-700 mb-6">Your seat reservation has been confirmed. Thank you for your booking! <br> <br>
+                <b>You should receive an email shortly with login instructions. Please keep this email safe!</b></p>
+            </p>
+                <a href="<?= url('/tickets/') ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-600 px-4 py-2 rounded transition hover:bg-green-700">
+                    View My Tickets
                 </a>
+                <br>
+                <a href="<?= url('/') ?>" class="mt-4 inline-block text-base underline">Support</a>
             </section>
         </main>
     
         <!-- Footer -->
-        <footer class="bg-gray-900 text-white">
+        <footer class="bg-gray-900 text-white mt-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     <div>

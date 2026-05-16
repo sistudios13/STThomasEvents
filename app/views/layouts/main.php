@@ -6,7 +6,6 @@
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="<?= url('/assets/tailwindconfig.js') ?>"></script>
     <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Icons -->
@@ -40,6 +39,7 @@
                     <?php else: ?>
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
                         <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                        <a href="<?= url('/tickets') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
                         <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
                     <?php endif; ?>
                 </nav>
@@ -62,6 +62,7 @@
                     <?php else: ?>
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
                         <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                        <a href="<?= url('/tickets') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
                         <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
                     <?php endif; ?>
                 </nav>
@@ -108,6 +109,7 @@
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                         <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
+                        <li><a href="<?= url('/tickets') ?>" class="hover:text-white transition">My Tickets</a></li>
                         <?php if (isAdmin()): ?>
                             <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
                         <?php endif; ?>

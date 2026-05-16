@@ -94,6 +94,8 @@ class ConfirmationController
 
         $code = intval($code);
 
+        //ratelimit
+
         try {
             $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
         } catch (InvalidArgumentException $exception) {
@@ -103,7 +105,17 @@ class ConfirmationController
         }
 
         session_unset();
-        header('HX-Redirect: ' . url('/events/' . $id . '/confirmed'));
+        header('HX-Redirect: ' . url('/events/confirmed'));
 
+    }
+
+
+    public function eventConfirmed(): void
+    {
+
+
+        render('event_confirmed', null, [
+            'pageTitle' => 'Booking Confirmed - St. Thomas Events'
+        ]);
     }
 }

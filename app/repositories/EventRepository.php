@@ -8,7 +8,7 @@ class EventRepository extends BaseRepository
 {
     public function findAll(): ?array
     {
-        $stmt = $this->con->prepare("SELECT * FROM events WHERE date >= NOW() ORDER BY date ASC");
+        $stmt = $this->con->prepare("SELECT * FROM events WHERE date >= NOW() + INTERVAL 30 MINUTE ORDER BY date ASC");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
@@ -18,7 +18,7 @@ class EventRepository extends BaseRepository
 
     public function findById(int $id): ?array
     {
-        $stmt = $this->con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() + INTERVAL 15 MINUTE ORDER BY date ASC"); //added 15 min buffer to prevent last minute bookings
+        $stmt = $this->con->prepare("SELECT * FROM events WHERE id = ? AND date >= NOW() + INTERVAL 30 MINUTE ORDER BY date ASC"); //added 30 min buffer to prevent last minute bookings
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $event = $stmt->get_result()->fetch_assoc();

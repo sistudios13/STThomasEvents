@@ -73,6 +73,21 @@ class ConfirmationRepository extends BaseRepository
 
         return true;
     }
+
+    public function getTicketInfoByToken(string $booking_token): ?array
+    {
+        $stmt = $this->con->prepare("SELECT bs.name, bs.email, bs.reference, e.name AS event_name FROM booking_sessions bs JOIN events e ON bs.event_id = e.id WHERE bs.token = ?");
+        $stmt->bind_param('s', $booking_token);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $info = null;
+
+        if ($result->num_rows > 0) {
+            $info = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+        return $info;
+    }
+
 }
-
-

@@ -16,7 +16,7 @@
         <!-- Booking Form -->
         <div class="lg:col-span-2">
             <h2 class="text-3xl font-bold text-gray-900 mb-8">Complete Your Booking</h2>
-            <form hx-post=" <?= url('/events/' . $eventData['id'] . '/book/') ?>">
+            <form hx-post=" <?= url('/events/' . $eventData['id'] . '/book/') ?>" >
                 <?= csrf_input() ?>
 
                 <div class="space-y-8">
@@ -44,13 +44,14 @@
                         <!-- Custom dropdown button -->
                         <button type="button" @click="open = !open" class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base text-left flex items-center justify-between">
                             <span x-text="selected ? getLabel(selected) : 'Select your role'" class="flex-1"></span>
-                            <svg class="w-5 h-5 text-gray-500" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                            <svg class="w-5 h-5 text-gray-800" :class=" { 'rotate-180': open }" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
                             </svg>
+
                         </button>
 
                         <!-- Custom dropdown menu -->
-                        <div x-show="open" @click.away="open = false" x-transition class="absolute z-10 w-fit mt-2 mr-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <div x-show="open" @click.away="open = false" class="absolute z-10 w-fit mt-2 mr-4 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <div class="py-1">
                                 <button type="button" class="w-full px-4 py-2 text-left text-gray-500  transition text-sm">
                                     Select your role
@@ -101,6 +102,10 @@
                 </p>
             </div>
         </div>
+    </div>
+
+    <div id="spinner" class="hidden fixed top-0 left-0 w-screen h-screen bg-white/60 flex items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
     </div>
 
     <script>

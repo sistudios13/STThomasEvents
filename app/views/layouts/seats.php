@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="<?= url('/assets/tailwindconfig.js') ?>"></script>
     <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
@@ -112,9 +111,7 @@
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                         <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                        <?php if (isAdmin()): ?>
-                            <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
-                        <?php endif; ?>
+                        <li><a href="<?= url('/tickets') ?>" class="hover:text-white transition">My Tickets</a></li>
                     </ul>
                 </div>
                 <div>

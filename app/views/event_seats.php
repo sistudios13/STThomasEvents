@@ -210,16 +210,16 @@
                 <div class="flex items-center gap-4">
                     <!-- Zoom controls -->
                     <div class="flex items-center gap-2 border border-gray-200 rounded-lg p-1">
-                        <button class="zbtn" @click="zoomBy(-0.15)" aria-label="Zoom out" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <button class="zbtn" @click="zoomBy(-0.15)" aria-label="Zoom out" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
 </svg>
 </button>
                         <span class="text-xs text-gray-500 w-8 text-center tabular-nums select-none" x-text="Math.round(scale*100)+'%'"></span>
-                        <button class="zbtn" @click="zoomBy(+0.15)" aria-label="Zoom in" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <button class="zbtn" @click="zoomBy(+0.15)" aria-label="Zoom in" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
 </svg>
 </button>
-                        <button class="zbtn text-sm" @click="fit()" aria-label="Fit to screen" title="Fit" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <button class="zbtn text-sm" @click="fit()" aria-label="Fit to screen" title="Fit" style="border:none; width:28px; height:28px;"><svg class="w-5 h-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
 </svg>
 </button>

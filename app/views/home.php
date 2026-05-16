@@ -33,7 +33,7 @@
     <div class="max-w-3xl mx-auto text-left md:text-center">
         <h2 class="text-4xl font-bold text-gray-900 mb-6 ">What is St. Thomas Events?</h2>
         <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-            This ticket booking system was built as a school project by Simon Papp to make event organization simpler and more efficient. It allows users to view events, select seats on an interactive map, and reserve tickets in just a few steps.
+            This ticket booking system was built as a school project by <a href="https://simonsites.com" target="_blank" class="text-green-800 font-medium hover:text-green-800 transition">Simon Papp</a> to make event organization simpler and more efficient. It allows users to view events, select seats on an interactive map, and reserve tickets in just a few steps.
             <br><br>
             The goal was to create a modern, user-friendly experience while applying real-world web development concepts.
         </p>
