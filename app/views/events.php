@@ -13,12 +13,12 @@
                     <div class="p-6">
                         <div class="mb-5 flex items-center justify-between gap-2 text-sm text-slate-500">
                             <span class="inline-flex items-center gap-2 rounded-lg bg-green-100 px-3 py-1 font-medium text-green-700">
-                                <?= date('F j, Y \a\t g:i A', strtotime($event['date'])) ?>
+                                <?= date('F j, Y \a\t g:i A', strtotime($event['Date'])) ?>
                             </span>
                         </div>
-                        <h2 class="text-2xl font-semibold tracking-tight text-gray-900 mb-3"><?= htmlspecialchars($event['name']) ?></h2>
-                        <p class="text-gray-700 mb-6 line-clamp-3"><?= nl2br(htmlspecialchars($event['description'])) ?></p>
-                        <a href="<?= url('/events/' . $event['id']) ?>" class="inline-flex items-center gap-2 font-semibold text-green-700 transition hover:text-green-800">
+                        <h2 class="text-2xl font-semibold tracking-tight text-gray-900 mb-3"><?= htmlspecialchars($event['Name']) ?></h2>
+                        <p class="text-gray-700 mb-6 line-clamp-3"><?= nl2br(htmlspecialchars($event['Description'])) ?></p>
+                        <a href="<?= url('/events/' . $event['Id']) ?>" class="inline-flex items-center gap-2 font-semibold text-green-700 transition hover:text-green-800">
                             View Details
                             <span aria-hidden="true"><svg class="w-5 h-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>

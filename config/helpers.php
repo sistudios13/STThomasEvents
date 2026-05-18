@@ -17,36 +17,7 @@ if (!function_exists('basePath')) {
     {
         return BASE_PATH . '/' . ltrim($path, '/');
     }
-
-    function loggedInOnly(): void
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('HX-Redirect: ' . url('/login'));
-            header('Location: ' . url('/login'));
-            exit;
-        }
-    }
-
-    function notLoggedInOnly(): void
-    {
-        if (isset($_SESSION['user_id'])) {
-            header('HX-Redirect: ' . url('/products'));
-            header('Location: ' . url('/products'));
-            exit;
-        }
-    }
-
-    function adminOnly(): void
-    {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-            header('HX-Redirect: ' . url('/login'));
-            header('Location: ' . url('/login'));
-            exit;
-        }
-    }
-
-
-
+    
     function isLoggedIn(): bool
     {
         return isset($_SESSION['user_id']);
@@ -55,6 +26,11 @@ if (!function_exists('basePath')) {
     function isAdmin(): bool
     {
         return isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin';
+    }
+
+    function ticketAuthenticated(): bool
+    {
+        return !empty($_SESSION['reference']);
     }
 
     function csrf_token(): string
@@ -107,7 +83,10 @@ if (!function_exists('basePath')) {
 
 
         if (date('Y-m-d H:i:s') >= $_SESSION['reservation_expires']) {
-            clearReservation();
+            session_unset();
+            $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at <= NOW()");
+            $stmt->execute();
+            $stmt->close();
             return false;
         }
 
@@ -121,23 +100,14 @@ if (!function_exists('basePath')) {
         }
 
         if (date('Y-m-d H:i:s') >= $_SESSION['code_expires_at']) {
-            clearBooking();
+            session_unset();
+            $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at <= NOW() AND email_verified = 0");
+            $stmt->execute();
+            $stmt->close();
             return false;
         }
 
         return true;
-    }
-
-    function clearReservation(): void
-    {
-        session_unset();
-        deleteExpiredReservations();
-    }
-
-    function clearBooking(): void
-    {
-        session_unset();
-        deleteExpiredBookings();
     }
 
     function cancelReservation(): void
@@ -146,8 +116,7 @@ if (!function_exists('basePath')) {
         $stmt->bind_param("s", $_SESSION['reservation_token']);
         $stmt->execute();
         $stmt->close();
-        session_unset();
-
+        session_destroy();
     }
 
     function redirectToUrl(string $url): void
@@ -156,21 +125,4 @@ if (!function_exists('basePath')) {
         header('Location: ' . $url);
         exit;
     }
-
-
-    function deleteExpiredReservations(): void
-    {
-        $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at < NOW()");
-        $stmt->execute();
-        $stmt->close();
-    }
-
-    function deleteExpiredBookings(): void
-    {
-        $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at < NOW() AND email_verified = 0");
-        $stmt->execute();
-        $stmt->close();
-    }
-
-
 }

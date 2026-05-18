@@ -5,7 +5,6 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-use Respect\Validation\Rules\Phone;
 use Respect\Validation\Validator as v;
 
 

@@ -51,7 +51,7 @@ class ConfirmationService
 
         $this->confirmationRepository->confirmBooking($event_id, $SID);
         $ticketInfo = $this->confirmationRepository->getTicketInfoByToken($booking_token);
-        $this->sendTicketEmail($ticketInfo['email'], $ticketInfo['name'], $ticketInfo['reference'], $ticketInfo['event_name']);
+        $this->sendTicketEmail($ticketInfo['Email'], $ticketInfo['Name'], $ticketInfo['Reference'], $ticketInfo['e.Name']);
     }
 
     public function sendTicketEmail(string $email, string $name, string $reference, string $event_name): void // DEV LINK

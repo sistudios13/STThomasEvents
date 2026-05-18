@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <!-- Icons -->
     <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="<?= url('/assets/favicon.svg') ?>" />
@@ -39,8 +41,11 @@
                     <?php else: ?>
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
                         <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                        <a href="<?= url('/tickets') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
                         <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                        <a href="<?= url('/tickets') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
+                        <?php if (ticketAuthenticated()): ?>
+                            <a href="<?= url('/tickets/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
+                            <?php endif; ?>
                     <?php endif; ?>
                 </nav>
 
@@ -72,18 +77,6 @@
 
 
 
-    <!-- Error Notification -->
-    <div id="htmx-error" class="fixed hidden bottom-4 right-4 p-4 bg-red-50 border border-red-200 rounded-lg shadow-lg z-50">
-        <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-            </svg>
-            <div>
-                <h3 class="font-semibold text-red-900">Error</h3>
-                <p id="htmx-error-message" class="mt-1 text-sm text-red-700"></p>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <main class="flex-grow mt-[72px] md:mt-20 py-12 md:py-16 lg:py-20 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -127,34 +120,39 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <div id="modals"></div>
+    
     <style>
-        @keyframes slideIn {
+        @keyframes fadeIn {
             from {
-                transform: translateX(400px);
+                transform: scale(0.8);
                 opacity: 0;
             }
+
             to {
-                transform: translateX(0);
+                transform: scale(1);
                 opacity: 1;
             }
         }
-        @keyframes slideOut {
+
+        @keyframes fadeOut {
             from {
-                transform: translateX(0);
+                transform: scale(1);
                 opacity: 1;
             }
+
             to {
-                transform: translateX(400px);
+                transform: scale(0.8);
                 opacity: 0;
             }
         }
+
         .notification-card {
-            animation: slideIn 0.3s ease-out;
+            animation: fadeIn 0.05s ease-out;
         }
+
         .notification-card.removing {
-            animation: slideOut 0.3s ease-in forwards;
+            animation: fadeOut 0.03s ease-in forwards;
         }
     </style>
     <script>
@@ -163,7 +161,7 @@
         if (!notificationsContainer) {
             notificationsContainer = document.createElement('div');
             notificationsContainer.id = 'notifications';
-            notificationsContainer.className = 'fixed bottom-4 right-4 space-y-2 z-50 flex flex-col';
+            notificationsContainer.className = 'fixed bottom-4 right-4 ml-4 space-y-2 z-50 flex flex-col';
             document.body.appendChild(notificationsContainer);
         }
         document.body.addEventListener('htmx:responseError', function (event) {
@@ -203,7 +201,7 @@
                         </div>
                     `;
                 notificationsContainer.appendChild(card);
-                setTimeout(() => { 
+                setTimeout(() => {
                     card.classList.add('removing');
                     setTimeout(() => { card.remove(); }, 300);
                 }, 5000);
@@ -235,14 +233,14 @@
     </div>
     `;
                     notificationsContainer.appendChild(card);
-                    setTimeout(() => { 
+                    setTimeout(() => {
                         card.classList.add('removing');
                         setTimeout(() => { card.remove(); }, 300);
                     }, 5000);
                 }
             }
         });
-    </style>
+    </script>
 </body>
 
 </html>

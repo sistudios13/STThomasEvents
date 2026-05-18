@@ -16,7 +16,7 @@
         <!-- Booking Form -->
         <div class="lg:col-span-2">
             <h2 class="text-3xl font-bold text-gray-900 mb-8">Complete Your Booking</h2>
-            <form hx-post=" <?= url('/events/' . $eventData['id'] . '/book/') ?>" >
+            <form hx-post=" <?= url('/events/' . $eventData['Id'] . '/book/') ?>">
                 <?= csrf_input() ?>
 
                 <div class="space-y-8">
@@ -51,7 +51,7 @@
                         </button>
 
                         <!-- Custom dropdown menu -->
-                        <div x-show="open" @click.away="open = false" class="absolute z-10 w-fit mt-2 mr-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <div x-show="open" x-cloak @click.away="open = false" class="absolute z-10 w-fit mt-2 mr-4 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <div class="py-1">
                                 <button type="button" class="w-full px-4 py-2 text-left text-gray-500  transition text-sm">
                                     Select your role
@@ -77,7 +77,7 @@
                     <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
                         Confirm Booking
                     </button>
-                    <a href="<?= url('/events/' . $eventData['id'] . '/cancel/') ?>" class="px-6 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-50 transition">
+                    <a href="<?= url('/events/' . $eventData['Id'] . '/cancel/') ?>" class="px-6 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-50 transition">
                         Cancel
                     </a>
                 </div>
@@ -165,7 +165,7 @@
                 },
 
                 handleExpired() {
-                    window.location.href = '<?= url("/events/" . $eventData["id"] . "/expired") ?>';
+                    window.location.href = '<?= url("/events/" . $eventData["Id"] . "/expired") ?>';
                 }
             }
         }

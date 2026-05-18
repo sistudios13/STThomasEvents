@@ -51,7 +51,7 @@
               this.handleSubmit();
             }
           },
-        }" x-ref="twoFactorForm" class="space-y-8" hx-post="<?= url('/events/' . $eventData['id'] . '/confirm/') ?>">
+        }" x-ref="twoFactorForm" class="space-y-8" hx-post="<?= url('/events/' . $eventData['Id'] . '/confirm/') ?>">
             <div>
                 <label class="text-xs font-semibold text-center text-gray-500 uppercase tracking-wide block mb-4">Confirmation Code</label>
                 <div class="flex items-center justify-center gap-3">
@@ -74,7 +74,7 @@
 
         <div class="mt-8 text-center text-sm text-gray-600">
             Haven't received the code?
-            <form hx-post="<?= url('/events/' . $eventData['id'] . '/resend-verification/') ?>" class="inline" hx-swap="none">
+            <form hx-post="<?= url('/events/' . $eventData['Id'] . '/resend-verification/') ?>" class="inline" hx-swap="none">
                 <?= csrf_input() ?>
                 <input type="text" disabled value="<?= $email ?? '' ?>" class="hidden">
                 <button type="submit" class="font-semibold text-green-600 hover:text-green-700 transition">
@@ -121,7 +121,7 @@
             },
 
             handleExpired() {
-                window.location.href = '<?= url("/events/" . $eventData["id"] . "/expired") ?>';
+                window.location.href = '<?= url("/events/" . $eventData["Id"] . "/expired") ?>';
             }
         }
     }

@@ -180,7 +180,7 @@
 <header class="flex-shrink-0 bg-white border-b border-gray-100 py-6 z-10">
     <div class="max-w-7xl mx-auto px-4 md:text-center">
         <p class="text-sm font-semibold text-gray-500 mb-2">Select your seats</p>
-        <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($eventData['name']) ?? 'Event' ?></h1>
+        <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($eventData['Name']) ?? 'Event' ?></h1>
     </div>
 </header>
 
@@ -325,7 +325,7 @@
                     <button @click="clearAll()" class="text-sm font-medium border border-gray-300 text-gray-600 px-4 py-2 rounded hover:bg-gray-50 transition">
                         Clear
                     </button>
-                    <form hx-post="<?= url('/events/' . $eventData['id'] . '/reserve/') ?>" class="mb-0">
+                    <form hx-post="<?= url('/events/' . $eventData['Id'] . '/reserve/') ?>" class="mb-0">
                         <input type="hidden" name="seats" :value="selected.join(',')">
                         <?= csrf_input() ?>
                         <button :disabled="selected.length === 0 || selected.length > 6" class="text-sm font-semibold bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed">

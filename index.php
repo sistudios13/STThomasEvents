@@ -4,6 +4,9 @@ declare(strict_types= 1);
 
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';
+require_once __DIR__ . '/generated-conf/config.php';
+
+
 session_start();
 verify_csrf();
 
@@ -38,6 +41,12 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/{id:\d+}/confirm', ['ConfirmationController', 'eventConfirmation']);
     $r->addRoute('GET', '/events/confirmed', ['ConfirmationController', 'eventConfirmed']);
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
+    $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'TicketsHome']); 
+    $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
+
+
+    // partial routes
+    $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']); 
 
 
 
@@ -46,7 +55,9 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
     $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
-    $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']); //add
+    $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']); 
+    $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']); 
+    
     
 
 

@@ -16,19 +16,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="<?= url('/assets/apple-touch-icon.png') ?>" />
     <meta name="apple-mobile-web-app-title" content="St. Thomas Events" />
     <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
-    <style>
-        .htmx-indicator {
 
-            display: none !important;
-
-        }
-
-        .htmx-request .htmx-indicator,
-        .htmx-request.htmx-indicator {
-            display: inline-block !important;
-
-        }
-    </style>
 </head>
 
 <body class="bg-white flex flex-col ">
@@ -36,18 +24,7 @@
 
 
 
-    <!-- Error Notification -->
-    <div id="htmx-error" class="fixed hidden bottom-4 right-4 p-4 bg-red-50 border border-red-200 rounded-lg shadow-lg z-50">
-        <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-            </svg>
-            <div>
-                <h3 class="font-semibold text-red-900">Error</h3>
-                <p id="htmx-error-message" class="mt-1 text-sm text-red-700"></p>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Main Content -->
 
@@ -167,7 +144,7 @@
         if (!notificationsContainer) {
             notificationsContainer = document.createElement('div');
             notificationsContainer.id = 'notifications';
-            notificationsContainer.className = 'fixed bottom-4 right-4 space-y-2 z-50 flex flex-col';
+            notificationsContainer.className = 'fixed bottom-4 right-4 ml-4 space-y-2 z-50 flex flex-col';
             document.body.appendChild(notificationsContainer);
         }
         document.body.addEventListener('htmx:responseError', function (event) {

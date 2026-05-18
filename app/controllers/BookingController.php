@@ -6,6 +6,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../models/Reservations.php';
 require_once __DIR__ . '/../services/BookingService.php';
 require_once __DIR__ . '/../services/EventService.php';
+require_once __DIR__ . '/../middleware/Throttler.php';
 require __DIR__ . '/../../config/helpers.php';
 
 class BookingController
@@ -107,7 +108,7 @@ class BookingController
         header('HX-Redirect: ' . url('/events/' . $id . '/confirm'));
     }
 
-    public function resendVerification(int|string $id): void //confirmation section
+    public function resendVerification(int|string $id): void // confirmation section but wtv
     {
         if (!isset($_SESSION['step'])) {
             redirectToUrl(url('/events/' . $id . '/seats'));
@@ -131,6 +132,19 @@ class BookingController
             return;
         }
 
+
+        // limit resend attempts to 3 per booking
+        $limiter = new AttemptLimiter($_SESSION['booking_token'], 3);
+        $attempts_left = $limiter->verify();
+
+        if ($attempts_left === false) {
+            http_response_code(400);
+            echo 'Too many resend attempts. Start the booking process again, or contact support.';
+            return;
+        }
+
+
+
         try {
             $info = $this->bookingService->getResendInfoByToken($_SESSION['booking_token']);
         } catch (InvalidArgumentException $exception) {
@@ -140,20 +154,15 @@ class BookingController
         }
 
         try {
-            $this->bookingService->sendConfirmationEmail($info['email'], $info['name'], $info['verification_code']);
+            $this->bookingService->sendConfirmationEmail($info['Email'], $info['Name'], $info['VerificationCode']);
         } catch (InvalidArgumentException $exception) {
             http_response_code(400);
             echo $exception->getMessage();
             return;
         }
 
-        header('HX-Success-Message: Verification code resent successfully.');
+        header('HX-Success-Message: Verification code resent successfully. ' . $attempts_left . ' attempts remaining.');
         exit;
-
-
-
-
-
     }
 
 

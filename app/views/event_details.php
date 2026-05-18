@@ -1,6 +1,6 @@
 <?php
 
-$prices = json_decode($eventData['price'], true);
+$prices = json_decode($eventData['Price'], true);
 
 ?>
 
@@ -14,13 +14,13 @@ $prices = json_decode($eventData['price'], true);
 </svg>
  Back to Events
         </a>
-        <h1 class="text-5xl font-bold text-gray-900 mb-3"><?= htmlspecialchars($eventData['name']) ?></h1>
-        <p class="text-lg text-gray-700 mb-6"><?= date('F j, Y \a\t g:i A', strtotime($eventData['date'])) ?></p>
+        <h1 class="text-5xl font-bold text-gray-900 mb-3"><?= htmlspecialchars($eventData['Name']) ?></h1>
+        <p class="text-lg text-gray-700 mb-6"><?= date('F j, Y \a\t g:i A', strtotime($eventData['Date'])) ?></p>
 
         <div class=" max-w-none">
-            <p class="text-lg text-gray-700 leading-relaxed"><?= nl2br(htmlspecialchars($eventData['description'])) ?></p>
+            <p class="text-lg text-gray-700 leading-relaxed"><?= nl2br(htmlspecialchars($eventData['Description'])) ?></p>
         </div>
-        <a href="<?= url('/events/' . $eventData['id'] . '/seats') ?>" class="inline-block mt-6 px-6 py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
+        <a href="<?= url('/events/' . $eventData['Id'] . '/seats') ?>" class="inline-block mt-6 px-6 py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
             Book Tickets
         </a>
     </div>

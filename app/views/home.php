@@ -22,9 +22,9 @@
             </div>
         </div>
 
-        <div class="order-2 grid grid-cols-2 gap-4 mt-8">
-            <img class="w-full rounded-lg max-h-96" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
-            <img class="mt-4 w-full lg:mt-10 rounded-lg max-h-96" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
+        <div class="order-2 grid grid-cols-2 gap-4">
+            <img class="w-full rounded-lg max-h-96 h-full object-cover" src="<?= url('/assets/img1.jpg') ?>" alt="office content 1">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg max-h-96 h-full aspect-[3/4] object-cover" src="<?= url('/assets/img2.jpg') ?>" alt="office content 2">
         </div>
     </div>
 </div>

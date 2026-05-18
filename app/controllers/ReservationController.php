@@ -50,12 +50,12 @@ class ReservationController
     public function reserveSeats(int|string $id): void
     {
     
-        if ($_SESSION['step'] == 2) {
+        if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
             redirectToUrl(url('/events/' . $id . '/book'));
             exit;
         }
 
-        if ($_SESSION['step'] == 3) {
+        if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
             redirectToUrl(url('/events/' . $id . '/confirm'));
             exit;
         }
@@ -67,6 +67,8 @@ class ReservationController
             header('HX-Redirect: ' . url('/404'));
             return;
         }
+
+        
 
         if (!isset($_POST['seats']) || empty($_POST['seats'])) {
             http_response_code(400);
