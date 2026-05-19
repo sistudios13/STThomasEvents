@@ -16,12 +16,12 @@ Here are some related projects
 
 **Client:** HTMX, AlpineJS, TailwindCSS
 
-**Server:** PHP, MySQL, Fastroute
+**Server:** PHP, MySQL + Propel
 
 
 ## Lessons Learned
 
-I used this project as an opportunity to better learn OOP, and how backend frameworks really work.
+I used this project as an opportunity to better learn OOP, and how backend frameworks really work. 
 
 
 ## Support

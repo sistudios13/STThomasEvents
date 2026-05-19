@@ -36,7 +36,7 @@
                     </div>
 
                     <div x-data="customSelect()" class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
-                        <label for="role" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Role</label>
+                        <label class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Role</label>
 
                         <!-- Hidden input for form submission -->
                         <input type="hidden" name="role" id="role" :value="selected" required>

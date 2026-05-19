@@ -19,7 +19,7 @@
                         </button>
                     </div>
                     <div class="relative text-gray-700 font-normal pb-8 w-auto">
-                        <p>You are removing the seat <?= htmlspecialchars($seat) ?> from your booking. This action is irreversible</p>
+                        <p>You are removing the seat <?= htmlspecialchars($seat) ?> from your booking. <?= count($seats) == 1 ? '<b>Your booking will be completely deleted!</b>' : ' This action is irreversible' ?></p>
                     </div>
                     <div class="flex  flex-row justify-end space-x-2">
                         <button @click="modalOpen=false" type="button" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium rounded-md border transition-colors focus:outline-none ">Cancel</button>

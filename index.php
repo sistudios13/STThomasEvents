@@ -34,12 +34,15 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
+    $r->addRoute('GET','/support', ['InitialController','support']);
+
     $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
     $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
     $r->addRoute('GET', '/events/{id:\d+}/cancel', ['ReservationController', 'cancelReservation']);
     $r->addRoute('GET', '/events/{id:\d+}/confirm', ['ConfirmationController', 'eventConfirmation']);
     $r->addRoute('GET', '/events/confirmed', ['ConfirmationController', 'eventConfirmed']);
+
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
     $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'TicketsHome']); 
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
@@ -55,11 +58,9 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
     $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
+
     $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']); 
     $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']); 
-    
-    
-
 
     // error routes
     $r->addRoute('GET', '/404', ['ErrorController', 'notFound']);

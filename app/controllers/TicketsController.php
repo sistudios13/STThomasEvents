@@ -73,8 +73,7 @@ class TicketsController
         }
 
         if (empty($data)) {
-            header('Location: ' . url('/tickets/'));
-            session_destroy();
+            header('Location: ' . url('/tickets/logout/'));
             exit;
         }
 

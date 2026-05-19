@@ -10,14 +10,13 @@ require_once __DIR__ . '/../../services/TicketsService.php';
 if ($isHx) {
 
     if (empty($data)) {
-        header('HX-Redirect: ' . url('/404'));
         session_destroy();
+        header('HX-Redirect: ' . url('/tickets/'));
+        
         exit;
     }
 
     $seats = explode(',', $data['Seats']);
-
-    
 
     require __DIR__ . '/../fragments/tickets_home_seats.php';
     exit;

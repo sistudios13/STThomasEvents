@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -31,31 +32,29 @@
     <main>
         <section class="pt-12 bg-white">
             <div class="max-w-4xl mx-auto px-4">
-                <!-- Steps Progress Bar -->
+                <!-- Progress Bar -->
                 <div class="flex items-center justify-center pb-8">
                     <div class="grid grid-cols-5 items-start text-center w-full max-w-2xl">
-                        <!-- Step 1: Select Seats (Active) -->
+                        <!-- Step 1 -->
                         <div class="flex flex-col items-center flex-1">
                             <div class="w-10 h-10 rounded-full <?php echo $step === 1 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">1</div>
                             <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Select Seats</span>
                             <span class="mt-2 inline-block sm:hidden text-sm font-medium <?php echo $step === 1 ? 'text-green-700' : 'text-gray-700'; ?>">Seats</span>
                         </div>
-                        <!-- Connector -->
                         <div class="flex h-full items-center">
                             <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
                         </div>
-                        <!-- Step 2: Enter Details -->
+                        <!-- Step 2 -->
                         <div class="flex flex-col items-center flex-1">
                             <div class="w-10 h-10 rounded-full <?php echo $step === 2 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">2</div>
                             <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Enter Details</span>
                             <span class="mt-2 inline-block sm:hidden text-sm font-medium <?php echo $step === 2 ? 'text-green-700' : 'text-gray-700'; ?>">Details</span>
                         </div>
-                        <!-- Connector -->
                         <div class="flex h-full items-center">
                             <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
                         </div>
 
-                        <!-- Step 3: Confirmation -->
+                        <!-- Step 3-->
                         <div class="flex flex-col items-center flex-1">
                             <div class="w-10 h-10 rounded-full <?php echo $step === 3 ? 'bg-green-700 text-white' : 'bg-gray-300 text-gray-700'; ?> flex items-center justify-center text-sm font-bold shadow-sm ">3</div>
                             <span class="mt-2 hidden sm:inline-block text-sm font-medium <?php echo $step === 3 ? 'text-green-700' : 'text-gray-700'; ?>">Confirmation</span>

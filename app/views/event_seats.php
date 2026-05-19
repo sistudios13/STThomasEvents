@@ -327,6 +327,7 @@
                     </button>
                     <form hx-post="<?= url('/events/' . $eventData['Id'] . '/reserve/') ?>" class="mb-0">
                         <input type="hidden" name="seats" :value="selected.join(',')">
+                        <input type="text" name="name" class="opacity-0 absolute top-0 left-0 h-0 w-0 -z-10" tabindex="-1" autocomplete="random_value">
                         <?= csrf_input() ?>
                         <button :disabled="selected.length === 0 || selected.length > 6" class="text-sm font-semibold bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
                             Next Step

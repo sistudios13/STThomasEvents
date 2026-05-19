@@ -25,7 +25,7 @@
                         </div>
                     </label>
 
-                    <input type="text" name="code" id="code" maxlength="6" minlength="6" autocomplete="off" required class="w-full bg-transparent uppercase text-gray-900 py-2 focus:outline-none text-base">
+                    <input value="<?= htmlspecialchars($_GET['code'] ?? null) ?>" type="text" name="code" id="code" maxlength="6" minlength="6" autocomplete="off" required class="w-full bg-transparent uppercase text-gray-900 py-2 focus:outline-none text-base">
                 </div>
             </div>
 

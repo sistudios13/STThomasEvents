@@ -96,8 +96,11 @@ class ConfirmationController
 
         //ratelimit
 
+
+        
+
         try {
-            $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
+            $reference = $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
         } catch (InvalidArgumentException $exception) {
             http_response_code(400);
             echo $exception->getMessage();
@@ -105,7 +108,7 @@ class ConfirmationController
         }
 
         session_unset();
-        header('HX-Redirect: ' . url('/events/confirmed'));
+        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(strval($reference))));
 
     }
 

@@ -45,7 +45,7 @@ class TicketsRepository extends BaseRepository
             ->filterByReference($code)
             ->joinWith('Events')
             ->joinWith('Bookings')
-            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Date', 'Bookings.Seat'])
+            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Description', 'Events.Date', 'Bookings.Seat'])
             ->find();
 
         if ($session->getFirst() === null) {
@@ -69,6 +69,7 @@ class TicketsRepository extends BaseRepository
             'Reference' => $session->getFirst()['Reference'],
 
             'Events.Name' => $session->getFirst()['Events.Name'],
+            'Events.Description'=> $session->getFirst()['Events.Description'],
             'Events.Date' => $session->getFirst()['Events.Date'],
 
             'Seats' => $seatString

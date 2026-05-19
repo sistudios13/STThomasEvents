@@ -28,7 +28,7 @@ class ConfirmationService
         return $this->confirmationRepository->getEmailByToken($booking_token);
     }
 
-    public function confirmBooking(int $event_id, string $booking_token, int $enterred_code): void
+    public function confirmBooking(int $event_id, string $booking_token, int $enterred_code): string
     {
         $code = $this->confirmationRepository->getCodeByToken($event_id, $booking_token);
 
@@ -52,6 +52,8 @@ class ConfirmationService
         $this->confirmationRepository->confirmBooking($event_id, $SID);
         $ticketInfo = $this->confirmationRepository->getTicketInfoByToken($booking_token);
         $this->sendTicketEmail($ticketInfo['Email'], $ticketInfo['Name'], $ticketInfo['Reference'], $ticketInfo['e.Name']);
+
+        return $ticketInfo['Reference'];
     }
 
     public function sendTicketEmail(string $email, string $name, string $reference, string $event_name): void // DEV LINK

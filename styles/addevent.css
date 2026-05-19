@@ -1,0 +1,29 @@
+/* Button */
+.addeventatc 							{display:inline-block;position:relative;font-weight:600;line-height:46px;font-size:16px;text-decoration:none;border:1px solid transparent;padding:0px 28px 0px 28px;-webkit-border-radius:4px;border-radius:4px;cursor:pointer;-webkit-font-smoothing:antialiased!important;outline-color:#15803d;-webkit-user-select:none;}
+.addeventatc .addeventatc_icon 			{display:none;}
+.addeventatc .start, .addeventatc .end, .addeventatc .timezone, .addeventatc .title, .addeventatc .description, .addeventatc .location, .addeventatc .organizer, .addeventatc .organizer_email, .addeventatc .facebook_event, .addeventatc .all_day_event, .addeventatc .date_format, .addeventatc .alarm_reminder, .addeventatc .recurring, .addeventatc .attendees, .addeventatc .calname, .addeventatc .uid, .addeventatc .status, .addeventatc .method, .addeventatc .client, .addeventatc .transp {display:none!important;}
+.addeventatc br 						{display:none;}
+
+/* Drop down */
+.addeventatc_dropdown 					{width:230px;position:absolute;padding:9px 6px 2px 6px;color:#000!important;font-weight:500;line-height:100%;background:#fff;font-size:15px;text-decoration:none;text-align:left;margin-left:-1px;display:none;-moz-border-radius:6px;-webkit-border-radius:6px;-webkit-box-shadow:0 13px 27px -5px rgb(50 50 93 / 25%), 0 8px 16px -8px rgb(0 0 0 / 30%), 0 -6px 16px -6px rgb(0 0 0 / 3%);-moz-box-shadow:0 13px 27px -5px rgb(50 50 93 / 25%), 0 8px 16px -8px rgb(0 0 0 / 30%), 0 -6px 16px -6px rgb(0 0 0 / 3%);box-shadow:0 13px 27px -5px rgb(50 50 93 / 25%), 0 8px 16px -8px rgb(0 0 0 / 30%), 0 -6px 16px -6px rgb(0 0 0 / 3%);transform:scale(.98,.98) translateY(5px);z-index:-1;transition:transform .15s ease;-webkit-user-select:none;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+.addeventatc_dropdown.topdown 			{transform:scale(.98,.98) translateY(-5px)!important;}
+.addeventatc_dropdown span 				{display:block;line-height:100%;background:#fff;text-decoration:none;cursor:pointer;font-size:15px;color:#333;font-weight:500;padding:14px 10px 14px 55px;margin:-3px 0px 0px 0px;}
+.addeventatc_dropdown span:hover 		{background-color:#edf1fa;color:#111;text-decoration:none;}
+.addeventatc_dropdown em 				{color:#999!important;font-size:12px!important;font-weight:400;}
+.addeventatc_dropdown .frs a 			{background:#fff;color:#cacaca!important;cursor:pointer;font-size:9px!important;font-style:normal!important;font-weight:400!important;line-height:110%!important;border-left:16px solid transparent;position:absolute;right:10px;text-align:right;text-decoration:none;top:5px;z-index:4;}
+.addeventatc_dropdown .frs a:hover 		{color:#999!important;}
+.addeventatc_dropdown .ateappleical 	{background:url(https://cdn.addevent.com/libs/imgs/icon-apple-t5.svg) 18px 40% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .ategoogle 		{background:url(https://cdn.addevent.com/libs/imgs/icon-google-t5.svg) 18px 50% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .ateoffice365 	{background:url(https://cdn.addevent.com/libs/imgs/icon-office365-t5.svg) 19px 50% no-repeat;background-size:18px 100%;}
+.addeventatc_dropdown .ateoutlook 		{background:url(https://cdn.addevent.com/libs/imgs/icon-outlook-t5.svg) 18px 50% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .ateoutlookcom 	{background:url(https://cdn.addevent.com/libs/imgs/icon-outlookcom-t5.svg) 18px 50% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .ateyahoo 		{background:url(https://cdn.addevent.com/libs/imgs/icon-yahoo-t5.svg) 18px 50% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .atefacebook 		{background:url(https://cdn.addevent.com/libs/imgs/icon-facebook-t5.svg) 18px 50% no-repeat;background-size:22px 100%;}
+.addeventatc_dropdown .brx 				{height:1px;overflow:hidden;background:#f0f0f0;position:absolute;z-index:4;left:10px;right:10px;top:10px;}
+.addeventatc_dropdown.addeventatc-selected {transform:scale(1,1) translateY(0px);z-index:5;}
+.addeventatc_dropdown.topdown.addeventatc-selected {transform:scale(1,1) translateY(0px)!important;}
+.addeventatc_dropdown .drop_markup 		{background-color:#f4f4f4;}
+
+
+.addeventatc_dropdown 					{padding:9px 6px 6px 6px;}
+.addeventatc_dropdown .copyx 			{display:none;}

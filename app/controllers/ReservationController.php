@@ -49,7 +49,7 @@ class ReservationController
 
     public function reserveSeats(int|string $id): void
     {
-    
+
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
             redirectToUrl(url('/events/' . $id . '/book'));
             exit;
@@ -60,6 +60,13 @@ class ReservationController
             exit;
         }
 
+        if (!empty($_POST['name'])) {
+            http_response_code(400);
+            echo 'An error occurred while processing your request. Please try again!';
+            return;
+        }
+
+
 
         $event = $this->eventService->getEventById(intval($id));
         if (!$event) {
@@ -68,7 +75,7 @@ class ReservationController
             return;
         }
 
-        
+
 
         if (!isset($_POST['seats']) || empty($_POST['seats'])) {
             http_response_code(400);
@@ -104,7 +111,7 @@ class ReservationController
         if (hasValidReservation()) {
             redirectToUrl(url('/events/' . $id . '/seats'));
             exit;
-        } 
+        }
 
         if (hasValidBooking()) {
             redirectToUrl(url('/events/' . $id . '/confirm'));
