@@ -96,6 +96,7 @@ class BookingRepository extends BaseRepository
             $booking->setSeat($seat);
             $booking->setSessionId($session_id);
             $booking->setCodeExpiresAt($code_expires_at);
+            $booking->setToken(bin2hex(random_bytes(7)));
             $booking->save();
         }
     }

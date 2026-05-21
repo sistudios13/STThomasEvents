@@ -23,7 +23,7 @@
 <body class="bg-gray-50 flex flex-col ">
 
     <!-- Navigation Header -->
-    <header x-data="{ open: false }" class="bg-white fixed top-0 w-full z-10 shadow-sm border-b border-gray-200">
+    <header x-data="{ open: false }" class="bg-white fixed top-0 w-full z-30 shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <!-- Logo -->

@@ -32,6 +32,17 @@ class TicketsService
         return $this->ticketsRepository->authenticateEmailAndCode($email, $code);
     }
 
+    public function getBookingDataByCode(string $code): ?array
+    {
+        if (!v::alnum()->noWhitespace()->length(6, 6)->validate($code)) {
+            throw new InvalidArgumentException("Invalid code format. Code must be alphanumeric, without spaces, and 6 characters long.");
+        }
+
+        $data = $this->ticketsRepository->getBookingDataByCode($code);
+
+        return $data;
+    }
+
     public function getTicketDataByCode(string $code): ?array
     {
         if (!v::alnum()->noWhitespace()->length(6, 6)->validate($code)) {

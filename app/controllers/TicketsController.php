@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 
-use chillerlan\QRCode\QRCode;
 require_once __DIR__ . '/../services/TicketsService.php';
 require __DIR__ . '/../../config/helpers.php';
 
@@ -66,7 +65,7 @@ class TicketsController
             exit;
         }
         try {
-            $data = $this->ticketsService->getTicketDataByCode($code);
+            $data = $this->ticketsService->getBookingDataByCode($code);
         } catch (InvalidArgumentException $e) {
             header('Location: ' . url('/tickets/'));
             exit;
@@ -82,7 +81,6 @@ class TicketsController
             'pageTitle' => 'My Tickets - St. Thomas Events',
             'code' => $code,
             'data' => $data,
-            'QRSource' => (new QRCode)->render($data['Reference'] . ',' . $data['EventId'] . ',' . $data['Email'])
         ]);
     }
 
@@ -94,14 +92,15 @@ class TicketsController
         }
 
         try {
-            $data = $this->ticketsService->getTicketDataByCode($code);
+            $tickets = $this->ticketsService->getTicketDataByCode($code);
+            $booking = $this->ticketsService->getBookingDataByCode($code);
         } catch (InvalidArgumentException $e) {
             http_response_code(400);
             echo $e->getMessage();
             
         }
 
-        require __DIR__ . '/../views/partials/seats.php';
+        require __DIR__ . '/../views/partials/tickets.php';
     }
 
     public function removeSeat(string $code, string $seat): void

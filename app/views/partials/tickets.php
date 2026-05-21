@@ -4,21 +4,18 @@ declare(strict_types= 1);
 
 $isHx = isset($_SERVER['HTTP_HX_REQUEST']);
 
-require_once __DIR__ . '/../../services/TicketsService.php';
 
 
 if ($isHx) {
 
-    if (empty($data)) {
+    if (empty($tickets)) {
         session_destroy();
         header('HX-Redirect: ' . url('/tickets/'));
         
         exit;
     }
 
-    $seats = explode(',', $data['Seats']);
-
-    require __DIR__ . '/../fragments/tickets_home_seats.php';
+    require __DIR__ . '/../fragments/tickets_home_tickets.php';
     exit;
 } else {
     redirectToUrl(url('/404'));

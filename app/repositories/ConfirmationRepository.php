@@ -114,6 +114,7 @@ class ConfirmationRepository extends BaseRepository
 
         foreach ($bookings as $booking) {
             $booking->setEmailVerified(true);
+            
             $booking->save();
         }
 

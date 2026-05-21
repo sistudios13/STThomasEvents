@@ -1,5 +1,7 @@
 <?php
 
+use Propel\Runtime\Collection\ArrayCollection;
+
 require_once __DIR__ . '/BaseRepository.php';
 class TicketsRepository extends BaseRepository
 {
@@ -30,7 +32,7 @@ class TicketsRepository extends BaseRepository
         return true;
     }
 
-    public function getTicketDataByCode(string $code): ?array
+    public function getBookingDataByCode(string $code): ?array
     {
         // $stmt = $this->con->prepare("SELECT bs.name, bs.event_id, bs.email, bs.reference, e.name AS event_name, e.date AS event_date, GROUP_CONCAT(b.seat ORDER BY b.seat SEPARATOR ',') AS seats FROM booking_sessions bs JOIN bookings b ON bs.id = b.session_id JOIN events e ON bs.event_id = e.id WHERE bs.reference = ? GROUP BY bs.name, bs.email, bs.reference, e.name, e.date");
         // $stmt->bind_param('s', $code);
@@ -41,26 +43,49 @@ class TicketsRepository extends BaseRepository
         // $stmt->close();
         // return $data ?: null;
 
+        // $session = BookingSessionsQuery::create()
+        //     ->filterByReference($code)
+        //     ->joinWith('Events')
+        //     ->joinWith('Bookings')
+        //     ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Description', 'Events.Date', 'Bookings.Seat'])
+        //     ->find();
+
+        // if ($session->getFirst() === null) {
+        //     return null;
+        // }
+
+        // $seats = [];
+
+        // foreach ($session as $booking) {
+        //     $seats[] = $booking['Bookings.Seat'];
+        // }
+
+        // sort($seats);
+
+        // $seatString = implode(',', $seats);
+
+        // return [
+        //     'Name' => $session->getFirst()['Name'],
+        //     'EventId' => $session->getFirst()['EventId'],
+        //     'Email' => $session->getFirst()['Email'],
+        //     'Reference' => $session->getFirst()['Reference'],
+
+        //     'Events.Name' => $session->getFirst()['Events.Name'],
+        //     'Events.Description'=> $session->getFirst()['Events.Description'],
+        //     'Events.Date' => $session->getFirst()['Events.Date'],
+
+        //     'Seats' => $seatString
+        // ];
+
         $session = BookingSessionsQuery::create()
             ->filterByReference($code)
             ->joinWith('Events')
-            ->joinWith('Bookings')
-            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Description', 'Events.Date', 'Bookings.Seat'])
+            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Description', 'Events.Date'])
             ->find();
 
         if ($session->getFirst() === null) {
             return null;
         }
-
-        $seats = [];
-
-        foreach ($session as $booking) {
-            $seats[] = $booking['Bookings.Seat'];
-        }
-
-        sort($seats);
-
-        $seatString = implode(',', $seats);
 
         return [
             'Name' => $session->getFirst()['Name'],
@@ -69,11 +94,29 @@ class TicketsRepository extends BaseRepository
             'Reference' => $session->getFirst()['Reference'],
 
             'Events.Name' => $session->getFirst()['Events.Name'],
-            'Events.Description'=> $session->getFirst()['Events.Description'],
+            'Events.Description' => $session->getFirst()['Events.Description'],
             'Events.Date' => $session->getFirst()['Events.Date'],
-
-            'Seats' => $seatString
         ];
+    }
+
+    public function getTicketDataByCode(string $code): ?array
+    {
+        $session = BookingSessionsQuery::create()
+            ->filterByReference($code)
+            ->joinWith('Bookings')
+            ->select(['Bookings.Seat', 'Bookings.Token'])
+            ->find();
+
+        if ($session == null) {
+            return null;
+        }
+
+        $tickets = $session->toArray();
+        if (count($tickets) == 1) {
+            $ticketArray = [$tickets[0]];
+            return $ticketArray;
+        }
+        return $tickets;
     }
 
     public function seatBelongsToCode(string $code, string $seat): bool
