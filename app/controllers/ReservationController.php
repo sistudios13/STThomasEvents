@@ -59,7 +59,7 @@ class ReservationController
             redirectToUrl(url('/events/' . $id . '/confirm'));
             exit;
         }
-
+        //honeypot
         if (!empty($_POST['name'])) {
             http_response_code(400);
             echo 'An error occurred while processing your request. Please try again!';
@@ -88,9 +88,9 @@ class ReservationController
 
         try {
             $reservation = $this->reservationService->reserveSeats(intval($id), $seats);
-        } catch (InvalidArgumentException $exception) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $exception->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 

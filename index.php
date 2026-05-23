@@ -46,6 +46,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
     $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'TicketsHome']); 
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
+    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']); 
+
 
 
     // partial routes

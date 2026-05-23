@@ -8,6 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../models/Bookings.php';
 require_once __DIR__ . '/../repositories/ConfirmationRepository.php';
+require_once __DIR__ . '/ExportService.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
 $dotenv->load();
@@ -16,11 +17,13 @@ class ConfirmationService
 {
     private ConfirmationRepository $confirmationRepository;
     private EventService $eventService;
+    private ExportService $exportService;
 
     public function __construct()
     {
         $this->confirmationRepository = new ConfirmationRepository();
         $this->eventService = new EventService();
+        $this->exportService = new ExportService();
     }
 
     public function getEmailByToken(string $booking_token): ?string
@@ -58,7 +61,12 @@ class ConfirmationService
 
     public function sendTicketEmail(string $email, string $name, string $reference, string $event_name): void // DEV LINK
     {
+
+        
         try {
+
+            $pdfOutput = $this->exportService->ticketsToPdf($reference);
+
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
@@ -78,12 +86,19 @@ class ConfirmationService
             <p>Your tickets for {$event_name} are confirmed. Your tickets reference code is:</p>
             <h2>{$reference}</h2>
             <p>You can use this code to log into the tickets page and view your tickets.</p>
-            <p>Log in here: <a href='localhost/tickets/'>localhost/tickets/</a></p> 
+            <p>Log in here: <a href='localhost/tickets/'>localhost/tickets/?code={$reference}</a></p> 
             <br>
             <p>Thank you for booking with St. Thomas Events!</p>
             <hr>
             <p style='font-size: 0.8em;'>© 2026 St. Thomas Events. All rights reserved.</p>
             ";
+            $mail->addStringAttachment(
+                $pdfOutput,
+                'tickets.pdf',
+                'base64',
+                'application/pdf'
+            );
+
 
             $mail->send();
         } catch (Exception $e) {

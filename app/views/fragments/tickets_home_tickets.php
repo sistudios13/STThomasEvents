@@ -47,12 +47,19 @@ use chillerlan\QRCode\QRCode;
                 <div class="bg-white relative overflow-visible mb-10 rounded-lg lg:max-w-lg w-full h-full shadow-sm transition border border-gray-100" x-data="{modalOpen:false}">
                     <div class="bg-green-600 px-5 py-4 flex justify-between items-center rounded-t-lg">
                         <h3 class="text-xl font-bold inline text-white">Ticket # <span x-text="index + 1"></span></h3>
-                        <button @click="modalOpen= true">
-                            <svg class="w-6 h-6 text-white transition-all " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                            </svg>
+                        <div class="flex items-center gap-0.5">
+                            <a :href="'<?= url('/tickets/') ?>' + ticket.reference + '/export-pdf/'">
+                                <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z" />
+                                </svg>
 
-                        </button>
+                            </a>
+                            <button @click="modalOpen= true">
+                                <svg class="w-6 h-6 text-white transition-all " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                </svg>
+                            </button>
+                        </div>
                         <div x-show="modalOpen" class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen text-gray-900 h-screen" x-cloak>
                             <div x-show="modalOpen" x-transition:enter="ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="modalOpen=false" class="absolute inset-0 w-full h-full backdrop-blur-sm bg-white/70"></div>
                             <div x-show="modalOpen" x-trap.inert.noscroll="modalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 -translate-y-2 sm:scale-95" class="relative mx-4 px-7 z-10 py-6 w-full bg-white border shadow-lg border-gray-100 sm:max-w-lg rounded-lg">

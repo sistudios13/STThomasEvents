@@ -5,7 +5,8 @@
   "vlucas/phpdotenv": "^5.6",
   "phpmailer/phpmailer": "^7.0",
   "chillerlan/php-qrcode": "^6.0",
-  "propel/propel": "~2.0@beta"
+  "propel/propel": "~2.0@beta",
+  "dompdf/dompdf": "^3.1"
  },
  "autoload": {
   "classmap": [

@@ -111,9 +111,9 @@ class TicketsController
         }
         try {
             $this->ticketsService->removeSeatFromBooking($code, $seat);
-        } catch (InvalidArgumentException $e) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $e->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
         header('HX-Trigger: refresh-list');

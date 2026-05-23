@@ -101,9 +101,9 @@ class ConfirmationController
 
         try {
             $reference = $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
-        } catch (InvalidArgumentException $exception) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $exception->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 

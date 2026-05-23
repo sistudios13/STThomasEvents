@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Safe\Exceptions\XmlException;
 
 
 require_once __DIR__ . '/../models/Reservations.php';
@@ -88,9 +89,9 @@ class BookingController
 
         try {
             $booking = $this->bookingService->bookSeats(intval($id), $name, $email, $phone, $role);
-        } catch (InvalidArgumentException $exception) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $exception->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 
@@ -147,17 +148,17 @@ class BookingController
 
         try {
             $info = $this->bookingService->getResendInfoByToken($_SESSION['booking_token']);
-        } catch (InvalidArgumentException $exception) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $exception->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 
         try {
             $this->bookingService->sendConfirmationEmail($info['Email'], $info['Name'], $info['VerificationCode']);
-        } catch (InvalidArgumentException $exception) {
+        } catch (Exception $exception) {
             http_response_code(400);
-            echo $exception->getMessage();
+            echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 

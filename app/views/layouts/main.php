@@ -43,7 +43,7 @@
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
                         <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
                         <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                        <a href="<?= url('/tickets') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
+                        <a href="<?= url('/tickets') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded hover:text-white hover:bg-green-700' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
                         <?php if (ticketAuthenticated()): ?>
                             <a href="<?= url('/tickets/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
                             <?php endif; ?>
