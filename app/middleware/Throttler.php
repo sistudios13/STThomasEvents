@@ -26,14 +26,6 @@ class AttemptLimiter
             return false;
         }
 
-        // $stmt = $this->con->prepare("SELECT attempts_left FROM attempt_limits WHERE identifier = ?");
-        // $stmt->bind_param('s', $this->identifier);
-        // $stmt->execute();
-        // $result = $stmt->get_result();
-        // $attempts_left = $result->fetch_assoc();
-        // $attempts_left = $attempts_left['attempts_left'];
-        // $max_minus_one = $this->max_attempts - 1;
-
             $result = AttemptLimitsQuery::create()
                 ->filterByIdentifier($this->identifier)
                 ->findOne();
@@ -45,25 +37,15 @@ class AttemptLimiter
             $attempts_left = $result->getAttemptsLeft();
 
             if ($attempts_left > 0) {
-                // $stmt = $this->con->prepare("UPDATE attempt_limits SET attempts_left = attempts_left - 1 WHERE identifier = ?");
-                // $stmt->bind_param('s', $this->identifier);
-                // $stmt->execute();
-                // $stmt->close();
-
                 $result->setAttemptsLeft($attempts_left - 1);
                 $result->save();
 
                 return $attempts_left - 1;
             } else {
-                // $stmt->close();
                 return false;
             }
 
         } else {
-            // $stmt = $this->con->prepare("INSERT INTO attempt_limits (identifier, attempts_left) VALUES (?, ?)");
-            // $stmt->bind_param('si', $this->identifier, $max_minus_one);
-            // $stmt->execute();
-            // $stmt->close();
 
             $attempt_limit = new AttemptLimits();
             $attempt_limit->setIdentifier($this->identifier);

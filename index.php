@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';
@@ -34,7 +34,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
-    $r->addRoute('GET','/support', ['InitialController','support']);
+    $r->addRoute('GET', '/support', ['InitialController', 'support']);
 
     $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
@@ -44,14 +44,16 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/confirmed', ['ConfirmationController', 'eventConfirmed']);
 
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
-    $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'TicketsHome']); 
+    $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
-    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']); 
+    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
+    $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
+
 
 
 
     // partial routes
-    $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']); 
+    $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']);
 
 
 
@@ -61,13 +63,17 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
     $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
 
-    $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']); 
-    $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']); 
+    $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']);
+    $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
 
     // error routes
     $r->addRoute('GET', '/404', ['ErrorController', 'notFound']);
     $r->addRoute('GET', '/403', ['ErrorController', 'forbidden']);
     $r->addRoute('GET', '/500', ['ErrorController', 'internalError']);
+
+    //staff routes: add 'staff' to array
+
+
 });
 
 // Dispatch the request
@@ -86,8 +92,9 @@ switch ($routeInfo[0]) {
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
         [$controllerName, $action] = $handler;
+        $controllerSubdir = isset($handler[2]) && $handler[2] === 'staff' ? '/staff' : '';
 
-        $controllerFile = __DIR__ . "/app/controllers/$controllerName.php";
+        $controllerFile = __DIR__ . "/app/controllers{$controllerSubdir}/{$controllerName}.php";
         if (file_exists($controllerFile)) {
             require $controllerFile;
             $controller = new $controllerName();

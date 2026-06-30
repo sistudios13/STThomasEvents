@@ -1,0 +1,1 @@
+ALTER TABLE `events` ADD `seating` BOOLEAN NOT NULL AFTER `date`;

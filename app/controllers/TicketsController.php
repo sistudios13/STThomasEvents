@@ -64,6 +64,7 @@ class TicketsController
             header('Location: ' . url('/tickets/'));
             exit;
         }
+
         try {
             $data = $this->ticketsService->getBookingDataByCode($code);
         } catch (InvalidArgumentException $e) {
@@ -76,6 +77,10 @@ class TicketsController
             exit;
         }
 
+        if (new DateTime($data['Events.Date']) < new DateTime('+30 minutes')) {
+            header('Location: ' . url('/events/passed/'));
+            exit;
+        }
 
         render('tickets_home', 'main', [
             'pageTitle' => 'My Tickets - St. Thomas Events',

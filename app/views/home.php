@@ -2,11 +2,11 @@
 <div class="mb-16">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="order-1">
-            <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                Find Your Perfect <span class="text-green-600">Seat</span>
+            <h1 class="text-5xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                Welcome to St. Thomas High School Events
             </h1>
             <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                Discover amazing St. Thomas High School events. From thrilling musicals to spectacular variety shows, find and reserve your front-row seat to unforgettable moments.
+                Discover all St. Thomas High School events. From thrilling concerts to spectacular variety shows, find and reserve your front-row seat to unforgettable moments.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="<?= url('/events') ?>" class="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition transform shadow-sm">

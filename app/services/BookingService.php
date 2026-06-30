@@ -13,17 +13,20 @@ $dotenv->load();
 
 require_once __DIR__ . '/../models/Bookings.php';
 require_once __DIR__ . '/../repositories/BookingRepository.php';
+require_once __DIR__ . '/EmailService.php';
 
 
 class BookingService
 {
     private BookingRepository $bookingRepository;
     private EventService $eventService;
+    private EmailService $emailService;
 
     public function __construct()
     {
         $this->bookingRepository = new BookingRepository();
         $this->eventService = new EventService();
+        $this->emailService = new EmailService();
     }
 
     public function bookSeats(int $event_id, string $name, string $email, string $phone, string $role): Booking
@@ -84,21 +87,12 @@ class BookingService
 
     public function sendConfirmationEmail(string $email, string $name, int $otp): void
     {
-        try {
-            $mail = new PHPMailer(true);
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = $_ENV['MAIL_USER'];
-            $mail->Password = $_ENV['MAIL_PASSWORD'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // tls. ENCRYPTION_SMTPS for 465
-            $mail->Port = 587; // or 465
-            $mail->isHTML(true);
 
-            $mail->setFrom($_ENV['MAIL_USER'], 'St. Thomas Events');
-            $mail->addAddress($email, $name);
-            $mail->Subject = 'Your Booking Confirmation Code';
-            $mail->Body = "
+        $sent = $this->emailService->sendEmail(
+            $email,
+            $name, 
+            'Your Booking Confirmation Code',
+            "
             <h1>Your Booking Confirmation Code</h1>
             <p>Hello {$name},</p>
             <p>Thank you for booking with St. Thomas Events! Your confirmation code is:</p>
@@ -109,12 +103,14 @@ class BookingService
             <p>Best regards,<br>St. Thomas Events Team</p>
             <hr>
             <p style='font-size: 0.8em;'>© 2026 St. Thomas Events. All rights reserved.</p>
-            ";
+            "
+        );
 
-            $mail->send();
-        } catch (Exception $e) {
+        if (!$sent) {
             throw new InvalidArgumentException('Failed to send confirmation email. Please try again later.');
         }
+
+
     }
 
     public function getResendInfoByToken(string $token): ?array

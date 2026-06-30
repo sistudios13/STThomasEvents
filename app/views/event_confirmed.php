@@ -42,7 +42,7 @@
             <h2 class="text-3xl font-medium mb-6"><?= htmlspecialchars($_GET['code'] ?? 'none') ?></h2>
             <p class="pb-4 font-bold">You should also receive an email shortly with login instructions. <br>Please keep this email safe!</p>
             </p>
-            <a href="<?= url('/tickets/?code=' . htmlspecialchars($_GET['code'] ?? '')) ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-600 px-4 py-2 rounded transition hover:bg-green-700">
+            <a href="<?= url('/tickets/?code=' . htmlspecialchars($_GET['code'] ?? '') . '&email=' . htmlspecialchars($_GET['email'] ?? '')) ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-600 px-4 py-2 rounded transition hover:bg-green-700">
                 View My Tickets
             </a>
             <br>
@@ -69,7 +69,7 @@
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                         <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                        <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
+                        <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Staff</a></li>
                     </ul>
                 </div>
                 <div>

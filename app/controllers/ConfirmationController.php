@@ -37,7 +37,7 @@ class ConfirmationController
             exit;
         }
 
-        $event = $this->eventService->getEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404'));
@@ -71,7 +71,7 @@ class ConfirmationController
             exit;
         }
 
-        $event = $this->eventService->getEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('HX-Redirect: ' . url('/404'));
@@ -96,11 +96,8 @@ class ConfirmationController
 
         //ratelimit
 
-
-        
-
         try {
-            $reference = $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
+            $redirectInfo = $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
         } catch (Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
@@ -108,15 +105,13 @@ class ConfirmationController
         }
 
         session_unset();
-        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(strval($reference))));
+        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(strval($redirectInfo[0])) . '&email=' . htmlspecialchars(strval($redirectInfo[1])))); 
 
     }
 
 
     public function eventConfirmed(): void
     {
-
-
         render('event_confirmed', null, [
             'pageTitle' => 'Booking Confirmed - St. Thomas Events'
         ]);

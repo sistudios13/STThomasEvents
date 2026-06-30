@@ -63,6 +63,7 @@
     <column name="description" phpName="Description" type="VARCHAR" size="500"/>
     <column name="price" phpName="Price" type="CLOB" required="true"/>
     <column name="date" phpName="Date" type="DATETIME" required="true"/>
+    <column name="seating" phpName="Seating" type="BOOLEAN" size="0" required="true" defaultValue="false"/>
     <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>

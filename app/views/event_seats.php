@@ -257,12 +257,12 @@
 
                 <!-- Exit row -->
                 <div class="flex items-center justify-center gap-3 my-2">
-                    <span class="text-[8px] font-bold text-red-400 tracking-widest">EXIT</span>
+                    <span class="text-[8px] font-bold text-red-400 tracking-widest">DOOR</span>
                     <span class="text-red-300 text-[10px]">▲</span>
                     <span class="text-red-300 text-[10px]">▲</span>
                     <span class="text-red-300 text-[10px]">▲</span>
                     <span class="text-red-300 text-[10px]">▲</span>
-                    <span class="text-[8px] font-bold text-red-400 tracking-widest">EXIT</span>
+                    <span class="text-[8px] font-bold text-red-400 tracking-widest">DOOR</span>
                 </div>
 
                 <!-- ══ LOWER SECTION ══ -->
@@ -394,9 +394,24 @@
             canvas() { return document.getElementById('canvas') },
 
             /* snap to integer pixels to keep text crisp */
+            clampPan() {
+                const vp = this.vp(), c = this.canvas()
+                if (!vp || !c) return
+                const vw = vp.clientWidth, vh = vp.clientHeight
+                const cw = c.scrollWidth * this.scale
+                const ch = c.scrollHeight * this.scale
+                const minX = Math.min(0, (vw - cw - 250))
+                const maxX = Math.max(0, (vw - cw + 250))
+                const minY = Math.min(0, (vh - ch - 250))
+                const maxY = Math.max(0, (vh - ch + 250))
+                this.tx = Math.max(minX, Math.min(maxX, this.tx))
+                this.ty = Math.max(minY, Math.min(maxY, this.ty))
+            },
+
             apply() {
                 const c = this.canvas()
                 if (!c) return
+                this.clampPan()
                 const x = Math.round(this.tx)
                 const y = Math.round(this.ty)
                 c.style.transform = `translate(${x}px,${y}px) scale(${this.scale})`
@@ -412,6 +427,7 @@
                     this.scale = s
                     this.tx = Math.round((vw - cw * s) / 2)
                     this.ty = Math.round((vh - ch * s) / 2)
+                    this.clampPan()
                     this.apply()
                 })
             },
@@ -425,6 +441,7 @@
                 this.tx = Math.round(cx - r * (cx - this.tx))
                 this.ty = Math.round(cy - r * (cy - this.ty))
                 this.scale = ns
+                this.clampPan()
                 this.apply()
             },
 
@@ -450,6 +467,7 @@
                 const ny = e.clientY - this._ps.y
                 if (Math.abs(nx - this.tx) > 3 || Math.abs(ny - this.ty) > 3) this._didMove = true
                 this.tx = nx; this.ty = ny
+                this.clampPan()
                 this.apply()
             },
             onMU() { this.panning = false },
@@ -497,6 +515,7 @@
                     this.tx = Math.round(mid.x - r * (mid.x - this.tx))
                     this.ty = Math.round(mid.y - r * (mid.y - this.ty))
                     this.scale = ns
+                    this.clampPan()
                     this.apply()
                 }
             },

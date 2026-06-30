@@ -18,7 +18,12 @@ class EventService
         return $this->eventRepository->findAll();
     }
 
-    public function getEventById(int $id): ?array
+    public function getSeatedEventById(int $id): ?array // With Seatmap
+    {
+        return $this->eventRepository->findSeatedById($id);
+    }
+
+    public function getEventById(int $id): ?array // with or without seatmap
     {
         return $this->eventRepository->findById($id);
     }

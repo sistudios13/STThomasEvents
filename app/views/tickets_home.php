@@ -18,12 +18,24 @@
     <div class="flex flex-col gap-12">
         <div>
             <h1 class="text-4xl font-bold text-gray-900 mb-4">My Tickets</h1>
-            <p class="text-pretty">Hi, <?= htmlspecialchars($data['Name']) ?>! You can view your seats and ticket below. Payment takes place at the door. <br><br> <b>You only have to scan one code/ticket at the door to check your whole group in!</b></p>
+            <p class="text-pretty">Hi, <?= htmlspecialchars($data['Name']) ?>! You can view your seats and tickets below. <br> <b>REMEMBER: Payment takes place at the door. Cash Only!</b> </p>
         </div>
         <div>
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Event Details</h2>
             <p class="text-gray-600 mb-2"><span class="font-semibold">Event:</span> <?= htmlspecialchars($data['Events.Name']) ?></p>
-            <p class="text-gray-600 mb-4"><span class="font-semibold">Date & Time:</span> <?= date('F j, Y \a\t g:i A', strtotime($data['Events.Date'])) ?></p>
+            <p class="text-gray-600 mb-2"><span class="font-semibold">Date & Time:</span> <?= date('F j, Y \a\t g:i A', strtotime($data['Events.Date'])) ?></p>
+            
+             <div class="mb-4 w-48">
+                <p class="text-gray-600 font-semibold">Pricing:</p>
+                 <?php
+                 $prices = json_decode($data['Events.Price'], true);
+                 foreach ($prices as $type => $price): ?>
+                            <div class="flex justify-between text-gray-600">
+                                <span><?= htmlspecialchars($type) ?></span>
+                                <span class="font-medium">$<?= htmlspecialchars($price) ?></span>
+                            </div>
+                        <?php endforeach; ?>
+             </div>
             <div title="Add to Calendar" class="addeventatc bg-green-600 shadow-sm text-white rounded hover:bg-green-700" style="z-index: 1">
                 <div class="flex gap-2 items-center">
                     <svg class="w-7 h-7 text-white inline" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

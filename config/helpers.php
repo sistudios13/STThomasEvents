@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Propel\Runtime\ActiveQuery\Criteria;
+
 if (!function_exists('basePath')) {
 
     function basePath(): string
@@ -84,9 +86,13 @@ if (!function_exists('basePath')) {
 
         if (date('Y-m-d H:i:s') >= $_SESSION['reservation_expires']) {
             session_unset();
-            $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at <= NOW()");
-            $stmt->execute();
-            $stmt->close();
+            // $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at <= NOW()");
+            // $stmt->execute();
+            // $stmt->close();
+
+            $session = new ReservationSessionsQuery();
+            $session->filterByExpiresAt(date('Y-m-d H:i:s'), Criteria::LESS_EQUAL);
+            $session->delete();
             return false;
         }
 
@@ -101,9 +107,14 @@ if (!function_exists('basePath')) {
 
         if (date('Y-m-d H:i:s') >= $_SESSION['code_expires_at']) {
             session_unset();
-            $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at <= NOW() AND email_verified = 0");
-            $stmt->execute();
-            $stmt->close();
+            // $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at <= NOW() AND email_verified = 0");
+            // $stmt->execute();
+            // $stmt->close();
+
+            $session = new BookingSessionsQuery();
+            $session->filterByCodeExpiresAt(date('Y-m-d H:i:s'), Criteria::LESS_EQUAL);
+            $session->filterByEmailVerified(false);
+            $session->delete();
             return false;
         }
 
@@ -112,10 +123,14 @@ if (!function_exists('basePath')) {
 
     function cancelReservation(): void
     {
-        $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE token = ?");
-        $stmt->bind_param("s", $_SESSION['reservation_token']);
-        $stmt->execute();
-        $stmt->close();
+        // $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE token = ?");
+        // $stmt->bind_param("s", $_SESSION['reservation_token']);
+        // $stmt->execute();
+        // $stmt->close();
+
+        $session = new ReservationSessionsQuery();
+        $session->filterByToken($_SESSION['reservation_token']);
+        $session->delete();
         session_destroy();
     }
 

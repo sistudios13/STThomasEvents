@@ -19,13 +19,6 @@ class ExportService
     public function ticketsToPdf($reference): string
     {
 
-        // $tickets = [
-        //     ['seat' => 'A12', 'token' => 'TK-83HD92', 'name' => 'John Doe'],
-        //     ['seat' => 'A13', 'token' => 'TK-18SK21', 'name' => 'John Doe'],
-        //     ['seat' => 'A14', 'token' => 'TK-72PQ11', 'name' => 'John Doe'],
-        //     ['seat' => 'A14', 'token' => 'TK-72PQ11', 'name' => 'John Doe'],
-        //     ['seat' => 'A14', 'token' => 'TK-72PQ11', 'name' => 'John Doe'],
-        // ];
         
         $booking = $this->ticketsRepository->getBookingDataByCode($reference);
         $tickets = $this->ticketsRepository->getTicketDataByCode($reference);

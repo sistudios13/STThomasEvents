@@ -48,6 +48,23 @@ class InitialController
 
 
 
+    public function eventPassed(): void
+    {
+        render('event_passed', null, [
+            'pageTitle' => 'Event Passed - St. Thomas Events',
+
+        ]);
+    }
+
+    public function support(): void
+    {
+        render('support', 'main', [
+            'pageTitle' => 'Support - St. Thomas Events',
+        ]);
+    }
+
+
+
 
 
 }

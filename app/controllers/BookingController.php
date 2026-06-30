@@ -41,7 +41,7 @@ class BookingController
 
 
 
-        $event = $this->eventService->getEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404'));
@@ -74,7 +74,7 @@ class BookingController
             exit;
         }
 
-        $event = $this->eventService->getEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(intval($id));
 
         if (!$event) {
             http_response_code(404);
@@ -126,7 +126,7 @@ class BookingController
             exit;
         }
 
-        $event = $this->eventService->getEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
             header('HX-Redirect: ' . url('/404'));
