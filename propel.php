@@ -7,7 +7,7 @@ return [
                 'stthomas-events' => [
                     'adapter'    => 'mysql',
                     'classname'  => 'Propel\Runtime\Connection\DebugPDO',
-                    'dsn'        => 'mysql:host=localhost;dbname=stthomas_events',
+                    'dsn'        => 'mysql:host=127.0.0.1;dbname=stthomas_events',
                     'user'       => 'root',
                     'password'   => '',
                     'attributes' => []

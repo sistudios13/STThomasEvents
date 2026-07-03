@@ -1,8 +1,10 @@
-RewriteEngine On 
+RewriteEngine On
 
-RewriteRule ^(app|config|core|vendor)(/|$) - [F,L]
+RewriteRule ^(?:app|config|core|vendor|generated-classes|generated-conf|migrations|node_modules|out|\.git|\.idea|\.vscode)(?:/|$) - [F,L]
 
+RewriteRule ^(?:composer\.(?:json|lock)|package(?:-lock)?\.json|schema\.xml|propel\.php|README(?:\.md)?|LICENSE)(?:$) - [F,L]
 
+RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !\.[^./]+$
@@ -13,8 +15,9 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
+ErrorDocument 404 /stthomas-events/404
+ErrorDocument 500 /stthomas-events/500
+ErrorDocument 403 /stthomas-events/403
+ErrorDocument 405 /stthomas-events/405
 
-ErrorDocument 404 /stthomas-tickets/404
-ErrorDocument 500 /stthomas-tickets/500
-ErrorDocument 403 /stthomas-tickets/403
 # CHANGE FOR PROD

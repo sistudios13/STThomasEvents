@@ -1,0 +1,2 @@
+CREATE TABLE `stthomas_events`.`users` (`id` INT NOT NULL AUTO_INCREMENT , `email` VARCHAR(255) NOT NULL , `password_hash` VARCHAR(255) NOT NULL , `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `users` ADD `role` ENUM('staff','admin') NOT NULL AFTER `password_hash`, ADD `name` VARCHAR(255) NOT NULL AFTER `role`;

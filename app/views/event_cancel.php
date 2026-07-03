@@ -65,7 +65,7 @@
                         <ul class="space-y-2 text-gray-400 text-sm">
                             <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                             <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                            <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
+                            <li><a href="<?= url('/staff') ?>" class="hover:text-white transition">Staff</a></li>
                         </ul>
                     </div>
                     <div>

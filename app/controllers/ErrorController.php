@@ -18,7 +18,6 @@ class ErrorController
 
     public function forbidden(): void
     {
-        http_response_code(403);
         render('error/403', null, [
             'pageTitle' => 'Access Denied - St. Thomas Events'
         ]);
@@ -29,6 +28,14 @@ class ErrorController
         http_response_code(500);
         render('error/500', null, [
             'pageTitle' => 'Internal Server Error - St. Thomas Events'
+        ]);
+    }
+
+    public function methodNotAllowed(): void
+    {
+        http_response_code(405);
+        render('error/405', null, [
+            'pageTitle' => 'Method Not Allowed - St. Thomas Events'
         ]);
     }
 }

@@ -62,15 +62,10 @@
             <!-- Mobile Navigation Menu -->
             <div x-show="open" x-cloak x-transition class="md:hidden mt-4 pb-4 border-t border-gray-200">
                 <nav class="flex flex-col items-end gap-3 pt-6">
-                    <?php if (isAdmin()): ?>
-                        <a href="<?= url('/admin/dashboard') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Dashboard</a>
-                        <a href="<?= url('/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Logout</a>
-                    <?php else: ?>
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
                         <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
                         <a href="<?= url('/tickets') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
                         <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                    <?php endif; ?>
                 </nav>
             </div>
         </div>
@@ -104,9 +99,9 @@
                         <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
                         <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
                         <li><a href="<?= url('/tickets') ?>" class="hover:text-white transition">My Tickets</a></li>
-                        <?php if (isAdmin()): ?>
-                            <li><a href="<?= url('/admin') ?>" class="hover:text-white transition">Admins</a></li>
-                        <?php endif; ?>
+
+                            <li><a href="<?= url('/staff') ?>" class="hover:text-white transition">Staff</a></li>
+
                     </ul>
                 </div>
                 <div>

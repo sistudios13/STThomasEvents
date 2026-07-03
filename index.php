@@ -50,11 +50,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
 
 
-
-
     // partial routes
     $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']);
-
 
 
     // post routes todo:RATELIMIT
@@ -69,7 +66,13 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     // error routes
     $r->addRoute('GET', '/404', ['ErrorController', 'notFound']);
     $r->addRoute('GET', '/403', ['ErrorController', 'forbidden']);
+    $r->addRoute('GET', '/405', ['ErrorController', 'MethodNotAllowed']);
     $r->addRoute('GET', '/500', ['ErrorController', 'internalError']);
+
+
+    // auth routes
+    $r->addRoute('GET', '/login', ['AuthController', 'login']);
+    $r->addRoute('POST', '/auth/login', ['AuthController', 'authenticate']);
 
     //staff routes: add 'staff' to array
 
@@ -85,8 +88,9 @@ switch ($routeInfo[0]) {
         header('Location: ' . $subfolder . '/404');
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        http_response_code(403);
-        header('Location: ' . $subfolder . '/403');
+        http_response_code(405);
+        header('Location: ' . $subfolder . '/405/');
+        header('Allow: ' . implode(', ', $routeInfo[1]));
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];

@@ -104,9 +104,6 @@
         </div>
     </div>
 
-    <div id="spinner" class="hidden fixed top-0 left-0 w-screen h-screen bg-white/60 flex items-center justify-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-    </div>
 
     <script>
         function customSelect() {
