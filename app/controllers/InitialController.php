@@ -37,7 +37,7 @@ class InitialController
         $event = $this->eventService->getEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('Location: ' . url('/404'));
+            header('Location: ' . url('/404/'));
             return;
         }
         render('event_details', 'main', [
@@ -50,16 +50,25 @@ class InitialController
 
     public function eventPassed(): void
     {
+        session_destroy();
         render('event_passed', null, [
             'pageTitle' => 'Event Passed - St. Thomas Events',
 
         ]);
     }
 
-    public function support(): void
+
+    public function privacy(): void
     {
-        render('support', 'main', [
-            'pageTitle' => 'Support - St. Thomas Events',
+        render('privacy', 'main', [
+            'pageTitle' => 'Privacy Policy - St. Thomas Events',
+        ]);
+    }
+
+    public function terms(): void
+    {
+        render('terms', 'main', [
+            'pageTitle' => 'Terms of Service - St. Thomas Events',
         ]);
     }
 

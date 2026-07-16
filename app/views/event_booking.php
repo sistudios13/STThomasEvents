@@ -81,6 +81,9 @@
                         Cancel
                     </a>
                 </div>
+                <div>
+                    <p class="text-xs text-gray-500 mt-4">By clicking "Confirm Booking," you agree to our <a href="<?= url('/terms') ?>" class="text-green-700 hover:underline">Terms of Service</a> and <a href="<?= url('/privacy') ?>" class="text-green-700  hover:underline">Privacy Policy</a>.</p>
+                </div>
             </form>
         </div>
 

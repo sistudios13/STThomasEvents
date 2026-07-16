@@ -24,19 +24,19 @@ class ReservationController
     {
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
+            redirectToUrl(url('/events/' . $id . '/book/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm'));
+            redirectToUrl(url('/events/' . $id . '/confirm/'));
             exit;
         }
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('Location: ' . url('/404'));
+            header('Location: ' . url('/404/'));
             return;
         }
         render('event_seats', 'seats', [
@@ -51,12 +51,12 @@ class ReservationController
     {
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
+            redirectToUrl(url('/events/' . $id . '/book/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm'));
+            redirectToUrl(url('/events/' . $id . '/confirm/'));
             exit;
         }
         //honeypot
@@ -71,7 +71,7 @@ class ReservationController
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('HX-Redirect: ' . url('/404'));
+            header('HX-Redirect: ' . url('/404/'));
             return;
         }
 
@@ -98,7 +98,7 @@ class ReservationController
         $_SESSION['reservation_expires'] = $reservation->expires_at;
         $_SESSION['step'] = 2;
 
-        header('HX-Redirect: ' . url('/events/' . $id . '/book'));
+        header('HX-Redirect: ' . url('/events/' . $id . '/book/'));
         exit;
 
 

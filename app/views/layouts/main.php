@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
+    <meta name="description" content="<?= $pageDescription ?? 'St. Thomas Events is a ticket booking system for various events at St. Thomas High School.' ?>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <script defer src="https://unpkg.com/htmx.org@1.9.3"></script>
     <!-- Icons -->
     <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="<?= url('/assets/favicon.svg') ?>" />
     <link rel="shortcut icon" href="<?= url('/assets/favicon.ico') ?>" />
     <link rel="apple-touch-icon" sizes="180x180" href="<?= url('/assets/apple-touch-icon.png') ?>" />
     <meta name="apple-mobile-web-app-title" content="St. Thomas Events" />
-    <link rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
+    <link fetchpriority="high" rel="manifest" href="<?= url('/assets/site.webmanifest') ?>" />
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 flex flex-col ">
@@ -29,29 +36,26 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="<?= url('/') ?>" class="flex items-center gap-2">
-                        <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-14 md:size-16">
+                        <img src="<?= url('/assets/sttlogo.webp') ?>" alt="Shop Logo" class="size-14 md:size-16">
                         <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Events</span>
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-3">
-                    <?php if (isAdmin()): ?>
-                        <a href="<?= url('/admin/dashboard') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Dashboard</a>
-                        <a href="<?= url('/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Logout</a>
-                    <?php else: ?>
+
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                        <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                        <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                        <a href="<?= url('/tickets') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded hover:text-white hover:bg-green-700' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
+                        <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                        <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                        <a href="<?= url('/tickets/') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded hover:text-white hover:bg-green-700' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
                         <?php if (ticketAuthenticated()): ?>
-                            <a href="<?= url('/tickets/logout') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
+                            <a href="<?= url('/tickets/logout/') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
                             <?php endif; ?>
-                    <?php endif; ?>
+
                 </nav>
 
                 <!-- Mobile Menu Button -->
-                <button @click="open = !open" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
+                <button title="Navigation Button" @click="open = !open" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         <path x-show="open" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -63,9 +67,9 @@
             <div x-show="open" x-cloak x-transition class="md:hidden mt-4 pb-4 border-t border-gray-200">
                 <nav class="flex flex-col items-end gap-3 pt-6">
                         <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                        <a href="<?= url('/events') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                        <a href="<?= url('/tickets') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
-                        <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                        <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                        <a href="<?= url('/tickets/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
+                        <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
                 </nav>
             </div>
         </div>
@@ -97,17 +101,18 @@
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="<?= url('/') ?>" class="hover:text-white transition">Home</a></li>
-                        <li><a href="<?= url('/events') ?>" class="hover:text-white transition">Events</a></li>
-                        <li><a href="<?= url('/tickets') ?>" class="hover:text-white transition">My Tickets</a></li>
-
-                            <li><a href="<?= url('/staff') ?>" class="hover:text-white transition">Staff</a></li>
+                        <li><a href="<?= url('/events/') ?>" class="hover:text-white transition">Events</a></li>
+                        <li><a href="<?= url('/tickets/') ?>" class="hover:text-white transition">My Tickets</a></li>
+                        <li><a href="<?= url('/staff/') ?>" class="hover:text-white transition">Staff</a></li>
 
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Support</h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
-                        <li><a href="<?= url('/support') ?>" class="hover:text-white transition">Support Page</a></li>
+                        <li><a href="<?= url('/support/') ?>" class="hover:text-white transition">Support Page</a></li>
+                        <li><a href="<?= url('/privacy/') ?>" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="<?= url('/terms/') ?>" class="hover:text-white transition">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>

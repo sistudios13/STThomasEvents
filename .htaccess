@@ -19,5 +19,10 @@ ErrorDocument 404 /stthomas-events/404
 ErrorDocument 500 /stthomas-events/500
 ErrorDocument 403 /stthomas-events/403
 ErrorDocument 405 /stthomas-events/405
-
 # CHANGE FOR PROD
+
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp "access plus 1 year"
+</IfModule>

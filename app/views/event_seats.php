@@ -307,7 +307,7 @@
     </div>
 
     <!-- BOOKING BAR -->
-    <div class="bg-white border-t border-gray-100 px-4 py-4">
+    <div class="bg-white sticky bottom-0 border-t w-full border-gray-100 px-4 py-4">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div class="flex flex-wrap gap-2 flex-1 min-w-0 items-center">

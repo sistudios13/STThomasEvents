@@ -4,16 +4,34 @@ declare(strict_types=1);
 
 
 require __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../generated-conf/config.php';
 
-function create_user(string $email, string $password, string $role, string $name) 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../config');
+$dotenv->load();
+
+use Delight\Auth;
+
+
+$db  = new \PDO('mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=utf8mb4', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+$auth = new Auth\Auth($db);
+function create_user(string $email, string $password, string $name) 
 {
-    $user = new Users();
-    $user->setEmail($email);
-    $user->setPasswordHash(password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]));
-    $user->setRole($role);
-    $user->setName($name);
-    $user->save();
+    try {
+        global $auth;
+        $auth->register($email, $password, $name);
+    }
+
+    catch (\Delight\Auth\InvalidEmailException $e) {
+        echo 'Invalid email address';
+    }
+    catch (\Delight\Auth\InvalidPasswordException $e) {
+        echo 'Invalid password';
+    }
+    catch (\Delight\Auth\UserAlreadyExistsException $e) {
+        echo 'User already exists';
+    }
+    catch (\Delight\Auth\TooManyRequestsException $e) {
+        echo 'Too many requests';
+    }
 }
 
-create_user($argv[1], $argv[2], $argv[3], $argv[4]);
+create_user($argv[1], $argv[2], $argv[3]);

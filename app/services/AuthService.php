@@ -2,41 +2,33 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../repositories/AuthRepository.php';
 
 use Respect\Validation\Validator as v;
+use Delight\Auth;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
+$dotenv->load();
 class AuthService
 {
-
-    private AuthRepository $authRepository; 
+    private PDO $db;
+    private Auth\Auth $auth;
 
     public function __construct()
     {
-        $this->authRepository = new AuthRepository();
+        $this->db = new PDO('mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=utf8mb4', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+        $this->auth = new Auth\Auth($this->db);
     }
-    public function authenticate(string $email, string $password): array|false
+    public function authenticate(string $email, string $password): string|true
     {
-
-        if (empty($email) || empty($password)) {
-            return false;
+        try {
+            $this->auth->login($email, $password);
+            return true;
+        } catch (Auth\InvalidEmailException | Auth\InvalidPasswordException) {
+            throw new Error('Incorrect email address or password.');
+        } catch (Auth\EmailNotVerifiedException) {
+            throw new Error('Email address is not verified.');
+        } catch (Auth\TooManyRequestsException) {
+            throw new Error('Too many requests. Please try again later.');
         }
-
-        if (!v::email()->validate($email)) {
-            return false;
-        }
-
-        if (!v::stringType()->length(2, 100)->validate($password)) {
-            return false;
-        }
-
-        $user = $this->authRepository->findByEmail($email);
-
-        if ($user && password_verify($password, $user['PasswordHash'])) {
-            return $user;
-        }
-
-        return false;
-
-
     }
 }

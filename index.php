@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';
+require __DIR__ . '/app/middleware/Auth.php';
 require_once __DIR__ . '/generated-conf/config.php';
 
 
@@ -34,8 +35,11 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/', ['InitialController', 'index']);
     $r->addRoute('GET', '/events', ['InitialController', 'events']);
     $r->addRoute('GET', '/events/{id:\d+}', ['InitialController', 'eventDetails']);
-    $r->addRoute('GET', '/support', ['InitialController', 'support']);
+    $r->addRoute('GET', '/support', ['SupportController', 'support']);
+    $r->addRoute('GET', '/privacy', ['InitialController', 'privacy']);
+    $r->addRoute('GET', '/terms', ['InitialController', 'terms']);
 
+    // booking flow
     $r->addRoute('GET', '/events/{id:\d+}/seats', ['ReservationController', 'eventSeats']);
     $r->addRoute('GET', '/events/{id:\d+}/book', ['BookingController', 'eventBooking']);
     $r->addRoute('GET', '/events/{id:\d+}/expired', ['ReservationController', 'eventExpired']);
@@ -43,23 +47,27 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/events/{id:\d+}/confirm', ['ConfirmationController', 'eventConfirmation']);
     $r->addRoute('GET', '/events/confirmed', ['ConfirmationController', 'eventConfirmed']);
 
+    // tickets view
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
     $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
     $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
     $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
 
-
     // partial routes
     $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']);
 
 
     // post routes todo:RATELIMIT
+    $r->addRoute('POST', '/support/chatbot-request', ['SupportController', 'chatbotRequest']);
+    // booking flow
     $r->addRoute('POST', '/events/{id:\d+}/reserve', ['ReservationController', 'reserveSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/book', ['BookingController', 'bookSeats']);
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
     $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
 
+    
+    // ticekts view
     $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']);
     $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
 
@@ -76,20 +84,22 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
 
     //staff routes: add 'staff' to array
 
+    $r->addRoute('GET', '/staff', ['StaffController', 'dashboard', 'staff']);
 
 });
 
 // Dispatch the request
 $routeInfo = $dispatcher->dispatch($method, $uri);
 
+
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         http_response_code(404);
-        header('Location: ' . $subfolder . '/404');
+        header('Location: ' . url('/404/'));
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         http_response_code(405);
-        header('Location: ' . $subfolder . '/405/');
+        header('Location: ' . url('/405/'));
         header('Allow: ' . implode(', ', $routeInfo[1]));
         break;
     case FastRoute\Dispatcher::FOUND:
@@ -98,6 +108,13 @@ switch ($routeInfo[0]) {
         [$controllerName, $action] = $handler;
         $controllerSubdir = isset($handler[2]) && $handler[2] === 'staff' ? '/staff' : '';
 
+        if (isset($handler[2]) && $handler[2] == 'staff') {
+            if (!staffAuthenticated()) {
+                redirectToUrl(url('/login/'));
+                exit;
+            }
+        }
+
         $controllerFile = __DIR__ . "/app/controllers{$controllerSubdir}/{$controllerName}.php";
         if (file_exists($controllerFile)) {
             require $controllerFile;
@@ -105,7 +122,7 @@ switch ($routeInfo[0]) {
             call_user_func_array([$controller, $action], $vars);
         } else {
             http_response_code(500);
-            header('Location: ' . $subfolder . '/500');
+            header('Location: ' . url('/500/'));
         }
         break;
 }

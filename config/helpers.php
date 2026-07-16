@@ -3,6 +3,13 @@
 declare(strict_types=1);
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Delight\Auth;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
+$dotenv->load();
+
+$db = new PDO('mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=utf8mb4', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+$auth = new Auth\Auth($db);
 
 if (!function_exists('basePath')) {
 
@@ -18,16 +25,6 @@ if (!function_exists('basePath')) {
     function url($path = ''): string
     {
         return BASE_PATH . '/' . ltrim($path, '/');
-    }
-    
-    function isLoggedIn(): bool
-    {
-        return isset($_SESSION['user_id']);
-    }
-
-    function isAdmin(): bool
-    {
-        return isset($_SESSION['user_id']) && $_SESSION['role'] === 'admin';
     }
 
     function ticketAuthenticated(): bool
@@ -86,9 +83,6 @@ if (!function_exists('basePath')) {
 
         if (date('Y-m-d H:i:s') >= $_SESSION['reservation_expires']) {
             session_unset();
-            // $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE expires_at <= NOW()");
-            // $stmt->execute();
-            // $stmt->close();
 
             $session = new ReservationSessionsQuery();
             $session->filterByExpiresAt(date('Y-m-d H:i:s'), Criteria::LESS_EQUAL);
@@ -107,9 +101,6 @@ if (!function_exists('basePath')) {
 
         if (date('Y-m-d H:i:s') >= $_SESSION['code_expires_at']) {
             session_unset();
-            // $stmt = Database::$con->prepare("DELETE FROM booking_sessions WHERE code_expires_at <= NOW() AND email_verified = 0");
-            // $stmt->execute();
-            // $stmt->close();
 
             $session = new BookingSessionsQuery();
             $session->filterByCodeExpiresAt(date('Y-m-d H:i:s'), Criteria::LESS_EQUAL);
@@ -123,14 +114,10 @@ if (!function_exists('basePath')) {
 
     function cancelReservation(): void
     {
-        // $stmt = Database::$con->prepare("DELETE FROM reservation_sessions WHERE token = ?");
-        // $stmt->bind_param("s", $_SESSION['reservation_token']);
-        // $stmt->execute();
-        // $stmt->close();
-
         $session = new ReservationSessionsQuery();
         $session->filterByToken($_SESSION['reservation_token']);
         $session->delete();
+
         session_destroy();
     }
 
@@ -139,5 +126,11 @@ if (!function_exists('basePath')) {
         header('HX-Redirect: ' . $url);
         header('Location: ' . $url);
         exit;
+    }
+
+    function staffAuthenticated(): bool
+    {   
+        global $auth;
+        return $auth->isLoggedIn();
     }
 }

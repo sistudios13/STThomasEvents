@@ -6,11 +6,19 @@
   "phpmailer/phpmailer": "^7.0",
   "chillerlan/php-qrcode": "^6.0",
   "propel/propel": "~2.0@beta",
-  "dompdf/dompdf": "^3.1"
+  "dompdf/dompdf": "^3.1",
+  "symfony/http-client": "^7.4",
+  "nyholm/psr7": "^1.8",
+  "delight-im/auth": "^9.0"
  },
  "autoload": {
   "classmap": [
    "generated-classes/"
   ]
+ },
+ "config": {
+  "allow-plugins": {
+   "php-http/discovery": true
+  }
  }
 }

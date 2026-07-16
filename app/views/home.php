@@ -2,14 +2,14 @@
 <div class="mb-16">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="order-1">
-            <h1 class="text-5xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                 Welcome to St. Thomas High School Events
             </h1>
             <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                Discover all St. Thomas High School events. From thrilling concerts to spectacular variety shows, find and reserve your front-row seat to unforgettable moments.
+                Discover all St. Thomas High School events. Find and reserve your front-row seat to unforgettable moments.
             </p>
             <div class="flex flex-col sm:flex-row gap-4">
-                <a href="<?= url('/events') ?>" class="inline-flex items-center justify-center px-8 py-4 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition transform shadow-sm">
+                <a href="<?= url('/events') ?>" class="inline-flex items-center justify-center px-8 py-4 bg-green-700 text-white font-semibold rounded hover:bg-green-800 transition transform shadow-sm">
                     Browse Events
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
@@ -23,8 +23,8 @@
         </div>
 
         <div class="order-2 grid grid-cols-2 gap-4">
-            <img class="w-full rounded-lg max-h-96 h-full object-cover" src="<?= url('/assets/img1.jpg') ?>" alt="office content 1">
-            <img class="mt-4 w-full lg:mt-10 rounded-lg max-h-96 h-full aspect-[3/4] object-cover" src="<?= url('/assets/img2.jpg') ?>" alt="office content 2">
+            <img class="w-full rounded-lg max-h-96 h-full object-cover" src="<?= url('/assets/img1.webp') ?>" alt="office content 1">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg max-h-96 h-full aspect-[3/4] object-cover" src="<?= url('/assets/img2.webp') ?>" alt="office content 2">
         </div>
     </div>
 </div>
@@ -33,7 +33,7 @@
     <div class="max-w-3xl mx-auto text-left md:text-center">
         <h2 class="text-4xl font-bold text-gray-900 mb-6 ">What is St. Thomas Events?</h2>
         <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-            This ticket booking system was built as a school project by <a href="https://simonsites.com" target="_blank" class="text-green-800 font-medium hover:text-green-800 transition">Simon Papp</a> to make event organization simpler and more efficient. It allows users to view events, select seats on an interactive map, and reserve tickets in just a few steps.
+            This ticket booking system was built as a school project by <a href="https://simonsites.com" target="_blank" class="text-green-700 font-medium hover:text-green-800 transition">Simon Papp</a> to make event organization simpler and more efficient. It allows users to view events, select seats on an interactive map, and reserve tickets in just a few steps.
             <br><br>
             The goal was to create a modern, user-friendly experience while applying real-world web development concepts.
         </p>

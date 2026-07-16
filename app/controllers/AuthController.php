@@ -26,23 +26,15 @@ class AuthController
         $email = trim($_POST['email']) ?? '';
         $password = trim($_POST['password']) ?? '';
 
-        $user = $this->authService->authenticate($email, $password);
-
-        if (!$user) {
+        try {
+            $this->authService->authenticate($email, $password);
+        } catch (Error $e) {
             http_response_code(401);
-            echo 'Invalid email or password.';
-            return;
-        } 
+            echo $e->getMessage();
+            exit();
+        }
 
-        // success
-        session_regenerate_id(true);
-        $_SESSION['uid'] = $user['Id'];
-        $_SESSION['email'] = $user['Email'];
-        $_SESSION['role'] = $user['Role'];
-        $_SESSION['created_at'] = time();
-        $_SESSION['last_regen'] = time();
-
-        header('HX-Redirect: ' . url('/staff/dashboard'));
+        redirectToUrl(url('/staff/dashboard/'));
         exit();
 
     }

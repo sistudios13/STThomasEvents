@@ -23,24 +23,24 @@ class ConfirmationController
     {
 
         if (!isset($_SESSION['step'])) {
-            redirectToUrl(url('/events/' . $id . '/seats'));
+            redirectToUrl(url('/events/' . $id . '/seats/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
+            redirectToUrl(url('/events/' . $id . '/book/'));
             exit;
         }
 
         if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
+            redirectToUrl(url('/events/' . $id . '/expired/'));
             exit;
         }
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('Location: ' . url('/404'));
+            header('Location: ' . url('/404/'));
             return;
         }
 
@@ -57,24 +57,24 @@ class ConfirmationController
     public function confirmBooking(int|string $id): void
     {
         if (!isset($_SESSION['step'])) {
-            redirectToUrl(url('/events/' . $id . '/seats'));
+            redirectToUrl(url('/events/' . $id . '/seats/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
+            redirectToUrl(url('/events/' . $id . '/book/'));
             exit;
         }
 
         if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
+            redirectToUrl(url('/events/' . $id . '/expired/'));
             exit;
         }
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('HX-Redirect: ' . url('/404'));
+            header('HX-Redirect: ' . url('/404/'));
             return;
         }
 

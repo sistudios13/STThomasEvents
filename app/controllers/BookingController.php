@@ -30,12 +30,12 @@ class BookingController
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm'));
+            redirectToUrl(url('/events/' . $id . '/confirm/'));
             exit;
         }
 
         if (!hasValidReservation()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
+            redirectToUrl(url('/events/' . $id . '/expired/'));
             exit;
         }
 
@@ -44,7 +44,7 @@ class BookingController
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('Location: ' . url('/404'));
+            header('Location: ' . url('/404/'));
             return;
         }
 
@@ -65,12 +65,12 @@ class BookingController
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm'));
+            redirectToUrl(url('/events/' . $id . '/confirm/'));
             exit;
         }
 
         if (!hasValidReservation()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
+            redirectToUrl(url('/events/' . $id . '/expired/'));
             exit;
         }
 
@@ -78,7 +78,7 @@ class BookingController
 
         if (!$event) {
             http_response_code(404);
-            header('HX-Redirect: ' . url('/404'));
+            header('HX-Redirect: ' . url('/404/'));
             return;
         }
 
@@ -106,7 +106,7 @@ class BookingController
         $_SESSION['booking_token'] = $booking->token;
         $_SESSION['code_expires_at'] = $booking->code_expires_at;
 
-        header('HX-Redirect: ' . url('/events/' . $id . '/confirm'));
+        header('HX-Redirect: ' . url('/events/' . $id . '/confirm/'));
     }
 
     public function resendVerification(int|string $id): void // confirmation section but wtv
@@ -117,19 +117,19 @@ class BookingController
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book'));
+            redirectToUrl(url('/events/' . $id . '/book/'));
             exit;
         }
 
         if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired'));
+            redirectToUrl(url('/events/' . $id . '/expired/'));
             exit;
         }
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
             http_response_code(404);
-            header('HX-Redirect: ' . url('/404'));
+            header('HX-Redirect: ' . url('/404/'));
             return;
         }
 

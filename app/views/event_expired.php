@@ -70,6 +70,8 @@
                         <h4 class="font-semibold mb-4">Support</h4>
                         <ul class="space-y-2 text-gray-400 text-sm">
                             <li><a href="<?= url('/support') ?>" class="hover:text-white transition">Support Page</a></li>
+                            <li><a href="<?= url('/privacy') ?>" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="<?= url('/terms') ?>" class="hover:text-white transition">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>
