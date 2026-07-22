@@ -2,20 +2,24 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/vendor/autoload.php'; // Composer autoload
-require __DIR__ . '/config/helpers.php';
-require __DIR__ . '/app/middleware/Auth.php';
-require_once __DIR__ . '/generated-conf/config.php';
-
-
-session_start();
-verify_csrf();
+namespace App;
 
 ini_set('display_errors', 1);
 
+use FastRoute;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+use App\Controllers;
 
+require __DIR__ . '/vendor/autoload.php'; // Composer autoload
+require __DIR__ . '/config/helpers.php';
+require_once __DIR__ . '/generated-conf/config.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+verify_csrf();
 
 
 $subfolder = '/stthomas-events';
@@ -23,7 +27,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Remove subfolder from URI
 if (strpos($uri, $subfolder) === 0) {
-    $uri = substr($uri, strlen($subfolder));
+    $uri = substr($uri, \strlen($subfolder));
 }
 $uri = '/' . trim($uri, '/'); // normalize
 
@@ -81,10 +85,13 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     // auth routes
     $r->addRoute('GET', '/login', ['AuthController', 'login']);
     $r->addRoute('POST', '/auth/login', ['AuthController', 'authenticate']);
+    $r->addRoute('GET', '/auth/logout', ['AuthController', 'logout']);
 
     //staff routes: add 'staff' to array
 
-    $r->addRoute('GET', '/staff', ['StaffController', 'dashboard', 'staff']);
+    $r->addRoute('GET', '/staff', ['StaffController', 'index', 'staff']);
+    $r->addRoute('GET', '/staff/dashboard', ['StaffController', 'dashboard', 'staff']);
+    $r->addRoute('GET', '/staff/settings', ['StaffController', 'settings', 'staff']);
 
 });
 
@@ -107,6 +114,10 @@ switch ($routeInfo[0]) {
         $vars = $routeInfo[2];
         [$controllerName, $action] = $handler;
         $controllerSubdir = isset($handler[2]) && $handler[2] === 'staff' ? '/staff' : '';
+        $controllerNamespace = isset($handler[2]) && $handler[2] === 'staff'
+            ? 'App\\Staff\\Controllers'
+            : 'App\\Controllers';
+        $controllerClass = $controllerNamespace . '\\' . $controllerName;
 
         if (isset($handler[2]) && $handler[2] == 'staff') {
             if (!staffAuthenticated()) {
@@ -118,8 +129,8 @@ switch ($routeInfo[0]) {
         $controllerFile = __DIR__ . "/app/controllers{$controllerSubdir}/{$controllerName}.php";
         if (file_exists($controllerFile)) {
             require $controllerFile;
-            $controller = new $controllerName();
-            call_user_func_array([$controller, $action], $vars);
+            $controller = new $controllerClass();
+            \call_user_func_array([$controller, $action], $vars);
         } else {
             http_response_code(500);
             header('Location: ' . url('/500/'));

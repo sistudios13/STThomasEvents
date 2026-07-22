@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
-require_once __DIR__ . '/../services/ExportService.php';
+use App\Services\ExportService;
+
 require __DIR__ . '/../../config/helpers.php';
 
 
@@ -24,7 +26,7 @@ class ExportController
         }
         try {
             $pdf = $this->exportService->ticketsToPdf($reference);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             http_response_code(500);
             echo $exception->getMessage();
             return;
@@ -34,7 +36,7 @@ class ExportController
 
         header('Content-Disposition: attachment; filename="tickets.pdf"');
 
-        header('Content-Length: ' . strlen($pdf));
+        header('Content-Length: ' . \strlen($pdf));
 
         echo $pdf;
         exit;

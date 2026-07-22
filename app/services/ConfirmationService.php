@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+namespace App\Services;
 
-require_once __DIR__ . '/../models/Bookings.php';
-require_once __DIR__ . '/../repositories/ConfirmationRepository.php';
-require_once __DIR__ . '/ExportService.php';
-require_once __DIR__ . '/EmailService.php';
+use Dotenv;
+use App\Repositories\ConfirmationRepository;
+use App\Services\EventService;
+use App\Services\ExportService;
+use App\Services\EmailService;
+
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
 $dotenv->load();
@@ -39,11 +40,11 @@ class ConfirmationService
         $code = $this->confirmationRepository->getCodeByToken($event_id, $booking_token);
 
         if ($code == null) {
-            throw new InvalidArgumentException("No booking session found, something went wrong.");
+            throw new \InvalidArgumentException("No booking session found, something went wrong.");
         }
 
         if (intval($code) != intval($enterred_code)) {
-            throw new InvalidArgumentException("Invalid verification code.");
+            throw new \InvalidArgumentException("Invalid verification code.");
         }
 
         //more validation maybe?
@@ -51,7 +52,7 @@ class ConfirmationService
         $SID = $this->confirmationRepository->getSIDByToken($event_id, $booking_token);
 
         if ($SID == null) {
-            throw new InvalidArgumentException("No booking session found, something went wrong.");
+            throw new \InvalidArgumentException("No booking session found, something went wrong.");
         }
 
 
@@ -68,6 +69,8 @@ class ConfirmationService
 
         $pdfOutput = $this->exportService->ticketsToPdf($reference);
 
+        $url = \App\Config\Settings::APP_URL . "tickets/?code=" . $reference . "&email=" . urlencode($email);
+
         $sent = $this->emailService->sendEmail(
             $email,
             $name,
@@ -78,7 +81,7 @@ class ConfirmationService
             <p>Your tickets for {$event_name} are confirmed. Your tickets reference code is:</p>
             <h2>{$reference}</h2>
             <p>You can use this code to log into the tickets page and view your tickets.</p>
-            <p>Log in here: <a href='localhost/tickets/'>localhost/tickets/?code={$reference}</a></p> 
+            <p>Log in here: <a href='{$url}'>{$url}</a></p> 
             <br>
             <p>Thank you for booking with St. Thomas Events!</p>
             <hr>
@@ -89,7 +92,7 @@ class ConfirmationService
         );
 
         if (!$sent) {
-            throw new InvalidArgumentException('Failed to send confirmation email. Please try again later.');
+            throw new \InvalidArgumentException('Failed to send confirmation email. Please try again later.');
         }
     }
 

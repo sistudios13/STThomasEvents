@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
 require __DIR__ . '/../../config/helpers.php';
 

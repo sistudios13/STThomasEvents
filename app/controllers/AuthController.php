@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
+
 require __DIR__ . '/../../config/helpers.php';
-require_once __DIR__ . '/../services/AuthService.php';
+
+use App\Services\AuthService;
 
 class AuthController
 {   
@@ -25,17 +28,28 @@ class AuthController
     {
         $email = trim($_POST['email']) ?? '';
         $password = trim($_POST['password']) ?? '';
+        $remember = isset($_POST['remember']) && $_POST['remember'] === 'on';
 
         try {
-            $this->authService->authenticate($email, $password);
-        } catch (Error $e) {
+            $this->authService->authenticate($email, $password, $remember);
+        } catch (\Error $e) {
             http_response_code(401);
             echo $e->getMessage();
             exit();
         }
 
-        redirectToUrl(url('/staff/dashboard/'));
+        header('HX-Redirect: ' . url('/staff/dashboard/'));
         exit();
 
+    }
+
+    public function logout(): void
+    {
+        if (staffAuthenticated()) {
+            $this->authService->logout();
+        }
+
+        header('Location: ' . url('/login/'));
+        exit();
     }
 }

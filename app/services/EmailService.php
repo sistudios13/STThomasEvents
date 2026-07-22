@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Services;
+
+use Dotenv;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 

@@ -2,7 +2,14 @@
 
 declare(strict_types=1);
 
+namespace App\Repositories;
+
 use Propel\Runtime\ActiveQuery\Criteria;
+use App\Models\Booking;
+use BookingSessionsQuery;
+use BookingSessions;
+use Bookings;
+use ReservationSessionsQuery;
 class BookingRepository
 {
 

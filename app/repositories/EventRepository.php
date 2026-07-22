@@ -2,8 +2,13 @@
 
 declare(strict_types=1);
 
+namespace App\Repositories;
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use EventsQuery;
+use ReservationsQuery;
+USE BookingsQuery;
+
 
 
 class EventRepository
@@ -12,7 +17,7 @@ class EventRepository
     {
 
         $events = EventsQuery::create()
-            ->filterByDate(['min' => new DateTime('+30 minutes')])
+            ->filterByDate(['min' => new \DateTime('+30 minutes')])
             ->orderByDate(Criteria::ASC)
             ->find();
 
@@ -23,7 +28,7 @@ class EventRepository
     {
         $event = EventsQuery::create()
             ->filterById($id)
-            ->filterByDate(['min' => new DateTime('+30 minutes')])
+            ->filterByDate(['min' => new \DateTime('+30 minutes')])
             ->filterBySeating(true)
             ->findOne();
 
@@ -34,7 +39,7 @@ class EventRepository
     {
         $event = EventsQuery::create()
             ->filterById($id)
-            ->filterByDate(['min' => new DateTime('+30 minutes')])
+            ->filterByDate(['min' => new \DateTime('+30 minutes')])
             ->findOne();
 
         return $event ? $event->toArray() : null;

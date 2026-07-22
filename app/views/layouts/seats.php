@@ -75,7 +75,7 @@
                 <div>
                     <div class="flex items-center gap-2 mb-4">
                         <div href="<?= url('/') ?>" class="flex items-center gap-2">
-                            <img src="<?= url('/assets/sttlogo.png') ?>" alt="Shop Logo" class="size-16">
+                            <img src="<?= url('/assets/sttlogo.png') ?>" alt="St. Thomas Events Logo" class="size-16">
                             <span class="text-lg leading-5 font-bold text-white">St. Thomas <br> Events</span>
                         </div>
                     </div>

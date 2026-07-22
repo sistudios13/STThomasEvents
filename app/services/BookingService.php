@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-use Respect\Validation\Validator as v;
+namespace App\Services;
 
+use Respect\Validation\Validator as v;
+use App\Repositories\BookingRepository;
+use App\Services\EventService;
+use App\Services\EmailService;
+use App\Models\Booking;
+use Dotenv;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
 $dotenv->load();
 
-require_once __DIR__ . '/../models/Bookings.php';
-require_once __DIR__ . '/../repositories/BookingRepository.php';
-require_once __DIR__ . '/EmailService.php';
 
 
 class BookingService
@@ -33,37 +33,38 @@ class BookingService
     {
         // Check if email already exists for the event
         if ($this->bookingRepository->emailExists($email, $event_id)) {
-            throw new InvalidArgumentException('Email already used for this event.');
+            throw new \InvalidArgumentException('Email already used for this event.');
         }
 
-        if (!in_array($role, ['student', 'parent', 'teacher', 'other'])) {
-            throw new InvalidArgumentException('Invalid role selected.');
+        if (!\in_array($role, ['student', 'parent', 'teacher', 'other'])) {
+            throw new \InvalidArgumentException('Invalid role selected.');
         }
 
         if ($role == '') {
-            throw new InvalidArgumentException('Role is required.');
+            throw new \InvalidArgumentException('Role is required.');
         }
 
         if (!v::email()->validate($email)) {
-            throw new InvalidArgumentException('Invalid email format.');
+            throw new \InvalidArgumentException('Invalid email format.');
         }
 
         if (!v::regex('/^\(\d{3}\) \d{3}-\d{4}$/')->validate($phone)) {
-            throw new InvalidArgumentException('Invalid phone number format. Expected format: (999) 999-9999.');
+            throw new \InvalidArgumentException('Invalid phone number format. Expected format: (999) 999-9999.');
         }
 
-        if (!v::between(2, 100)->validate(strlen($name))) {
-            throw new InvalidArgumentException('Name must be between 2 and 100 characters long.');
+        if (!v::between(2, 100)->validate(\strlen($name))) {
+            throw new \InvalidArgumentException('Name must be between 2 and 100 characters long.');
         }
 
-        if (!v::between(5, 200)->validate(strlen($email))) {
-            throw new InvalidArgumentException('Email must be between 5 and 200 characters long.');
+
+        if (!v::between(5, 200)->validate(\strlen($email))) {
+            throw new \InvalidArgumentException('Email must be between 5 and 200 characters long.');
         }
 
         $seats = $this->eventService->getSeatsByToken($event_id, $_SESSION['reservation_token']);
 
-        if (count($seats) == 0) {
-            throw new InvalidArgumentException('No seats reserved for booking.');
+        if (\count($seats) == 0) {
+            throw new \InvalidArgumentException('No seats reserved for booking.');
         }
 
         $booking = new Booking($event_id, $seats, $name, $email, $phone, $role);
@@ -107,7 +108,7 @@ class BookingService
         );
 
         if (!$sent) {
-            throw new InvalidArgumentException('Failed to send confirmation email. Please try again later.');
+            throw new \InvalidArgumentException('Failed to send confirmation email. Please try again later.');
         }
 
 
@@ -118,7 +119,7 @@ class BookingService
         $info = $this->bookingRepository->getResendInfoByToken($token);
 
         if (empty($info)) {
-            throw new InvalidArgumentException('Could not find booking. Something went wrong.');
+            throw new \InvalidArgumentException('Could not find booking. Something went wrong.');
 
         }
         return $info;

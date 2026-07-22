@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Services;
+
 use Symfony\Component\HttpClient\HttpClient;
+use Dotenv;
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
 $dotenv->load();

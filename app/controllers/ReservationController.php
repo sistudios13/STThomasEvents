@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
-require_once __DIR__ . '/../models/Reservations.php';
-require_once __DIR__ . '/../services/ReservationService.php';
-require_once __DIR__ . '/../services/EventService.php';
+use App\Services\EventService;
+use App\Services\ReservationService;
+
 require __DIR__ . '/../../config/helpers.php';
 
 
@@ -87,8 +88,8 @@ class ReservationController
         $seats = explode(',', $_POST['seats']);
 
         try {
-            $reservation = $this->reservationService->reserveSeats(intval($id), $seats);
-        } catch (Exception $exception) {
+            $reservation = $this->reservationService->reserveSeats(\intval($id), $seats);
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;

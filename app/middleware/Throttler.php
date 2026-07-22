@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Middleware;
+use AttemptLimits;
+use AttemptLimitsQuery;
+
 class AttemptLimiter
 {
     protected $con;

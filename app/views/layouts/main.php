@@ -36,7 +36,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="<?= url('/') ?>" class="flex items-center gap-2">
-                        <img src="<?= url('/assets/sttlogo.webp') ?>" alt="Shop Logo" class="size-14 md:size-16">
+                        <img src="<?= url('/assets/sttlogo.webp') ?>" alt="St. Thomas Events Logo" class="size-14 md:size-16">
                         <span class="text-lg leading-5 font-bold text-gray-900">St. Thomas <br> Events</span>
                     </a>
                 </div>

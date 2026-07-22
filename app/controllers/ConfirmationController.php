@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
-require_once __DIR__ . '/../models/Reservations.php';
-require_once __DIR__ . '/../services/ConfirmationService.php';
-require_once __DIR__ . '/../services/EventService.php';
+use App\Services\ConfirmationService;
+use App\Services\EventService;
+
+
 require __DIR__ . '/../../config/helpers.php';
 
 class ConfirmationController
@@ -97,15 +99,15 @@ class ConfirmationController
         //ratelimit
 
         try {
-            $redirectInfo = $this->confirmationService->confirmBooking(intval($id), $_SESSION['booking_token'], $code);
-        } catch (Exception $exception) {
+            $redirectInfo = $this->confirmationService->confirmBooking(\intval($id), $_SESSION['booking_token'], $code);
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;
         }
 
         session_unset();
-        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(strval($redirectInfo[0])) . '&email=' . htmlspecialchars(strval($redirectInfo[1])))); 
+        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(\strval($redirectInfo[0])) . '&email=' . htmlspecialchars(strval($redirectInfo[1])))); 
 
     }
 

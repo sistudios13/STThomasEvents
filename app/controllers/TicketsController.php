@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers; 
 
-require_once __DIR__ . '/../services/TicketsService.php';
+use App\Services\TicketsService;
+
 require __DIR__ . '/../../config/helpers.php';
 
 
@@ -41,7 +43,7 @@ class TicketsController
         }
         try {
             $auth = $this->ticketsService->authenticateTickets($email, $code);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             http_response_code(400);
             echo $e->getMessage();
             return;
@@ -67,7 +69,7 @@ class TicketsController
 
         try {
             $data = $this->ticketsService->getBookingDataByCode($code);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             header('Location: ' . url('/tickets/'));
             exit;
         }
@@ -77,7 +79,7 @@ class TicketsController
             exit;
         }
 
-        if (new DateTime($data['Events.Date']) < new DateTime('+30 minutes')) {
+        if (new \DateTime($data['Events.Date']) < new \DateTime('+30 minutes')) {
             header('Location: ' . url('/events/passed/'));
             exit;
         }
@@ -99,7 +101,7 @@ class TicketsController
         try {
             $tickets = $this->ticketsService->getTicketDataByCode($code);
             $booking = $this->ticketsService->getBookingDataByCode($code);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             http_response_code(400);
             echo $e->getMessage();
             
@@ -116,7 +118,7 @@ class TicketsController
         }
         try {
             $this->ticketsService->removeSeatFromBooking($code, $seat);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;
@@ -130,7 +132,7 @@ class TicketsController
     public function logout(): void
     {
         session_destroy();
-        redirectToUrl($referer = $_SERVER['HTTP_REFERER'] ?? url('/tickets/'));
+        redirectToUrl($_SERVER['HTTP_REFERER'] ?? url('/tickets/'));
         exit;
     }
 

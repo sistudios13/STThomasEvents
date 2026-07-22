@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../repositories/EventRepository.php';
+namespace App\Services;
+
+use App\Repositories\EventRepository;
 
 class EventService
 {

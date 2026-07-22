@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+
+namespace App\Models;
 class Booking
 {
     public int $event_id;
@@ -38,7 +40,7 @@ class Booking
     $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
     $code = '';
-    $maxIndex = strlen($alphabet) - 1;
+    $maxIndex = \strlen($alphabet) - 1;
 
     for ($i = 0; $i < $length; $i++) {
         $index = random_int(0, $maxIndex);

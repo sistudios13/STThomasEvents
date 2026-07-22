@@ -23,7 +23,12 @@
 
             </div>
 
-            <div class="flex gap-3 mt-8">
+            <div class="flex justify-between gap-3 mt-8">
+                <!-- Remember me -->
+                <div class="flex items-center">
+                    <input type="checkbox" name="remember" id="remember" class="text-green-600 size-4 focus:ring-green-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
+                </div>
                 <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
                     Sign In
                 </button>

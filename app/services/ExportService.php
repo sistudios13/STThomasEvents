@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use Dompdf\Dompdf;
+namespace App\Services;
 
-require_once __DIR__ .'/../repositories/TicketsRepository.php';
+use Dompdf\Dompdf;
+use App\Repositories\TicketsRepository;
 
 
 class ExportService

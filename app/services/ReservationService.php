@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../models/Reservations.php';
-require_once __DIR__ . '/../repositories/ReservationRepository.php';
+namespace App\Services;
 
+use App\Repositories\ReservationRepository;
+use App\Repositories\EventRepository;
+use App\Models\Reservation;
 
 class ReservationService
 {
@@ -47,11 +49,11 @@ class ReservationService
     private function validateSeatSelection(array $seats): void
     {
         if (empty($seats)) {
-            throw new InvalidArgumentException('No seats selected!');
+            throw new \InvalidArgumentException('No seats selected!');
         }
 
-        if (count($seats) > 6) {
-            throw new InvalidArgumentException('You cannot book more than 6 seats at once!');
+        if (\count($seats) > 6) {
+            throw new \InvalidArgumentException('You cannot book more than 6 seats at once!');
         }
     }
 
@@ -73,7 +75,7 @@ class ReservationService
         foreach ($seats as $seat) {
             if (!$this->seatExists($seat)) {
                 http_response_code(400);
-                throw new InvalidArgumentException("Seat {$seat} does not exist!");
+                throw new \InvalidArgumentException("Seat {$seat} does not exist!");
             }
         }
     }
@@ -83,7 +85,7 @@ class ReservationService
         foreach ($seats as $seat) {
             if (!$this->isSeatAvailable($event_id, $seat)) {
                 http_response_code(400);
-                throw new InvalidArgumentException("Seat {$seat} is not available! Try refreshing the page.");
+                throw new \InvalidArgumentException("Seat {$seat} is not available! Try refreshing the page.");
             }
         }
     }

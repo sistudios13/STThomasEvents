@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
-require_once __DIR__ . '/../services/SupportService.php';
-
-
+use App\Services\SupportService;
 
 class SupportController
 {

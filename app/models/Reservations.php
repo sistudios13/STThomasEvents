@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace App\Models;
 class Reservation
 {
     public int $event_id;

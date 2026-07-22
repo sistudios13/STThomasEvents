@@ -1,13 +1,15 @@
 <?php
 
 declare(strict_types=1);
-use Safe\Exceptions\XmlException;
+
+namespace App\Controllers;
+
+use App\Services\BookingService;
+use App\Services\EventService;
+use App\Middleware\AttemptLimiter;
 
 
-require_once __DIR__ . '/../models/Reservations.php';
-require_once __DIR__ . '/../services/BookingService.php';
-require_once __DIR__ . '/../services/EventService.php';
-require_once __DIR__ . '/../middleware/Throttler.php';
+
 require __DIR__ . '/../../config/helpers.php';
 
 class BookingController
@@ -41,7 +43,7 @@ class BookingController
 
 
 
-        $event = $this->eventService->getSeatedEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(\intval($id));
         if (!$event) {
             http_response_code(404);
             header('Location: ' . url('/404/'));
@@ -52,7 +54,7 @@ class BookingController
             'pageTitle' => 'Enter Details - St. Thomas Events',
             'eventData' => $event,
             'step' => 2,
-            'seats' => $this->eventService->getSeatsByToken(intval($id), $_SESSION['reservation_token'])
+            'seats' => $this->eventService->getSeatsByToken(\intval($id), $_SESSION['reservation_token'])
         ]);
     }
 
@@ -74,7 +76,7 @@ class BookingController
             exit;
         }
 
-        $event = $this->eventService->getSeatedEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(\intval($id));
 
         if (!$event) {
             http_response_code(404);
@@ -88,8 +90,8 @@ class BookingController
         $role = trim($_POST['role']);
 
         try {
-            $booking = $this->bookingService->bookSeats(intval($id), $name, $email, $phone, $role);
-        } catch (Exception $exception) {
+            $booking = $this->bookingService->bookSeats(\intval($id), $name, $email, $phone, $role);
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;
@@ -126,7 +128,7 @@ class BookingController
             exit;
         }
 
-        $event = $this->eventService->getSeatedEventById(intval($id));
+        $event = $this->eventService->getSeatedEventById(\intval($id));
         if (!$event) {
             http_response_code(404);
             header('HX-Redirect: ' . url('/404/'));
@@ -148,7 +150,7 @@ class BookingController
 
         try {
             $info = $this->bookingService->getResendInfoByToken($_SESSION['booking_token']);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;
@@ -156,7 +158,7 @@ class BookingController
 
         try {
             $this->bookingService->sendConfirmationEmail($info['Email'], $info['Name'], $info['VerificationCode']);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
             return;

@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Controllers;
 
-require_once __DIR__ . '/../services/EventService.php';
+use App\Services\EventService;
+
 require __DIR__ . '/../../config/helpers.php';
 
 

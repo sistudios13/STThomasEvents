@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Repositories;
+
+use BookingSessionsQuery;
+use BookingsQuery;
+
 class ConfirmationRepository
 {
 
