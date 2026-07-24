@@ -13,7 +13,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
                     <div class="text-sm text-gray-500">Upcoming events</div>
-                    <div class="mt-2 text-2xl font-bold text-gray-900"><?= $stats['upcoming'] ?? '—' ?></div>
+                    <div class="mt-2 text-2xl font-bold text-gray-900"><?= $upcomingCount ?? '—' ?></div>
                 </div>
                 <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
                     <div class="text-sm text-gray-500">Total bookings</div>
@@ -30,11 +30,11 @@
                             <?php foreach ($upcomingEvents as $e): ?>
                                 <li class="flex items-center justify-between p-2 border border-gray-100 rounded">
                                     <div>
-                                        <div class="font-medium text-gray-900"><?= htmlspecialchars($e['title'] ?? $e->getTitle() ?? 'Untitled') ?></div>
-                                        <div class="text-sm text-gray-500"><?= htmlspecialchars($e['starts_at'] ?? $e->getStartsAt() ?? '') ?></div>
+                                        <div class="font-medium text-gray-900"><?= htmlspecialchars($e['Name']  ?? 'Untitled') ?></div>
+                                        <div class="text-sm text-gray-500"><?= htmlspecialchars(date('M j, Y g:i A', strtotime($e['StartsAt']))  ?? '') ?></div>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <a href="<?= url('/staff/events/') ?>" class="text-sm text-indigo-600 hover:underline">Manage</a>
+                                        <a href="<?= url('/staff/events/' . $e['Id'] . '/' ) ?>" class="text-xs text-indigo-600 hover:underline">Manage</a>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
@@ -128,14 +128,12 @@
 <script>
     function bentoCalendar() {
         return {
-            // ----------------------------------------------------------------
-            // 🗓️ EVENTS DATA — populate this to add events.
-            // key format: "YYYY-M-D" (month is 1-indexed, no leading zeros needed)
-            // color options: 'blue' | 'green' | 'amber' | 'rose' | 'violet' | 'teal'
-            // ----------------------------------------------------------------
-            events: {
-                '2026-7-3': [{ title: 'Variety Show', time: '7:00 PM', color: 'blue', eventId: 1 }],
-            },
+
+            // events: {
+            //     '2026-7-3': [{ title: 'Variety Show', time: '7:00 PM', color: 'blue', eventId: 1 }],
+            // },
+
+            events: <?= json_encode($events) ?>,
 
             // ----------------------------------------------------------------
             // state

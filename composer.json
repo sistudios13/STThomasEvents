@@ -15,7 +15,9 @@
     "classmap": [
      "generated-classes/",
      "app/",
-      "config/"
+      "config/",
+      "app/controllers/",
+      "app/services/"
     ]
  },
  "config": {

@@ -20,6 +20,11 @@ class EventService
         return $this->eventRepository->findAll();
     }
 
+    public function getAllCurrentEvents(): ?array
+    {
+        return $this->eventRepository->findAllCurrent();
+    }
+
     public function getSeatedEventById(int $id): ?array // With Seatmap
     {
         return $this->eventRepository->findSeatedById($id);

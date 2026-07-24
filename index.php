@@ -9,7 +9,6 @@ ini_set('display_errors', 1);
 use FastRoute;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
-use App\Controllers;
 
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';

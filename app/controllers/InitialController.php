@@ -30,7 +30,7 @@ class InitialController
     {
         render('events', 'main', [
             'pageTitle' => 'Events - St. Thomas Events',
-            'eventsData' => $this->eventService->getAllEvents()
+            'eventsData' => $this->eventService->getAllCurrentEvents()
         ]);
     }
 

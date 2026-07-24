@@ -17,8 +17,17 @@ class EventRepository
     {
 
         $events = EventsQuery::create()
-            ->filterByDate(['min' => new \DateTime('+30 minutes')])
-            ->orderByDate(Criteria::ASC)
+            ->orderByStartsAt(Criteria::DESC)
+            ->find();
+
+        return $events->toArray() ?: null;
+    }
+    public function findAllCurrent(): ?array
+    {
+
+        $events = EventsQuery::create()
+            ->filterByEndsAt(['min' => new \DateTime])
+            ->orderByStartsAt(Criteria::DESC)
             ->find();
 
         return $events->toArray() ?: null;
@@ -28,7 +37,7 @@ class EventRepository
     {
         $event = EventsQuery::create()
             ->filterById($id)
-            ->filterByDate(['min' => new \DateTime('+30 minutes')])
+            ->filterByStartsAt(['min' => new \DateTime])
             ->filterBySeating(true)
             ->findOne();
 
@@ -39,7 +48,7 @@ class EventRepository
     {
         $event = EventsQuery::create()
             ->filterById($id)
-            ->filterByDate(['min' => new \DateTime('+30 minutes')])
+            ->filterByEndsAt(['min' => new \DateTime])
             ->findOne();
 
         return $event ? $event->toArray() : null;
@@ -105,7 +114,7 @@ class EventRepository
             ->combine(['verified', 'pending'], 'or')
             ->findBySeat($seat);
 
-        return count($reserved) + count($booked) == 0;
+        return \count($reserved) + \count($booked) == 0;
 
 
     }

@@ -79,7 +79,7 @@ class TicketsController
             exit;
         }
 
-        if (new \DateTime($data['Events.Date']) < new \DateTime('+30 minutes')) {
+        if (new \DateTime($data['Events.EndsAt']) < new \DateTime) {
             header('Location: ' . url('/events/passed/'));
             exit;
         }
