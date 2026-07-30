@@ -179,7 +179,7 @@
 <!-- HEADER -->
 <header class="flex-shrink-0 bg-white border-b border-gray-100 py-6 z-10">
     <div class="max-w-7xl mx-auto px-4 md:text-center">
-        <p class="text-sm font-semibold text-gray-500 mb-2">Select your seats</p>
+        <p class="text-sm font-semibold text-gray-500 mb-1">Select your seats for</p>
         <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($eventData['Name']) ?? 'Event' ?></h1>
     </div>
 </header>

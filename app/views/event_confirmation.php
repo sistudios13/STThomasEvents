@@ -18,7 +18,7 @@
         <div class="mb-8">
             <h2 class="text-3xl font-bold text-gray-900 mb-3">Confirm Your Booking</h2>
             <p class="text-gray-600">
-                We sent a 6-digit code to <span class="font-semibold"><?= htmlspecialchars($email ?? 'your email') ?></span>. Enter it below to complete your booking.
+                We sent a 6-digit code to <span class="font-semibold"><?= htmlspecialchars($email ?? 'your email') ?></span>. Enter it below to complete your booking for <span><?= htmlspecialchars($eventData['Name'] ?? 'the event') ?></span>.
             </p>
         </div>
 
@@ -51,7 +51,8 @@
               this.handleSubmit();
             }
           },
-        }" x-ref="twoFactorForm" class="space-y-8" hx-post="<?= url('/events/' . $eventData['Id'] . '/confirm/') ?>">
+          loading: false
+        }" x-ref="twoFactorForm" class="space-y-8" hx-post="<?= url('/events/' . $eventData['Id'] . '/confirm/') ?>" @htmx:before-request="loading = true" @htmx:after-request="loading = false">
             <div>
                 <label class="text-xs font-semibold text-center text-gray-500 uppercase tracking-wide block mb-4">Confirmation Code</label>
                 <div class="flex items-center justify-center gap-3">
@@ -66,19 +67,24 @@
 
             <div>
                 <?= csrf_input() ?>
-                <button x-ref="twoFactorButton" type="submit" class="w-full px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
-                    Verify Code
+                <button x-ref="twoFactorButton" type="submit" :disabled="loading" class="px-6 py-2 w-full bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <svg x-show="loading" x-cloak class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                    <span x-text="loading ? 'Verifying…' : 'Verify Code'"></span>
                 </button>
             </div>
         </form>
 
         <div class="mt-8 text-center text-sm text-gray-600">
-            Haven't received the code?
-            <form hx-post="<?= url('/events/' . $eventData['Id'] . '/resend-verification/') ?>" class="inline" hx-swap="none">
+            
+            <form hx-post="<?= url('/events/' . $eventData['Id'] . '/resend-verification/') ?>" class="inline" hx-swap="none" x-data="{ loading: false }" @htmx:before-request="loading = true" @htmx:after-request="loading = false">
                 <?= csrf_input() ?>
+                <span>Didn't receive the code?</span>
                 <input type="text" disabled value="<?= $email ?? '' ?>" class="hidden">
-                <button type="submit" class="font-semibold text-green-600 hover:text-green-700 transition">
-                    Resend it
+                <button type="submit" :disabled="loading" class="font-semibold text-green-600 inline hover:text-green-700 transition disabled:opacity-70 disabled:cursor-not-allowed items-center justify-center gap-2">
+                    <span x-text="loading ? 'Sending…' : 'Resend it'"></span>
                 </button>
             </form>
         </div>

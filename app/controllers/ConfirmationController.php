@@ -23,6 +23,16 @@ class ConfirmationController
 
     public function eventConfirmation(int|string $id): void
     {
+        //Redirects
+        if (!isset($_SESSION['event_id'])) {
+            redirectToUrl(url('/events/' . $id . '/seats/'));
+            exit;
+        }
+
+        if ($id != $_SESSION['event_id']) {
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/seats/'));
+            exit;
+        }
 
         if (!isset($_SESSION['step'])) {
             redirectToUrl(url('/events/' . $id . '/seats/'));
@@ -30,14 +40,15 @@ class ConfirmationController
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/book/'));
             exit;
         }
 
         if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/expired/'));
             exit;
         }
+
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
@@ -58,20 +69,32 @@ class ConfirmationController
 
     public function confirmBooking(int|string $id): void
     {
+        //Redirects
+        if (!isset($_SESSION['event_id'])) {
+            redirectToUrl(url('/events/' . $id . '/seats/'));
+            exit;
+        }
+
+        if ($id != $_SESSION['event_id']) {
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/seats/'));
+            exit;
+        }
+
         if (!isset($_SESSION['step'])) {
             redirectToUrl(url('/events/' . $id . '/seats/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/book/'));
             exit;
         }
 
         if (!hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/expired/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/expired/'));
             exit;
         }
+
 
         $event = $this->eventService->getSeatedEventById(intval($id));
         if (!$event) {
@@ -96,7 +119,7 @@ class ConfirmationController
 
         $code = intval($code);
 
-        //ratelimit
+        //add ratelimit
 
         try {
             $redirectInfo = $this->confirmationService->confirmBooking(\intval($id), $_SESSION['booking_token'], $code);

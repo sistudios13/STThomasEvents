@@ -22,11 +22,23 @@ $prices = json_decode($eventData['Price'], true);
         </div>
 
         <?php if ($eventData['Seating']): ?>
-            <a href="<?= url('/events/' . $eventData['Id'] . '/seats') ?>" class="inline-block mt-8 <?= $eventData['StartsAt'] > new DateTime ? 'hover:bg-green-700' : 'opacity-50 cursor-not-allowed pointer-events-none' ?> shadow-sm px-6 py-3 bg-green-600 text-white font-semibold rounded  transition">
-                Book Tickets
-            </a>
-            <?= $eventData['StartsAt'] > new DateTime ? '' : '<p class="text-sm text-gray-500 mt-2">*The event is in progress. Booking is unavailable</p>' ?>
-        <?php endif; ?>
+    <?php
+        $startsAt = new DateTime($eventData['StartsAt']);
+        $now = new DateTime();
+        $bookingOpen = $startsAt > $now;
+    ?>
+
+    <a href="<?= url('/events/' . $eventData['Id'] . '/seats') ?>"
+       class="inline-block mt-8 <?= $bookingOpen ? 'hover:bg-green-700' : 'opacity-50 cursor-not-allowed pointer-events-none' ?> shadow-sm px-6 py-3 bg-green-600 text-white font-semibold rounded transition">
+        Book Tickets
+    </a>
+
+    <?php if (!$bookingOpen): ?>
+        <p class="text-sm text-gray-500 mt-2">
+            *This event has started. Booking is unavailable.
+        </p>
+    <?php endif; ?>
+<?php endif; ?>
     </div>
 
     <!-- Info Card -->
@@ -108,7 +120,8 @@ $prices = json_decode($eventData['Price'], true);
 
                 Location
             </h3>
-            <p class="text-gray-700">St. Thomas High School<br>Auditorium<br>111 Broadview Ave</p>
+            <p class="text-gray-700"><?= htmlspecialchars($eventData['Location']) ?></p>
+
         </div>
     </div>
 </div>

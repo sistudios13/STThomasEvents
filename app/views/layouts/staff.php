@@ -38,7 +38,6 @@
         <nav x-cloak class="fixed left-0 z-20 flex h-svh w-60 shrink-0 flex-col border-r border-gray-200 bg-gray-100 p-4 transition-transform duration-300 md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
             <!-- logo  -->
             <a href="#" class="ml-2  w-fit text-2xl font-bold text-gray-900 ">
-                <span class="sr-only">homepage</span>
                 St. Thomas Events
             </a>
 
@@ -111,7 +110,7 @@
         </nav>
 
         <!-- main content  -->
-        <main class="flex-grow py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <main id="main-content" class="flex-grow py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl md:mx-auto">
             <?= $content ?? '' ?>
         </main>
 
@@ -149,9 +148,9 @@
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="<?= url('/staff/dashboard/') ?>" class="hover:text-white transition">Dashboard</a></li>
-                        <li><a href="<?= url('/events/') ?>" class="hover:text-white transition">Events</a></li>
-                        <li><a href="<?= url('/new/') ?>" class="hover:text-white transition">New Event</a></li>
-                        <li><a href="<?= url('/staff/') ?>" class="hover:text-white transition">Settings</a></li>
+                        <li><a href="<?= url('/staff/events/') ?>" class="hover:text-white transition">Events</a></li>
+                        <li><a href="<?= url('staff/events/new/') ?>" class="hover:text-white transition">New Event</a></li>
+                        <li><a href="<?= url('/staff/settings') ?>" class="hover:text-white transition">Settings</a></li>
 
                     </ul>
                 </div>

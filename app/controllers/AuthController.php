@@ -52,4 +52,11 @@ class AuthController
         header('Location: ' . url('/login/'));
         exit();
     }
+
+    public function accountDeleted(): void
+    {
+        render('auth/account_deleted', null, [
+            'pageTitle' => 'Account Deleted - St. Thomas Events'
+        ]);
+    }
 }

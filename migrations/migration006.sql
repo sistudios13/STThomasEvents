@@ -1,0 +1,1 @@
+ALTER TABLE `events` ADD `location` VARCHAR(500) NOT NULL AFTER `seating`;

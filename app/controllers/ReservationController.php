@@ -23,14 +23,14 @@ class ReservationController
 
     public function eventSeats(int|string $id): void
     {
-
+        //Redirects
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/book/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/confirm/'));
             exit;
         }
 
@@ -50,16 +50,18 @@ class ReservationController
 
     public function reserveSeats(int|string $id): void
     {
-
+        //Redirects
         if (isset($_SESSION['step']) && $_SESSION['step'] == 2) {
-            redirectToUrl(url('/events/' . $id . '/book/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/book/'));
             exit;
         }
 
         if (isset($_SESSION['step']) && $_SESSION['step'] == 3) {
-            redirectToUrl(url('/events/' . $id . '/confirm/'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/confirm/'));
             exit;
         }
+
+
         //honeypot
         if (!empty($_POST['name'])) {
             http_response_code(400);
@@ -95,6 +97,7 @@ class ReservationController
             return;
         }
 
+        $_SESSION['event_id'] = $id;
         $_SESSION['reservation_token'] = $reservation->token;
         $_SESSION['reservation_expires'] = $reservation->expires_at;
         $_SESSION['step'] = 2;
@@ -109,13 +112,14 @@ class ReservationController
 
     public function eventExpired(int|string $id): void
     {
+        //Redirects
         if (hasValidReservation()) {
-            redirectToUrl(url('/events/' . $id . '/seats'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/seats'));
             exit;
         }
 
         if (hasValidBooking()) {
-            redirectToUrl(url('/events/' . $id . '/confirm'));
+            redirectToUrl(url('/events/' . $_SESSION['event_id'] . '/confirm'));
             exit;
         }
 
@@ -136,6 +140,7 @@ class ReservationController
     public function cancelReservation(int|string $id): void
     {
 
+        //Redirects
         if (hasValidReservation()) {
             cancelReservation();
         } else {

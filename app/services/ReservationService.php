@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Repositories\ReservationRepository;
 use App\Repositories\EventRepository;
 use App\Models\Reservation;
+use App\Config\Settings;
 
 class ReservationService
 {
@@ -28,7 +29,7 @@ class ReservationService
 
         $reservation = new Reservation($event_id, $seats);
         $reservation->generateToken();
-        $reservation->setExpiry(300); // Reservation valid for 5 minutes
+        $reservation->setExpiry(Settings::HOLD_DURATION); // Reservation valid for 5 minutes
 
         $reservation->session_id = $this->reservationRepository->createSession(
             $reservation->token,

@@ -15,8 +15,11 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <!-- Booking Form -->
         <div class="lg:col-span-2">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">Complete Your Booking</h2>
-            <form hx-post=" <?= url('/events/' . $eventData['Id'] . '/book/') ?>">
+            <div class="pb-8">
+                <p class="text-sm font-semibold text-gray-500 mb-1">Complete your booking for</p>
+                <h1 class="text-3xl font-bold text-gray-900"><?= htmlspecialchars($eventData['Name']) ?? 'Event' ?></h1>
+            </div>
+            <form hx-post="<?= url('/events/' . $eventData['Id'] . '/book/') ?>" x-data="{ loading: false }" @htmx:before-request="loading = true" @htmx:after-request="loading = false">
                 <?= csrf_input() ?>
 
                 <div class="space-y-8">
@@ -74,8 +77,12 @@
                 </div>
 
                 <div class="flex gap-3 mt-8">
-                    <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
-                        Confirm Booking
+                    <button type="submit" :disabled="loading" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        <svg x-show="loading" x-cloak class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        <span x-text="loading ? 'Booking…' : 'Confirm Booking'"></span>
                     </button>
                     <a href="<?= url('/events/' . $eventData['Id'] . '/cancel/') ?>" class="px-6 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-50 transition">
                         Cancel

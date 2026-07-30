@@ -28,7 +28,7 @@ class TicketsRepository
         $session = BookingSessionsQuery::create()
             ->filterByReference($code)
             ->joinWith('Events')
-            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Price', 'Events.Description', 'Events.Date'])
+            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Price', 'Events.Description', 'Events.StartsAt', 'Events.EndsAt', 'Events.Location'])
             ->find();
 
         if ($session->getFirst() === null) {
@@ -43,7 +43,9 @@ class TicketsRepository
 
             'Events.Name' => $session->getFirst()['Events.Name'],
             'Events.Description' => $session->getFirst()['Events.Description'],
-            'Events.Date' => $session->getFirst()['Events.Date'],
+            'Events.StartsAt' => $session->getFirst()['Events.StartsAt'],
+            'Events.EndsAt' => $session->getFirst()['Events.EndsAt'],
+            'Events.Location' => $session->getFirst()['Events.Location'],
             'Events.Price' => $session->getFirst()['Events.Price']
         ];
     }

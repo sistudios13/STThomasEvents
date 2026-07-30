@@ -65,7 +65,7 @@ use chillerlan\QRCode\QRCode;
                             <div x-show="modalOpen" x-trap.inert.noscroll="modalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 -translate-y-2 sm:scale-95" class="relative mx-4 px-7 z-10 py-6 w-full bg-white border shadow-lg border-gray-100 sm:max-w-lg rounded-lg">
                                 <div class="flex justify-between items-center pb-3">
                                     <h3 class="text-lg mr-6 font-semibold">Are you sure you want to cancel this seat?</h3>
-                                    <button @click="modalOpen=false" class="flex  justify-center items-start  w-8 h-8 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
+                                    <button @click="modalOpen=false" class="flex items-center justify-center w-8 h-8 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
@@ -74,7 +74,7 @@ use chillerlan\QRCode\QRCode;
                                 <div class="relative text-gray-700 font-normal pb-8 w-auto">
                                     <p>You are cancelling the seat <span x-text="ticket.seat"></span> from your booking. <b x-text="slides.length === 1 ? 'Your booking will be fully cancelled and deleted, this is your only seat!' : 'This action is irreversible!'"></b></p>
                                 </div>
-                                <div class="flex  flex-row justify-end space-x-2">
+                                <div class="flex flex-row justify-end space-x-2">
                                     <button @click="modalOpen=false" type="button" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium rounded-md border transition-colors focus:outline-none ">Cancel</button>
                                     <button id="deleteBtn" hx-vals="js:{ _csrf : '<?= csrf_token() ?>'}" :hx-post="'<?= url('tickets/') ?>' + ticket.reference + '/remove/' + ticket.seat + '/'" x-effect="htmx.process($el)" hx-swap="none" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium text-white rounded-md border border-transparent transition-colors focus:outline-none bg-red-600 hover:bg-red-700">Cancel Seat</button>
                                 </div>
@@ -97,7 +97,7 @@ use chillerlan\QRCode\QRCode;
                     </div>
                     <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-gray-100">
 
-                        <button class="w-9 h-9 flex items-center justify-center rounded-lg border-2 border-green-600 text-green-700 hover:bg-green-50 active:scale-95 transition-all" aria-label="Previous ticket" x-on:click="previous()">
+                        <button class="w-9 h-9 flex items-center justify-center rounded-md border-2 border-green-600 text-green-700 hover:bg-green-50 active:scale-95 transition-all" aria-label="Previous ticket" x-on:click="previous()">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.5" class="w-4 h-4" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>

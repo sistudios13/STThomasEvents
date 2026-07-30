@@ -9,6 +9,7 @@ use App\Repositories\BookingRepository;
 use App\Services\EventService;
 use App\Services\EmailService;
 use App\Models\Booking;
+use App\Config\Settings;
 use Dotenv;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
@@ -69,7 +70,7 @@ class BookingService
 
         $booking = new Booking($event_id, $seats, $name, $email, $phone, $role);
         $booking->generateOTP();
-        $booking->setExpiry(300); // OTP valid for 5 minutes
+        $booking->setExpiry(Settings::EMAIL_CONFIRMATION_DURATION);
         $booking->generateToken();
         $booking->generateReference();
         $booking->seats = $seats;

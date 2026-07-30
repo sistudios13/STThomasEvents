@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div class="h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
         <h1 class="text-6xl font-bold text-gray-800">405</h1>
         <p class="text-xl text-gray-600 text-center mt-4">Sorry, the method used to access this page is not allowed.</p>
         <a href="<?= url('/') ?>" class="mt-6 inline-block bg-green-600 text-white font-semibold px-6 py-3 rounded-md hover:bg-green-700 transition">Back to Home</a>

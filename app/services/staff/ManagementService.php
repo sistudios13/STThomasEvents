@@ -44,11 +44,14 @@ class ManagementService
         $now = time();
         $oneMonth = strtotime('+1 month', $now);
 
+        if (empty($eventsArray)) {
+            return [];
+        }
         $filtered = array_filter($eventsArray, function ($event) use ($now, $oneMonth) {
             $startsAt = strtotime($event['EndsAt']);
             return $startsAt >= $now && $startsAt <= $oneMonth;
         });
 
-        return $filtered ?: null;
+        return $filtered ?: [];
     }
 }

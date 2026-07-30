@@ -27,7 +27,7 @@ class EventRepository
 
         $events = EventsQuery::create()
             ->filterByEndsAt(['min' => new \DateTime])
-            ->orderByStartsAt(Criteria::DESC)
+            ->orderByStartsAt(Criteria::ASC)
             ->find();
 
         return $events->toArray() ?: null;

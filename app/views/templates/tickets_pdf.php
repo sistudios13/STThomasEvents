@@ -103,7 +103,7 @@ ob_start();
                             </div>
 
                             <div class="subtitle">
-                                <?= htmlspecialchars($booking['Events.Date']) ?>
+                                <?= htmlspecialchars($booking['Events.StartsAt']) ?>
                             </div>
 
                             <div class="seat">
@@ -116,7 +116,8 @@ ob_start();
                             </div>
 
                             <div class="info">
-                                Location: Main Auditorium
+                                Location:
+                                <?= htmlspecialchars($booking['Events.Location']) ?>
                             </div>
 
                             <div class="qr">

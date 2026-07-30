@@ -1,5 +1,5 @@
 
-# STThomasEvents
+# St. Thomas Events
 
 This ticket booking system was built as a school project to make event organization simpler and more efficient more my high school. It allows parents and students to view events, select seats on an interactive map, and reserve tickets in just a few steps. The teachers and admins can easily manage the events, and check tickets at the door.
 ## Live Site

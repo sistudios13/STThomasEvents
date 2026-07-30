@@ -9,6 +9,7 @@ ini_set('display_errors', 1);
 use FastRoute;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+use App\Config\Settings;
 
 require __DIR__ . '/vendor/autoload.php'; // Composer autoload
 require __DIR__ . '/config/helpers.php';
@@ -55,6 +56,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
     $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
+    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/calendar', ['ExportController', 'exportICS']);
     $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
 
     // partial routes
@@ -85,12 +87,18 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/login', ['AuthController', 'login']);
     $r->addRoute('POST', '/auth/login', ['AuthController', 'authenticate']);
     $r->addRoute('GET', '/auth/logout', ['AuthController', 'logout']);
+    $r->addRoute('GET', '/auth/deleted', ['AuthController', 'accountDeleted']);
 
     //staff routes: add 'staff' to array
+    
 
     $r->addRoute('GET', '/staff', ['StaffController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/dashboard', ['StaffController', 'dashboard', 'staff']);
     $r->addRoute('GET', '/staff/settings', ['StaffController', 'settings', 'staff']);
+
+    $r->addRoute('POST', '/staff/settings/change-password', ['StaffController', 'changePassword', 'staff']);
+    $r->addRoute('POST', '/staff/settings/delete-account', ['StaffController', 'deleteAccount', 'staff']);
+
 
 });
 
@@ -130,6 +138,12 @@ switch ($routeInfo[0]) {
             require $controllerFile;
             $controller = new $controllerClass();
             \call_user_func_array([$controller, $action], $vars);
+            if (Settings::STAGE === 0) {
+                echo '<!-- DEBUG: SESSION DATA -->';
+                echo '<pre class="break-all whitespace-pre-wrap bg-gray-100 p-4 rounded-lg text-sm text-gray-800">';
+                var_dump($_SESSION);
+                echo '</pre>';
+            }
         } else {
             http_response_code(500);
             header('Location: ' . url('/500/'));

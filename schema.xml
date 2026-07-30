@@ -65,6 +65,7 @@
     <column name="starts_at" phpName="StartsAt" type="DATETIME" required="true"/>
     <column name="ends_at" phpName="EndsAt" type="DATETIME" required="true"/>
     <column name="seating" phpName="Seating" type="BOOLEAN" size="0" required="true" defaultValue="false"/>
+    <column name="location" phpName="Location" type="VARCHAR" size="500" required="true"/>
     <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
