@@ -18,7 +18,8 @@
       "config/",
       "app/controllers/",
       "app/services/",
-      "app/services/staff/"
+      "app/services/staff/",
+      "app/repositories/staff/"
     ]
  },
  "config": {

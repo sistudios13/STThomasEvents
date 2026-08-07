@@ -77,9 +77,9 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
 
     // error routes
-    $r->addRoute('GET', '/404', ['ErrorController', 'notFound']);
+    $r->addRoute(['GET', 'DELETE', 'POST', 'PUT'], '/404', ['ErrorController', 'notFound']);
     $r->addRoute('GET', '/403', ['ErrorController', 'forbidden']);
-    $r->addRoute('GET', '/405', ['ErrorController', 'MethodNotAllowed']);
+    $r->addRoute(['GET', 'DELETE', 'POST', 'PUT'], '/405', ['ErrorController', 'MethodNotAllowed']);
     $r->addRoute('GET', '/500', ['ErrorController', 'internalError']);
 
 
@@ -94,10 +94,14 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
 
     $r->addRoute('GET', '/staff', ['StaffController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/dashboard', ['StaffController', 'dashboard', 'staff']);
-    $r->addRoute('GET', '/staff/settings', ['StaffController', 'settings', 'staff']);
+    $r->addRoute('GET', '/staff/settings', ['UserController', 'settings', 'staff']);
+    $r->addRoute('GET', '/staff/events', ['StaffController', 'events', 'staff']);
+    $r->addRoute('GET', '/staff/events/{id:\d+}', ['StaffController', 'manageEvent', 'staff']);
+    $r->addRoute('GET', '/staff/events/{id:\d+}/bookings', ['StaffController', 'bookingsPartial', 'staff']);
+    $r->addRoute('DELETE', '/staff/events/{id:\d+}/bookings/{bookingId:\d+}', ['StaffController', 'deleteBooking', 'staff']);
 
-    $r->addRoute('POST', '/staff/settings/change-password', ['StaffController', 'changePassword', 'staff']);
-    $r->addRoute('POST', '/staff/settings/delete-account', ['StaffController', 'deleteAccount', 'staff']);
+    $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);
+    $r->addRoute('POST', '/staff/settings/delete-account', ['UserController', 'deleteAccount', 'staff']);
 
 
 });
@@ -109,12 +113,12 @@ $routeInfo = $dispatcher->dispatch($method, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         http_response_code(404);
-        header('Location: ' . url('/404/'));
+        redirectToUrl(url('/404/'));
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         http_response_code(405);
-        header('Location: ' . url('/405/'));
         header('Allow: ' . implode(', ', $routeInfo[1]));
+        redirectToUrl(url('/405/'));
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
@@ -146,7 +150,7 @@ switch ($routeInfo[0]) {
             }
         } else {
             http_response_code(500);
-            header('Location: ' . url('/500/'));
+            redirectToUrl(url('/500/'));
         }
         break;
 }

@@ -104,7 +104,7 @@ class BookingService
             <br>
             <p>Best regards,<br>St. Thomas Events Team</p>
             <hr>
-            <p style='font-size: 0.8em;'>© 2026 St. Thomas Events. All rights reserved.</p>
+            <p style='font-size: 0.8em;'>© " . date('Y') . " St. Thomas Events. All rights reserved.</p>
             "
         );
 

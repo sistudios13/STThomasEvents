@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://unpkg.com/htmx.org@1.9.3"></script>
@@ -28,20 +29,20 @@
 <body class="bg-gray-50 ">
 
     <!-- Navigation Header -->
-    <div x-data="{ showSidebar: false }" class="relative flex w-full flex-col md:flex-row">
+    <div x-data="{ showSidebar: false }" class="relative flex w-full flex-col md:flex-row md:items-start">
         <!-- This allows screen readers to skip the sidebar and go directly to the main content. -->
         <a class="sr-only" href="#main-content">skip to the main content</a>
 
         <!-- dark overlay for when the sidebar is open on smaller screens  -->
         <div x-cloak x-show="showSidebar" class="fixed inset-0 z-10 bg-neutral-950/10 backdrop-blur-xs md:hidden" aria-hidden="true" x-on:click="showSidebar = false" x-transition.opacity></div>
 
-        <nav x-cloak class="fixed left-0 z-20 flex h-svh w-60 shrink-0 flex-col border-r border-gray-200 bg-gray-100 p-4 transition-transform duration-300 md:w-64 md:translate-x-0 md:relative" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
+        <nav x-cloak class="fixed left-0 z-20 flex h-dvh w-60 shrink-0 flex-col border-r border-gray-200 bg-gray-100 p-4 transition-transform duration-300 md:sticky md:top-0 md:w-64 md:translate-x-0" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
             <!-- logo  -->
             <a href="#" class="ml-2  w-fit text-2xl font-bold text-gray-900 ">
                 St. Thomas Events
             </a>
 
-            <hr class="my-4">
+            <hr class="my-4 text-gray-200">
 
             <!-- sidebar links  -->
             <div class="flex flex-col justify-between h-full overflow-y-auto">
@@ -115,7 +116,7 @@
         </main>
 
         <!-- toggle button for small screen  -->
-        <button class="fixed right-4 top-4 z-20 rounded-full bg-gray-900 p-3 md:hidden text-gray-100" x-on:click="showSidebar = ! showSidebar">
+        <button class="fixed right-4 top-4 z-20 rounded-full shadow-md border border-gray-800 bg-gray-900 p-3 md:hidden text-gray-100" x-on:click="showSidebar = ! showSidebar">
             <svg x-cloak x-show="showSidebar" class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
             </svg>

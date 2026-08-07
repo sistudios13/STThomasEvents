@@ -13,6 +13,7 @@ composer.phar
 
 .idea
 .vscode
+.agents
 
 /assets/img1.jpg
 /assets/img2.jpg

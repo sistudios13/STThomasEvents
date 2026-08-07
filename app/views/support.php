@@ -124,7 +124,7 @@
 
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Email</h3>
-                    <p class="text-gray-600 mb-3">stthomaseventsinfo@gmail.com</p>
+                    <p class="text-gray-600 mb-3"><?php echo \App\Config\Settings::SUPPORT_EMAIL; ?></p>
                     <p class="text-sm text-gray-500">Response within 24 hours</p>
                 </div>
                 <!-- ai chat -->

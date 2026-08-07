@@ -5,14 +5,22 @@ declare(strict_types=1);
 namespace App\Staff\Services;
 
 use App\Repositories\EventRepository;
+use App\Staff\Repositories\ManagementRepository;
+use App\Services\EmailService;
+use App\Config\Settings;
+use Respect\Validation\Validator as v;
 
 class ManagementService
 {
     private EventRepository $eventRepository;
+    private ManagementRepository $managementRepository;
+    private EmailService $emailService;
 
     public function __construct()
     {
         $this->eventRepository = new EventRepository();
+        $this->emailService = new EmailService();
+        $this->managementRepository = new ManagementRepository();
     }
 
     public function getCalendarData(): ?array
@@ -53,5 +61,128 @@ class ManagementService
         });
 
         return $filtered ?: [];
+    }
+
+    public function getGroupedEvents(): ?array // groups by passed, ongoing or future
+    {
+        $data = $this->eventRepository->findAll();
+
+        if (empty($data)) {
+            return [];
+        }
+
+        $now = strtotime('now');
+
+        $grouped  = [
+            'passed' => [],
+            'ongoing' => [],
+            'future' => []
+        ];
+
+
+
+        foreach ($data as $event) {
+
+            if (strtotime($event['EndsAt']) < $now) {
+                // array_push($grouped['passed'], $event); 
+                $grouped['passed'][] = $event;
+            } elseif (strtotime($event['StartsAt']) > $now) {
+                // array_push($grouped['future'], $event);
+                $grouped['future'][] = $event;
+            } else {
+                // array_push($grouped['ongoing'], $event);
+                $grouped['ongoing'][] = $event;
+            }
+        }
+
+        return $grouped ?: null;
+    }
+
+    public function findEventById(int $event_id): ?array
+    {
+        return $this->managementRepository->findEventById($event_id);
+    }
+
+    public function getBookings(int $event_id, int $page = 1, ?string $search = '', ?string $sort_key = '', ?string $sort_order = ''): ?array
+    {
+        //values are already validated
+        return $this->managementRepository->getBookings($event_id, $page, $search, $sort_key, $sort_order);
+    }
+
+    public function getInfoAndValidate(int $event_id, int $page, string $search, string $sort_key, string $sort_order): ?array
+    {
+
+        if (!v::length(0, 255)->validate($search)) {
+            throw new \InvalidArgumentException("Search term must be between 1 and 255 characters.");
+        }
+
+        if (empty($search)) {
+            $search = null;
+        }
+
+
+
+        
+
+        if (!v::in(['email', 'name', 'timestamp', 'id', 'status'])->validate($sort_key)) {
+            $sort_key = null;
+        }
+
+
+        if (!v::in(['asc', 'desc'])->validate($sort_order)) {
+            $sort_order = null;
+        }
+
+        $total_rows = $this->managementRepository->getTotalRows($event_id, $search);
+
+        $info = [];
+        $info['total_rows'] = $total_rows;
+
+        $info['total_pages'] = max(1, ceil($info['total_rows'] / Settings::STAFF_TABLE_MAX_ROWS ));
+        $info['page_numbers'] = range(1, $info['total_pages']);
+
+        
+        if (!v::between(0, $info['total_pages'])->validate($page)) {
+            throw new \InvalidArgumentException("Invalid page number.");
+        }
+
+        $info['current_page'] = $page;
+        $info['sort_key'] = $sort_key;
+        $info['sort_order'] = $sort_order;
+        $info['search'] = $search;
+
+        return $info;
+    }
+
+    public function deleteBooking(int $bookingId): bool
+    {
+
+        $recipient = $this->managementRepository->getBookingById($bookingId);
+        $event = $this->managementRepository->findEventById($recipient['EventId']);
+        $deleted = $this->managementRepository->deleteBooking($bookingId);
+
+        if (!$deleted) {
+            return false;
+        }
+
+        $sent = $this->emailService->sendEmail(
+            $recipient['Email'],
+            $recipient['Name'], 
+            'Your Booking Has Been Deleted',
+            "
+            <h1>Your Booking Has Been Deleted</h1>
+            <p>Hello {$recipient['Name']},</p>
+            <p>The event you booked is: {$event['Name']}</p>
+            <p>We regret to inform you that your booking for has been deleted by school staff. If you have any questions, please visit our support page here: <a href='" . Settings::APP_URL ."support/'>" . Settings::APP_URL ."support/</a></p>
+            <p>Best regards,<br>St. Thomas Events Team</p>
+            <hr>
+            <p style='font-size: 0.8em;'>© " . date('Y') . " St. Thomas Events. All rights reserved.</p>
+            "
+        );
+
+        if (!$sent) {
+            throw new \InvalidArgumentException('Failed to send confirmation email. Please try again later.');
+        }
+        return true;
     }
 }

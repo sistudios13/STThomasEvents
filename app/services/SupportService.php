@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Symfony\Component\HttpClient\HttpClient;
+use App\Config\Settings;
 use Dotenv;
 
 
@@ -28,7 +29,7 @@ class SupportService
         Approved facts:
         - Users book by selecting an event, choosing seats, and completing the booking flow.
         - Tickets are sent by email after a successful booking.
-        - Users can contact support by email at stthomaseventsinfo@gmail.com.
+        - Users can contact support by email at ' . Settings::SUPPORT_EMAIL . '.
         - The support page also lists phone support and live chat during business hours.
         - Cancellations or changes may be allowed up to 48 hours before the event.
 

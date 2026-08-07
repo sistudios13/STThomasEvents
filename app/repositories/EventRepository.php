@@ -17,7 +17,7 @@ class EventRepository
     {
 
         $events = EventsQuery::create()
-            ->orderByStartsAt(Criteria::DESC)
+            ->orderByStartsAt(Criteria::ASC)
             ->find();
 
         return $events->toArray() ?: null;

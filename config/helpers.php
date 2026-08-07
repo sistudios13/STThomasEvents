@@ -123,7 +123,11 @@ if (!function_exists('basePath')) {
 
     function redirectToUrl(string $url): void
     {
-        header('HX-Redirect: ' . $url);
+        if ($_SERVER['HTTP_HX_REQUEST'] == 'true') {
+            header('HX-Redirect: ' . $url);
+            exit;
+        }
+        
         header('Location: ' . $url);
         exit;
     }

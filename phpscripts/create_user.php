@@ -18,7 +18,7 @@ function create_user(string $email, string $password, string $name)
     try {
         global $auth;
         $user = $auth->register($email, $password, $name);
-        $auth->admin()->addRoleForUserById($user, \App\Config\myRole::STAFF);
+        $auth->admin()->addRoleForUserById($user, \Delight\Auth\Role::EMPLOYEE); //staff
     }
 
     catch (\Delight\Auth\InvalidEmailException $e) {

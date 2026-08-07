@@ -12,6 +12,8 @@ final class Settings
     public const HOLD_DURATION = 60 * 5; // 5 minutes
     public const EMAIL_CONFIRMATION_DURATION = 60 * 5; // 5 minutes
     public const REMEMBER_ME_DURATION = 60 * 60 * 24 * 7; // 7 days
+    public const STAFF_TABLE_MAX_ROWS = 10;
+    public const SUPPORT_EMAIL = 'support@stthomas-events.com';
 }
 
 final class MyRole
