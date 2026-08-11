@@ -1,0 +1,2 @@
+ALTER TABLE `events` CHANGE `seating` `seating` TINYINT(1) NOT NULL DEFAULT '0';
+ALTER TABLE `booking_sessions` CHANGE `reference` `access_code` VARCHAR(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;

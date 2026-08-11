@@ -154,6 +154,11 @@ class ManagementService
         return $info;
     }
 
+    public function bookingExists(int $eventId, int $bookingId): bool
+    {
+        return $this->managementRepository->bookingExists($eventId, $bookingId);
+    }
+
     public function deleteBooking(int $bookingId): bool
     {
 
@@ -173,7 +178,7 @@ class ManagementService
             <h1>Your Booking Has Been Deleted</h1>
             <p>Hello {$recipient['Name']},</p>
             <p>The event you booked is: {$event['Name']}</p>
-            <p>We regret to inform you that your booking for has been deleted by school staff. If you have any questions, please visit our support page here: <a href='" . Settings::APP_URL ."support/'>" . Settings::APP_URL ."support/</a></p>
+            <p>We regret to inform you that your booking for has been deleted/cancelled by school staff. If you have any questions, please visit our support page here: <a href='" . Settings::APP_URL ."support/'>" . Settings::APP_URL ."support/</a></p>
             <p>Best regards,<br>St. Thomas Events Team</p>
             <hr>
             <p style='font-size: 0.8em;'>© " . date('Y') . " St. Thomas Events. All rights reserved.</p>
@@ -184,5 +189,117 @@ class ManagementService
             throw new \InvalidArgumentException('Failed to send confirmation email. Please try again later.');
         }
         return true;
+    }
+
+    public function createEvent(string $name, string $description, string $pricing, string $starts_at, string $ends_at, string $location, string $seating_enabled): int
+    {
+        // Validate the data
+        if (!v::length(5, 100)->validate($name)) {
+            throw new \InvalidArgumentException("Event name must be between 5 and 100 characters.");
+        }
+
+        if (!v::length(5, 350)->validate($description)) {
+            throw new \InvalidArgumentException("Event description must be between 5 and 350 characters.");
+        }
+
+        $pricingData = json_decode($pricing, true);
+        if (!\is_array($pricingData)) {
+            throw new \InvalidArgumentException("Event pricing is invalid.");
+        }
+
+        $tierNames = array_keys($pricingData);
+
+        if (\count($pricingData) > 10 || \count($tierNames) < 1) {
+            throw new \InvalidArgumentException("You can have between 1 and 10 pricing tiers.");
+        }
+
+        foreach ($tierNames as $tierName) {
+            if (!v::length(1, 50)->validate($tierName)) {
+                throw new \InvalidArgumentException("Pricing tier names must be between 1 and 50 characters.");
+            }
+        }
+
+        $tierPrices = array_values($pricingData);
+        foreach ($tierPrices as $tierPrice) {
+            if (!v::numericVal()->between(0, 999)->validate($tierPrice)) {
+                throw new \InvalidArgumentException("Pricing tier prices must be numeric and greater than or equal to 0.");
+            }
+        }
+        
+
+        if (!v::dateTime('Y-m-d\TH:i')->greaterThan(new \DateTime())->validate($starts_at)) {
+            throw new \InvalidArgumentException("Event start time is invalid.");
+        }
+
+        if (!v::dateTime('Y-m-d\TH:i')->greaterThan(new \DateTime($starts_at))->validate($ends_at)) {
+            throw new \InvalidArgumentException("Event end time is invalid.");
+        }
+
+        if (!v::length(5, 120)->validate($location)) {
+            throw new \InvalidArgumentException("Event location must be between 5 and 120 characters.");
+        }
+
+        // Create the event
+        return $this->managementRepository->createEvent($name, $description, $pricing, $starts_at, $ends_at, $location, $seating_enabled);
+    }
+
+    public function editEvent(string $id, string $name, string $description, string $pricing, string $starts_at, string $ends_at, string $location, string $seating_enabled): void
+    {
+        // Validate the data
+        if (!v::length(5, 100)->validate($name)) {
+            throw new \InvalidArgumentException("Event name must be between 5 and 100 characters.");
+        }
+
+        if (!v::length(5, 350)->validate($description)) {
+            throw new \InvalidArgumentException("Event description must be between 5 and 350 characters.");
+        }
+
+        $pricingData = json_decode($pricing, true);
+        if (!\is_array($pricingData)) {
+            throw new \InvalidArgumentException("Event pricing is invalid.");
+        }
+
+        $tierNames = array_keys($pricingData);
+
+        if (\count($pricingData) > 10 || \count($tierNames) < 1) {
+            throw new \InvalidArgumentException("You can have between 1 and 10 pricing tiers.");
+        }
+
+        foreach ($tierNames as $tierName) {
+            if (!v::length(1, 50)->validate($tierName)) {
+                throw new \InvalidArgumentException("Pricing tier names must be between 1 and 50 characters.");
+            }
+        }
+
+        $tierPrices = array_values($pricingData);
+        foreach ($tierPrices as $tierPrice) {
+            if (!v::numericVal()->between(0, 999)->validate($tierPrice)) {
+                throw new \InvalidArgumentException("Pricing tier prices must be numeric and greater than or equal to 0.");
+            }
+        }
+
+        if (!v::dateTime('Y-m-d\TH:i')->greaterThan(new \DateTime($starts_at))->validate($ends_at)) {
+            throw new \InvalidArgumentException("Event end time is invalid.");
+        }
+
+        if (!v::length(5, 120)->validate($location)) {
+            throw new \InvalidArgumentException("Event location must be between 5 and 120 characters.");
+        }
+
+        // Update the event
+        $this->managementRepository->updateEvent($id, $name, $description, $pricing, $starts_at, $ends_at, $location, $seating_enabled);
+
+        return;
+    }
+
+    public function deleteEvent(int $eventId): void
+    {
+        $deleted = $this->managementRepository->deleteEvent($eventId);
+
+        if (!$deleted) {
+            throw new \InvalidArgumentException("Failed to delete event. Please try again later.");
+        }
+
+        return;
     }
 }

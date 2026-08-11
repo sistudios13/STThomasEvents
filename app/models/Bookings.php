@@ -16,7 +16,7 @@ class Booking
     public int $otp;
     public string $code_expires_at;
     public bool $email_verified = false;
-    public string $reference;
+    public string $access_code;
 
 
     public function __construct(int $event_id, array $seats, string $name, string $email, string $phone, string $role)
@@ -34,7 +34,7 @@ class Booking
         $this->otp = rand(100000, 999999);
     }
 
-    public function generateReference(int $length = 6): void
+    public function generateAccessCode(int $length = 6): void
 {
     // Human-safe alphabet
     $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -47,7 +47,7 @@ class Booking
         $code .= $alphabet[$index];
     }
 
-    $this->reference = $code;
+    $this->access_code = $code;
 }
 
     public function generateToken(): void

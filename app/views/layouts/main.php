@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
     <meta name="description" content="<?= $pageDescription ?? 'St. Thomas Events is a ticket booking system for various events at St. Thomas High School.' ?>">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
@@ -44,13 +44,13 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-3">
 
-                        <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                        <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                        <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
-                        <a href="<?= url('/tickets/') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded hover:text-white hover:bg-green-700' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
-                        <?php if (ticketAuthenticated()): ?>
-                            <a href="<?= url('/tickets/logout/') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
-                            <?php endif; ?>
+                    <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
+                    <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                    <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                    <a href="<?= url('/tickets/') ?>" class="<?= ticketAuthenticated() ? 'bg-green-600 py-1 px-2 text-white rounded hover:text-white hover:bg-green-700' : 'text-gray-600 ' ?> hover:text-green-600 transition font-medium">My Tickets</a>
+                    <?php if (ticketAuthenticated()): ?>
+                        <a href="<?= url('/tickets/logout/') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
+                    <?php endif; ?>
 
                 </nav>
 
@@ -65,11 +65,14 @@
 
             <!-- Mobile Navigation Menu -->
             <div x-show="open" x-cloak x-transition class="md:hidden mt-4 pb-4 border-t border-gray-200">
-                <nav class="flex flex-col items-end gap-3 pt-6">
-                        <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
-                        <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
-                        <a href="<?= url('/tickets/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
-                        <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                <nav class="flex flex-col items-end gap-4 pt-6">
+                    <a href="<?= url('/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Home</a>
+                    <a href="<?= url('/events/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Events</a>
+                    <a href="<?= url('/tickets/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">My Tickets</a>
+                    <a href="<?= url('/support/') ?>" class="text-gray-600 hover:text-green-600 transition font-medium">Support</a>
+                    <?php if (ticketAuthenticated()): ?>
+                        <a href="<?= url('/tickets/logout/') ?>" class="text-gray-600 hover:text-red-600 transition font-medium">Sign Out</a>
+                    <?php endif; ?>
                 </nav>
             </div>
         </div>
@@ -122,7 +125,7 @@
         </div>
     </footer>
     <div id="modals"></div>
-    
+
     <style>
         @keyframes fadeIn {
             from {

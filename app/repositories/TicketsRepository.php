@@ -13,7 +13,7 @@ class TicketsRepository
     {
         $user = BookingSessionsQuery::Create()
             ->filterByEmail($email)
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->findOne();
 
         if (!$user) {
@@ -26,9 +26,9 @@ class TicketsRepository
     public function getBookingDataByCode(string $code): ?array
     {
         $session = BookingSessionsQuery::create()
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->joinWith('Events')
-            ->select(['Name', 'EventId', 'Email', 'Reference', 'Events.Name', 'Events.Price', 'Events.Description', 'Events.StartsAt', 'Events.EndsAt', 'Events.Location'])
+            ->select(['Name', 'EventId', 'Email', 'AccessCode', 'Events.Name', 'Events.Price', 'Events.Description', 'Events.StartsAt', 'Events.EndsAt', 'Events.Location'])
             ->find();
 
         if ($session->getFirst() === null) {
@@ -39,7 +39,7 @@ class TicketsRepository
             'Name' => $session->getFirst()['Name'],
             'EventId' => $session->getFirst()['EventId'],
             'Email' => $session->getFirst()['Email'],
-            'Reference' => $session->getFirst()['Reference'],
+            'AccessCode' => $session->getFirst()['AccessCode'],
 
             'Events.Name' => $session->getFirst()['Events.Name'],
             'Events.Description' => $session->getFirst()['Events.Description'],
@@ -53,7 +53,7 @@ class TicketsRepository
     public function getTicketDataByCode(string $code): ?array
     {
         $session = BookingSessionsQuery::create()
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->joinWith('Bookings')
             ->select(['Bookings.Seat', 'Bookings.Token'])
             ->find();
@@ -75,7 +75,7 @@ class TicketsRepository
 
         $booking = BookingsQuery::create()
             ->useBookingSessionsQuery()
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->endUse()
             ->filterBySeat($seat)
             ->findOne();
@@ -93,7 +93,7 @@ class TicketsRepository
 
         $booking = BookingsQuery::create()
             ->useBookingSessionsQuery()
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->endUse()
             ->filterBySeat($seat)
             ->findOne();
@@ -104,7 +104,7 @@ class TicketsRepository
         }
 
         $session = BookingSessionsQuery::create()
-            ->filterByReference($code)
+            ->filterByAccessCode($code)
             ->findOne();
         if ($session) {
             $remainingSeats = BookingsQuery::create()

@@ -9,11 +9,12 @@ use BookingSessionsQuery;
 use BookingsQuery;
 use Map\BookingSessionsTableMap;
 use EventsQuery;
+use Events;
 use App\Config\Settings;
 
 class ManagementRepository
 {
-    public function getTotalRows(int $event_id, ?string $search = null): ?int //ADD RESERVATIONS
+    public function getTotalRows(int $event_id, ?string $search = null): ?int
     {
         $bookings = BookingSessionsQuery::create()
             ->filterByEventId($event_id)
@@ -145,6 +146,16 @@ class ManagementRepository
         return true;
     }
 
+    public function bookingExists(int $eventId, int $bookingId): bool
+    {
+        $bookingSession = BookingSessionsQuery::create()
+            ->filterById($bookingId)
+            ->filterByEventId($eventId)
+            ->findOne();
+
+        return $bookingSession != null;
+    }
+
     public function getBookingById(int $bookingId): ?array
     {
         $bookingSession = BookingSessionsQuery::create()
@@ -152,5 +163,57 @@ class ManagementRepository
             ->findOne();
 
         return $bookingSession->toArray() ?? null;
+    }
+
+    public function createEvent(string $name, string $description, string $pricing, string $starts_at, string $ends_at, string $location, string $seating_enabled): int
+    {
+        $event = new Events();
+        $event->setName($name);
+        $event->setDescription($description);
+        $event->setPrice($pricing);
+        $event->setStartsAt(new \DateTime($starts_at));
+        $event->setEndsAt(new \DateTime($ends_at));
+        $event->setLocation($location);
+        $event->setSeating($seating_enabled);
+        $event->save();
+
+        return $event->getId();
+    }
+
+    public function updateEvent(string $id, string $name, string $description, string $pricing, string $starts_at, string $ends_at, string $location, string $seating_enabled): void
+    {
+        $event = EventsQuery::create()
+            ->filterById($id)
+            ->findOne();
+
+        if (!$event) {
+            throw new \Exception("Event not found.");
+        }
+
+        $event->setName($name);
+        $event->setDescription($description);
+        $event->setPrice($pricing);
+        $event->setStartsAt(new \DateTime($starts_at));
+        $event->setEndsAt(new \DateTime($ends_at));
+        $event->setLocation($location);
+        $event->setSeating($seating_enabled);
+        $event->save();
+
+        return;
+    }
+
+    public function deleteEvent(int $eventId): bool
+    {
+        $event = EventsQuery::create()
+            ->filterById($eventId)
+            ->findOne();
+
+        if (!$event) {
+            return false; // Event not found
+        }
+
+        $event->delete();
+
+        return true;
     }
 }

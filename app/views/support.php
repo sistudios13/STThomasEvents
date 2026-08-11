@@ -104,7 +104,7 @@
 
                         </span>
                     </summary>
-                    <p class="mt-4 text-gray-600">You can access your tickets dashboard by logging in using your email and reference code. This code should be in your confirmation email and on your tickets. Once logged in, you can view and manage all your tickets.</p>
+                    <p class="mt-4 text-gray-600">You can access your tickets dashboard by logging in using your email and access code. This code should be in your confirmation email and on your tickets. Once logged in, you can view and manage all your tickets.</p>
                 </details>
             </div>
         </div>
@@ -189,9 +189,10 @@
                     <div class="flex gap-2">
                         <input name="message" minlength="5" autocomplete="off" maxlength="150" x-model="message" type="text" placeholder="Type your question..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" :disabled="loading">
                         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-60 disabled:cursor-not-allowed" :disabled="loading || !message.trim() || message.trim().length < 5 || message.trim().length > 150">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                            </svg>
+                            <svg class="size-5 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 18-7 3 7-18 7 18-7-3Zm0 0v-5"/>
+</svg>
+
                         </button>
                     </div>
                 </form>

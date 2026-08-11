@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="mt-6 flex flex-1 flex-col gap-3">
+            <div class="mt-6 flex justify-end flex-1 flex-col gap-3">
                 <div class="w-full" x-data="{modalOpen:false}">
                     <button @click="modalOpen = true" class="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
                         Change Password

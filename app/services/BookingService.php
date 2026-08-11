@@ -72,7 +72,7 @@ class BookingService
         $booking->generateOTP();
         $booking->setExpiry(Settings::EMAIL_CONFIRMATION_DURATION);
         $booking->generateToken();
-        $booking->generateReference();
+        $booking->generateAccessCode();
         $booking->seats = $seats;
 
 

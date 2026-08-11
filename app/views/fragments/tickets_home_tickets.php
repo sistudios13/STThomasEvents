@@ -9,7 +9,7 @@ use chillerlan\QRCode\QRCode;
         {
             QRSrc: '<?php echo (new QRCode)->render(($ticket['Bookings.Token'])) ?>',
             eventName: '<?php echo htmlspecialchars($booking['Events.Name']) ?>',
-            reference: '<?php echo htmlspecialchars($booking['Reference']) ?>',
+            accessCode: '<?php echo htmlspecialchars($booking['AccessCode']) ?>',
             seat: '<?php echo htmlspecialchars($ticket['Bookings.Seat']) ?>',
             ticketholder: '<?php echo htmlspecialchars($booking['Name']) ?>',
             email: '<?php echo htmlspecialchars($booking['Email']) ?>'
@@ -48,7 +48,7 @@ use chillerlan\QRCode\QRCode;
                     <div class="bg-green-600 px-5 py-4 flex justify-between items-center rounded-t-lg">
                         <h3 class="text-xl font-bold inline text-white">Ticket # <span x-text="index + 1"></span></h3>
                         <div class="flex items-center gap-0.5">
-                            <a :href="'<?= url('/tickets/') ?>' + ticket.reference + '/export-pdf/'">
+                            <a :href="'<?= url('/tickets/') ?>' + ticket.accessCode + '/export-pdf/'">
                                 <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z" />
                                 </svg>
@@ -76,7 +76,7 @@ use chillerlan\QRCode\QRCode;
                                 </div>
                                 <div class="flex flex-row justify-end space-x-2">
                                     <button @click="modalOpen=false" type="button" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium rounded-md border transition-colors focus:outline-none ">Cancel</button>
-                                    <button id="deleteBtn" hx-vals="js:{ _csrf : '<?= csrf_token() ?>'}" :hx-post="'<?= url('tickets/') ?>' + ticket.reference + '/remove/' + ticket.seat + '/'" x-effect="htmx.process($el)" hx-swap="none" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium text-white rounded-md border border-transparent transition-colors focus:outline-none bg-red-600 hover:bg-red-700">Cancel Seat</button>
+                                    <button id="deleteBtn" hx-vals="js:{ _csrf : '<?= csrf_token() ?>'}" :hx-post="'<?= url('tickets/') ?>' + ticket.accessCode + '/remove/' + ticket.seat + '/'" x-effect="htmx.process($el)" hx-swap="none" class="inline-flex justify-center items-center px-4 py-2 h-10 text-sm font-medium text-white rounded-md border border-transparent transition-colors focus:outline-none bg-red-600 hover:bg-red-700">Cancel Seat</button>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@ use chillerlan\QRCode\QRCode;
                     <div class="p-6">
                         <h2 class="text-xl font-bold text-gray-900 mb-4" x-text="`Event: ` + ticket.eventName"></h2>
                         <h3 class="text-lg font-medium text-gray-700 mb-4">Seat: <span x-text="ticket.seat" class="font-mono bg-green-200 ml-1 border border-green-600 px-2 py-1 rounded"></span></h3>
-                        <p class="text-gray-600 mb-4">Reference Code: <span x-text="ticket.reference" class="font-mono bg-gray-100 px-2 py-1 rounded"></span></p>
+                        <p class="text-gray-600 mb-4">Access Code: <span x-text="ticket.accessCode" class="font-mono bg-gray-100 px-2 py-1 rounded"></span></p>
                         <p class="text-gray-600 mb-4" x-text="`Ticketholder: ` + ticket.ticketholder"></p>
                         <p class="text-gray-600 mb-4" x-text="`Email: ` + ticket.email"></p>
 

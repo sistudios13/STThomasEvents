@@ -29,7 +29,7 @@ if (!function_exists('basePath')) {
 
     function ticketAuthenticated(): bool
     {
-        return !empty($_SESSION['reference']);
+        return !empty($_SESSION['access_code']);
     }
 
     function csrf_token(): string

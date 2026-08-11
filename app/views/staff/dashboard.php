@@ -30,8 +30,8 @@
                     <div class="flex items-center justify-between gap-3">
                         <p class="text-sm font-medium text-gray-500">Total bookings</p>
                     </div>
-                    <p class="mt-4 text-3xl font-semibold tracking-tight text-gray-900"><?= $stats['bookings'] ?? '—' ?></p>
-                    <p class="mt-2 text-sm text-gray-500">Reservations recorded across events.</p>
+                    <p class="mt-4 text-3xl font-semibold tracking-tight text-gray-900"><?= $bookingsCount ?? '—' ?></p>
+                    <p class="mt-2 text-sm text-gray-500">Bookings across events in the next 30 days.</p>
                 </div>
             </div>
 
@@ -39,9 +39,9 @@
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h2 class="text-lg font-semibold tracking-tight text-gray-900">Upcoming events</h2>
-                        <p class="mt-1 text-sm text-gray-500">A quick view of upcoming events.</p>
+                        <p class="mt-1 text-sm text-gray-500">A quick view of upcoming events (next 30 days).</p>
                     </div>
-                    <a href="<?= url('/staff/events/') ?>" class="text-sm font-medium text-indigo-600 transition hover:text-indigo-700">View all</a>
+                    <a href="<?= url('/staff/events/') ?>" class="text-sm font-medium text-indigo-600 whitespace-nowrap transition hover:text-indigo-700">View all</a>
                 </div>
 
                 <?php if (!empty($upcomingEvents)): ?>

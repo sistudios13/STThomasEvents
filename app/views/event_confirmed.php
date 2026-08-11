@@ -38,9 +38,9 @@
     <main class="flex-grow flex items-center py-24 bg-gray-50 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <section class="text-center">
             <h1 class="text-4xl font-bold mb-4">Tickets Confirmed!</h1>
-            <p class="text-lg text-gray-700">Your seat reservation has been confirmed. Thank you for your booking! <br> Your tickets reference code is:
+            <p class="text-lg text-gray-700">Your seat reservation has been confirmed. Thank you for your booking! <br> <br> Your tickets access code is:
             <h2 class="text-3xl font-medium mb-6"><?= htmlspecialchars($_GET['code'] ?? 'none') ?></h2>
-            <p class="pb-4 font-bold">You should also receive an email shortly with login instructions. <br>Please keep this email safe!</p>
+            <p class="pb-4 font-bold">You should also receive an email shortly with login instructions. Please keep this email safe!</p>
             </p>
             <a href="<?= url('/tickets/?code=' . htmlspecialchars($_GET['code'] ?? '') . '&email=' . htmlspecialchars($_GET['email'] ?? '')) ?>" class="inline-flex items-center gap-2 font-semibold text-white bg-green-600 px-4 py-2 rounded transition hover:bg-green-700">
                 View My Tickets

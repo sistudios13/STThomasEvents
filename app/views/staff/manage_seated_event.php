@@ -39,31 +39,21 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
             <svg class="size-6 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-            <p class="inline"><span class="font-semibold">Warning:</span> This event has already ended. You can still view the event details.</p>
+            <p class="inline"><span class="font-semibold">Warning:</span> This event has already ended. You can still view the event details, but no new bookings can be made or deleted.</p>
         </div>
     <?php endif; ?>
 
-    <div class="p-4 mb-4 text-sm text-indigo-700 rounded-md bg-indigo-50 flex items-center gap-2">
-        <svg class="size-6 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-
-        <p class="inline"><span class="font-semibold">Info:</span> This event does not allow people to make bookings. You can change this in the event settings.</p>
-    </div>
-
     <div class="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
-        <div class="space-y-6">
+        <div class="space-y-6 flex flex-col">
             <section class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div class="flex flex-row items-center justify-between">
-                        <div>
-                            <h2 class=" font-medium text-lg text-gray-800">Schedule</h2>
-                            <p class="mt-1 text-sm text-gray-500">Key timing details for this event.</p>
-                        </div>
-                        <?php if ($eventData['EndsAt'] > date('Y-m-d H:i:s') && $eventData['StartsAt'] < date('Y-m-d H:i:s')): ?>
-                            <span class="inline-flex items-center rounded px-2.5 py-1 text-xs font-medium bg-green-100 text-green-800">In Progress</span>
-                        <?php endif; ?>
+                <div class="flex flex-row items-center justify-between">
+                    <div>
+                        <h2 class=" font-medium text-lg text-gray-800">Schedule</h2>
+                        <p class="mt-1 text-sm text-gray-500">Key timing details for this event.</p>
                     </div>
+                    <?php if ($eventData['EndsAt'] > date('Y-m-d H:i:s') && $eventData['StartsAt'] < date('Y-m-d H:i:s')): ?>
+                        <span class="inline-flex items-center rounded px-2.5 py-1 text-xs font-medium bg-green-100 text-green-800">In Progress</span>
+                    <?php endif; ?>
                 </div>
 
                 <div class="mt-5 grid gap-3 sm:grid-cols-3">
@@ -84,19 +74,19 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
                 </div>
             </section>
 
-            <section class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
+            <section class="rounded-lg border h-full border-gray-100 bg-white p-4 shadow-sm sm:p-5">
                 <h2 class=" font-medium text-lg text-gray-800">Description</h2>
                 <p class=" mt-3 text-base leading-7 text-gray-600"><?= htmlspecialchars($eventData['Description']) ?></p>
             </section>
         </div>
 
-        <aside class="space-y-6">
+        <aside class="space-y-6 flex flex-col">
             <section class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
                 <h2 class=" font-medium text-lg text-gray-800">Location</h2>
                 <p class="mt-3 text-base leading-7 text-gray-600"><?= htmlspecialchars($eventData['Location']) ?></p>
             </section>
 
-            <section class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
+            <section class="rounded-lg border h-full border-gray-100 bg-white p-4 shadow-sm sm:p-5">
                 <div class="flex items-start justify-between gap-3">
                     <div>
                         <h2 class=" font-medium text-lg text-gray-800">Pricing</h2>
@@ -108,12 +98,11 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
                     <div class="mt-4 space-y-3">
                         <?php foreach ($priceTiers as $tier => $price): ?>
                             <div class="flex items-center justify-between gap-4 rounded-lg border border-gray-100 bg-gray-50 px-4 py-3">
-                                <p class="text-sm capitalize font-medium text-gray-900"><?= htmlspecialchars($tier) ?></p>
+                                <p class="text-sm font-medium capitalize break-all text-gray-900"><?= htmlspecialchars($tier) ?></p>
                                 <div>
                                     <p class="text-base font-semibold tabular-nums text-gray-900">$<?= number_format((float) $price, 2) ?></p>
                                     <p class="text-xs text-gray-500">Per ticket</p>
                                 </div>
-
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -125,4 +114,42 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
             </section>
         </aside>
     </div>
+
+
+
+
+    <div class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm max-w-full overflow-x-auto">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold tracking-tight text-gray-900">Bookings</h2>
+                <p class="mt-1 text-sm text-gray-500">Search, sort, and review attendee bookings for this event.</p>
+            </div>
+            <div class="flex w-full flex-col gap-2 md:w-auto md:flex-row">
+                <label for="booking-search" class="sr-only">Search bookings</label>
+                <div class="flex items-center">
+                    <span class="inline-flex border border-gray-200 px-3 py-2.5 bg-gray-50 text-gray-800 items-center border-r-0 rounded-md rounded-r-none">
+                        <svg class="size-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </span>
+
+                    <input id="booking-search" name="search" type="search" hx-get="<?= url("/staff/events/{$id}/bookings/") ?>" hx-trigger="keyup changed delay:500ms, search" hx-target="#target-container" hx-swap="innerHTML" placeholder="Search by name or email" class="w-full text-base rounded-md rounded-l-none border border-gray-200 bg-white px-3 py-2  text-gray-900 outline-none transition focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 lg:w-72">
+                </div>
+
+            </div>
+        </div>
+
+        <div id="target-container" x-data="{showModal : false, modalData : [], showDeleteModal : false}">
+            <?php
+            $currentPage ??= 1;
+            $search ??= '';
+            $sortKey ??= '';
+            $sortOrder ??= '';
+
+            require __DIR__ . '/../partials/bookings.php';
+            ?>
+        </div>
+
+    </div>
+
 </section>

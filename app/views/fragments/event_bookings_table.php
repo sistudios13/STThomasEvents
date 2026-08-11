@@ -1,5 +1,5 @@
-<div class="mt-5 overflow-hidden rounded-lg border border-gray-100">
-    <div class="overflow-x-auto">
+<div class="mt-5 rounded-lg border border-gray-100">
+    <div class="overflow-x-scroll">
         <table class="min-w-full divide-y divide-gray-100">
             <thead class="bg-gray-50">
                 <tr>
@@ -150,15 +150,20 @@
                 <?php foreach ($bookings as $booking): ?>
                     <tr class="align-top even:bg-gray-50 even:bg-opacity-50 ">
                         <td class="whitespace-nowrap px-3 py-3 text-sm font-medium text-gray-900"><?= $booking['Id'] ?></td>
-                        <td class="px-3 py-3 text-sm text-gray-700 text-wrap max-w-56 break-words h-[64.5px]"><?= htmlspecialchars($booking['Name']) ?></td>
-                        <td class="px-3 py-3 text-sm  max-w-56 line-clamp-1"><a href="mailto:<?= htmlspecialchars($booking['Email']) ?>" class="text-blue-700 hover:underline"><?= htmlspecialchars($booking['Email']) ?></a></td>
+                        <td class="px-3 py-3 text-sm text-gray-700 text-wrap max-w-56 whitespace-nowrap break-words h-[64.5px]"><?= htmlspecialchars($booking['Name']) ?></td>
+                        <td class="px-3 py-3 text-sm  max-w-56 whitespace-nowrap line-clamp-1"><a href="mailto:<?= htmlspecialchars($booking['Email']) ?>" class="text-blue-700 hover:underline"><?= htmlspecialchars($booking['Email']) ?></a></td>
                         <td class="whitespace-nowrap px-3 py-3 h-full align-middle text-sm">
                             <span class="inline-flex items-center rounded bg-gray-100 px-2.5 py-1 text-xs font-medium <?= $booking['EmailVerified'] ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' ?>"><?= $booking['EmailVerified'] ? 'Confirmed' : 'Pending' ?></span>
                         </td>
                         <td class="whitespace-nowrap px-3 py-3 text-sm text-gray-700"><?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?></td>
-                        <td class="whitespace-nowrap px-3 py-3 text-sm">
-                            <div class="flex flex-wrap gap-2">
-                                <button type="button" @click='showModal = true; modalData = {id: <?= $booking['Id'] ?>, name: "<?= htmlspecialchars($booking['Name']) ?>", email: "<?= htmlspecialchars($booking['Email']) ?>", phone: "<?= $booking['Phone'] ?>", role: "<?= $booking['Role'] ?>", reference: "<?= $booking['Reference'] ?>", emailVerified: <?= $booking['EmailVerified'] ? 'true' : 'false' ?>, seats: <?= json_encode($booking['seats']) ?>, timestamp: "<?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?>"}' class="rounded-md border border-gray-200 px-2.5 py-1.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">View</button>
+                        <td class="whitespace-nowrap px-3 py-3 text-sm w-min">
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <button type="button" @click='showModal = true; modalData = {id: <?= $booking['Id'] ?>, name: "<?= htmlspecialchars($booking['Name']) ?>", email: "<?= htmlspecialchars($booking['Email']) ?>", phone: "<?= $booking['Phone'] ?>", role: "<?= $booking['Role'] ?>", reference: "<?= $booking['Reference'] ?>", emailVerified: <?= $booking['EmailVerified'] ? 'true' : 'false' ?>, seats: <?= json_encode($booking['seats']) ?>, timestamp: "<?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?>"}' class="rounded-md border border-gray-200 px-2.5 py-1.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
+                                    <svg class="size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6h-2m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4" />
+                                    </svg>
+
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -280,7 +285,7 @@
             </dl>
         </div>
         <div class="flex justify-between pt-4">
-            <button @click="showDeleteModal=true; showModal=false" class="rounded-md bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2">Delete</button>
+            <button <?= $eventData['EndsAt'] < date('Y-m-d H:i:s') ? 'disabled' : '' ?> @click="showDeleteModal=true; showModal=false" class="rounded-md bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2">Delete</button>
 
             <button @click="showModal=false" class="rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50">Close</button>
 
@@ -301,7 +306,7 @@
             </button>
         </div>
         <div class="w-auto pb-8 font-normal text-gray-700">
-            <p>Are you sure you want to delete this booking? <br> <span class="font-semibold" x-text="modalData.name"></span> (<span class="font-semibold" x-text="modalData.email"></span>) will be notified by email.</p>
+            <p>Are you sure you want to cancel this booking? <br> <span class="font-semibold" x-text="modalData.name"></span> (<span class="font-semibold" x-text="modalData.email"></span>) will be notified by email. This is irreversible!</p>
         </div>
 
         <div class="flex justify-between pt-4">

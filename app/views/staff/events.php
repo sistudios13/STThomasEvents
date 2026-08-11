@@ -17,8 +17,14 @@ $formatEventTiming = static function (array $event): array {
     <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div class="space-y-1">
             <h1 class="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">All Events</h1>
-            <p class="max-w-2xl text-sm text-gray-500">Review upcoming activity, manage live events, and keep past sessions organized from one view.</p>
+            <p class="max-w-lg text-sm text-gray-500">Review upcoming activity, manage live events, and keep past sessions organized from one view.</p>
         </div>
+        <a href="<?= url('/staff/events/new/') ?>" class="inline-flex whitespace-nowrap items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                <svg class="size-5 mr-1 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+                </svg>
+
+                Create event</a>
     </div>
 
     <?php if (!empty($eventsData)): ?>
@@ -27,8 +33,8 @@ $formatEventTiming = static function (array $event): array {
                 <section class="space-y-4">
                     <div class="flex items-center justify-between gap-3">
                         <div>
-                            <h2 class="text-lg font-semibold tracking-tight text-gray-900">Ongoing Events</h2>
-                            <p class="text-sm text-gray-500">Events that are currently active.</p>
+                            <h2 class="text-lg font-semibold tracking-tight text-gray-900">In Progress</h2>
+                            <p class="text-sm text-gray-500">Events that are currently in progress.</p>
                         </div>
                     </div>
 

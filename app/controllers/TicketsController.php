@@ -21,8 +21,8 @@ class TicketsController
     public function ticketsAuth(): void
     {
 
-        if (isset($_SESSION['reference'])) {
-            redirectToUrl(url('/tickets/' . $_SESSION['reference']));
+        if (isset($_SESSION['access_code'])) {
+            redirectToUrl(url('/tickets/' . $_SESSION['access_code']));
             exit;
         }
 
@@ -55,14 +55,14 @@ class TicketsController
             return;
         }
 
-        $_SESSION['reference'] = $code;
+        $_SESSION['access_code'] = $code;
 
         header('HX-Redirect: ' . url('/tickets/' . $code));
     }
 
     public function ticketsHome(string $code): void
     {
-        if (!isset($_SESSION['reference']) || $_SESSION['reference'] != $code) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $code) {
             header('Location: ' . url('/tickets/'));
             exit;
         }
@@ -93,7 +93,7 @@ class TicketsController
 
     public function partialHomeSeats(string $code): void
     {
-        if (!isset($_SESSION['reference']) || $_SESSION['reference'] != $_POST['code']) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $_POST['code']) {
             redirectToUrl(url('/tickets/'));
             exit;
         }
@@ -112,7 +112,7 @@ class TicketsController
 
     public function removeSeat(string $code, string $seat): void
     {
-        if (!isset($_SESSION['reference']) || $_SESSION['reference'] != $code) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $code) {
             redirectToUrl(url('/tickets/'));
             exit;
         }

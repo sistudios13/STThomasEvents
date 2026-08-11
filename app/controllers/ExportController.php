@@ -22,14 +22,14 @@ class ExportController
         $this->ticketsService = new TicketsService();
     }
 
-    public function exportPDF($reference): void
+    public function exportPDF($access_code): void
     {
-        if (!isset($_SESSION['reference']) || $_SESSION['reference'] != $reference) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $access_code) {
             redirectToUrl(url('/tickets/'));
             exit;
         }
         try {
-            $pdf = $this->exportService->ticketsToPdf($reference);
+            $pdf = $this->exportService->ticketsToPdf($access_code);
         } catch (\Exception $exception) {
             http_response_code(500);
             echo $exception->getMessage();
@@ -98,16 +98,16 @@ class ExportController
         exit;
     }
 
-    public function exportICS($reference): void
+    public function exportICS($access_code): void
     {
-        // Uses reference number rn, but could be changed to require nothing. Could add a calendar button on the event details page
-        if (!isset($_SESSION['reference']) || $_SESSION['reference'] != $reference) {
+        // Uses access_code number rn, but could be changed to require nothing. Could add a calendar button on the event details page
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $access_code) {
             redirectToUrl(url('/tickets/'));
             exit;
         }
 
         try {
-            $data = $this->ticketsService->getBookingDataByCode($reference);
+            $data = $this->ticketsService->getBookingDataByCode($access_code);
         } catch (\InvalidArgumentException $e) {
             header('Location: ' . url('/tickets/'));
             exit;
@@ -126,7 +126,7 @@ class ExportController
         $dtStartUtc = (clone $dtStartLocal)->setTimezone($tzUtc);
         $dtEndUtc = (clone $dtEndLocal)->setTimezone($tzUtc);
 
-        $icsUid = md5($reference . $data['Events.Name'] . $dtStartUtc->format('U')) . '@tickets';
+        $icsUid = md5($access_code . $data['Events.Name'] . $dtStartUtc->format('U')) . '@tickets';
 
         $icsContent = $this->build_ics_event([
             'uid' => $icsUid,

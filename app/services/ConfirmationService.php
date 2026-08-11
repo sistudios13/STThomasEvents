@@ -58,18 +58,18 @@ class ConfirmationService
 
         $this->confirmationRepository->confirmBooking($event_id, $SID);
         $ticketInfo = $this->confirmationRepository->getTicketInfoByToken($booking_token);
-        $this->sendTicketEmail($ticketInfo['Email'], $ticketInfo['Name'], $ticketInfo['Reference'], $ticketInfo['e.Name']);
+        $this->sendTicketEmail($ticketInfo['Email'], $ticketInfo['Name'], $ticketInfo['AccessCode'], $ticketInfo['e.Name']);
 
-        return [$ticketInfo['Reference'], $ticketInfo['Email']];
+        return [$ticketInfo['AccessCode'], $ticketInfo['Email']];
     }
 
-    public function sendTicketEmail(string $email, string $name, string $reference, string $event_name): void // DEV LINK
+    public function sendTicketEmail(string $email, string $name, string $access_code, string $event_name): void // DEV LINK
     {
 
 
-        $pdfOutput = $this->exportService->ticketsToPdf($reference);
+        $pdfOutput = $this->exportService->ticketsToPdf($access_code);
 
-        $url = \App\Config\Settings::APP_URL . "tickets/?code=" . $reference . "&email=" . urlencode($email);
+        $url = \App\Config\Settings::APP_URL . "tickets/?code=" . $access_code . "&email=" . urlencode($email);
 
         $sent = $this->emailService->sendEmail(
             $email,
@@ -78,9 +78,9 @@ class ConfirmationService
             "
             <h1>Your Tickets are Confirmed!</h1>
             <p>Hello {$name},</p>
-            <p>Your tickets for {$event_name} are confirmed. Your tickets reference code is:</p>
-            <h2>{$reference}</h2>
-            <p>You can use this code to log into the tickets page and view your tickets.</p>
+            <p>Your tickets for {$event_name} are confirmed. Your tickets access code is:</p>
+            <h2>{$access_code}</h2>
+            <p>You can use this code to access the tickets page and view your tickets.</p>
             <p>Log in here: <a href='{$url}'>{$url}</a></p> 
             <br>
             <p>Thank you for booking with St. Thomas Events!</p>

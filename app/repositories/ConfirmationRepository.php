@@ -82,7 +82,7 @@ class ConfirmationRepository
             ->useEventsQuery('e')
             ->endUse()
             ->filterByToken($booking_token)
-            ->select(['Name', 'Email', 'Reference', 'e.Name'])
+            ->select(['Name', 'Email', 'AccessCode', 'e.Name'])
             ->findOne();
 
             if (!$session) {

@@ -55,8 +55,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
     $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
-    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
-    $r->addRoute('GET', '/tickets/{reference:[A-Z0-9]+}/calendar', ['ExportController', 'exportICS']);
+    $r->addRoute('GET', '/tickets/{access_code:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
+    $r->addRoute('GET', '/tickets/{access_code:[A-Z0-9]+}/calendar', ['ExportController', 'exportICS']);
     $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
 
     // partial routes
@@ -99,9 +99,15 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff/events/{id:\d+}', ['StaffController', 'manageEvent', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/bookings', ['StaffController', 'bookingsPartial', 'staff']);
     $r->addRoute('DELETE', '/staff/events/{id:\d+}/bookings/{bookingId:\d+}', ['StaffController', 'deleteBooking', 'staff']);
+    $r->addRoute('GET', '/staff/events/new', ['StaffController', 'new', 'staff']);
+    $r->addRoute('GET', '/staff/events/{id:\d+}/edit', ['StaffController', 'edit', 'staff']);
+    $r->addRoute('DELETE', '/staff/events/{id:\d+}', ['StaffController', 'deleteEvent', 'staff']);
+
 
     $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);
     $r->addRoute('POST', '/staff/settings/delete-account', ['UserController', 'deleteAccount', 'staff']);
+    $r->addRoute('POST', '/staff/events/new', ['StaffController', 'newEvent', 'staff']);
+    $r->addRoute('POST', '/staff/events/{id:\d+}/edit', ['StaffController', 'editEvent', 'staff']);
 
 
 });

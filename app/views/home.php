@@ -80,3 +80,12 @@
         </div>
     </div>
 </section>
+<?php if(staffAuthenticated()): ?>
+<div  class="fixed left-0  bottom-0 shadow-lg border-t border-7-gray-200 flex items-center justify-between p-4 bg-white w-full z-50">
+    <p class="font-semibold">You're Logged In!</p>
+    <a href="<?= url('/staff/dashboard/') ?>" class="inline-flex items-center justify-center rounded-md bg-indigo-600 p-4 text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+        To Staff Dashboard
+    </a>
+
+</div>
+<?php endif; ?>

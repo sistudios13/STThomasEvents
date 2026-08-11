@@ -17,12 +17,12 @@ class ExportService
     {
         $this->ticketsRepository = new TicketsRepository();
     }
-    public function ticketsToPdf($reference): string
+    public function ticketsToPdf($access_code): string
     {
 
         
-        $booking = $this->ticketsRepository->getBookingDataByCode($reference);
-        $tickets = $this->ticketsRepository->getTicketDataByCode($reference);
+        $booking = $this->ticketsRepository->getBookingDataByCode($access_code);
+        $tickets = $this->ticketsRepository->getTicketDataByCode($access_code);
 
         require __DIR__ .'/../views/templates/tickets_pdf.php';
 

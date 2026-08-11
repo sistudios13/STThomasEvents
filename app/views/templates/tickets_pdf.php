@@ -125,7 +125,7 @@ ob_start();
                             </div>
 
                             <div class="token">
-                                Ref: <?= htmlspecialchars($booking['Reference']) ?>
+                                Access Code: <br><?= htmlspecialchars($booking['AccessCode']) ?>
                             </div>
 
                         </div>

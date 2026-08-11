@@ -23,6 +23,10 @@
         [x-cloak] {
             display: none !important;
         }
+
+        button:not([disabled]):hover {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -111,7 +115,7 @@
         </nav>
 
         <!-- main content  -->
-        <main id="main-content" class="flex-grow py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl md:mx-auto">
+        <main id="main-content" class="flex-grow overflow-x-hidden py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl md:mx-auto">
             <?= $content ?? '' ?>
         </main>
 

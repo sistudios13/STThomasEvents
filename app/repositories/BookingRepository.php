@@ -37,7 +37,7 @@ class BookingRepository
         $token = $bookingObject->token;
         $verification_code = $bookingObject->otp;
         $code_expires_at = $bookingObject->code_expires_at;
-        $reference = $bookingObject->reference;
+        $access_code = $bookingObject->access_code;
 
         $booking_session = new BookingSessions();
         $booking_session->setEventId($event_id);
@@ -48,7 +48,7 @@ class BookingRepository
         $booking_session->setToken($token);
         $booking_session->setVerificationCode($verification_code);
         $booking_session->setCodeExpiresAt($code_expires_at);
-        $booking_session->setReference($reference);
+        $booking_session->setAccessCode($access_code);
         $booking_session->save();
 
         return $booking_session->getId();

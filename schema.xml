@@ -20,7 +20,7 @@
     <column name="verification_code" phpName="VerificationCode" type="INTEGER" size="6" required="true"/>
     <column name="code_expires_at" phpName="CodeExpiresAt" type="DATETIME" required="true"/>
     <column name="email_verified" phpName="EmailVerified" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
-    <column name="reference" phpName="Reference" type="VARCHAR" size="6" required="true"/>
+    <column name="access_code" phpName="AccessCode" type="VARCHAR" size="6" required="true"/>
     <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="events" name="fk_booking_sessions_event_id" onDelete="CASCADE">
       <reference local="event_id" foreign="id"/>
@@ -121,17 +121,6 @@
     <unique name="seat_label">
       <unique-column name="seat_label"/>
     </unique>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="users" idMethod="native" phpName="Users">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
-    <column name="password_hash" phpName="PasswordHash" type="VARCHAR" size="255" required="true"/>
-    <column name="role" phpName="Role" type="CHAR" sqlType="enum('staff','admin')" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="255" required="true"/>
-    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
