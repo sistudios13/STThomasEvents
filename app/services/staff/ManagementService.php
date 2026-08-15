@@ -100,7 +100,7 @@ class ManagementService
 
     public function findEventById(int $event_id): ?array
     {
-        return $this->managementRepository->findEventById($event_id);
+        return $this->managementRepository->findEventById($event_id); //no time restrictions
     }
 
     public function getBookings(int $event_id, int $page = 1, ?string $search = '', ?string $sort_key = '', ?string $sort_order = ''): ?array
@@ -226,7 +226,7 @@ class ManagementService
             }
         }
         
-
+        // new events must be scheduled for the future
         if (!v::dateTime('Y-m-d\TH:i')->greaterThan(new \DateTime())->validate($starts_at)) {
             throw new \InvalidArgumentException("Event start time is invalid.");
         }
@@ -278,6 +278,7 @@ class ManagementService
             }
         }
 
+        // events can be edited and set to any time
         if (!v::dateTime('Y-m-d\TH:i')->greaterThan(new \DateTime($starts_at))->validate($ends_at)) {
             throw new \InvalidArgumentException("Event end time is invalid.");
         }

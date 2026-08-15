@@ -158,7 +158,7 @@
                         <td class="whitespace-nowrap px-3 py-3 text-sm text-gray-700"><?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?></td>
                         <td class="whitespace-nowrap px-3 py-3 text-sm w-min">
                             <div class="flex flex-wrap justify-center gap-2">
-                                <button type="button" @click='showModal = true; modalData = {id: <?= $booking['Id'] ?>, name: "<?= htmlspecialchars($booking['Name']) ?>", email: "<?= htmlspecialchars($booking['Email']) ?>", phone: "<?= $booking['Phone'] ?>", role: "<?= $booking['Role'] ?>", reference: "<?= $booking['Reference'] ?>", emailVerified: <?= $booking['EmailVerified'] ? 'true' : 'false' ?>, seats: <?= json_encode($booking['seats']) ?>, timestamp: "<?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?>"}' class="rounded-md border border-gray-200 px-2.5 py-1.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
+                                <button type="button" @click='showModal = true; modalData = {id: <?= $booking['Id'] ?>, name: "<?= htmlspecialchars($booking['Name']) ?>", email: "<?= htmlspecialchars($booking['Email']) ?>", phone: "<?= $booking['Phone'] ?>", role: "<?= $booking['Role'] ?>", accessCode: "<?= $booking['AccessCode'] ?>", emailVerified: <?= $booking['EmailVerified'] ? 'true' : 'false' ?>, seats: <?= json_encode($booking['seats']) ?>, timestamp: "<?= date('o-n-j g:ia', strtotime($booking['Timestamp'])) ?>"}' class="rounded-md border border-gray-200 px-2.5 py-1.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
                                     <svg class="size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6h-2m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4" />
                                     </svg>
@@ -253,8 +253,8 @@
 
             <dl class="grid gap-3 sm:grid-cols-2">
                 <div class="rounded-md border border-gray-100 p-3">
-                    <dt class="text-sm font-medium text-gray-500">Tickets Reference #</dt>
-                    <dd class="mt-1 text-sm text-gray-900" x-text="modalData.reference || '—'"></dd>
+                    <dt class="text-sm font-medium text-gray-500">Tickets Access Code</dt>
+                    <dd class="mt-1 text-sm text-gray-900" x-text="modalData.accessCode || '—'"></dd>
                 </div>
                 <div class="rounded-md border border-gray-100 p-3">
                     <dt class="text-sm font-medium text-gray-500">Phone Number</dt>

@@ -9,11 +9,11 @@ use BookingsQuery;
 class TicketsRepository
 {
 
-    public function authenticateEmailAndCode(string $email, string $code): bool
+    public function authenticateEmailAndAccessCode(string $email, string $access_code): bool
     {
         $user = BookingSessionsQuery::Create()
             ->filterByEmail($email)
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->findOne();
 
         if (!$user) {
@@ -23,10 +23,10 @@ class TicketsRepository
         return true;
     }
 
-    public function getBookingDataByCode(string $code): ?array
+    public function getBookingDataByAccessCode(string $access_code): ?array
     {
         $session = BookingSessionsQuery::create()
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->joinWith('Events')
             ->select(['Name', 'EventId', 'Email', 'AccessCode', 'Events.Name', 'Events.Price', 'Events.Description', 'Events.StartsAt', 'Events.EndsAt', 'Events.Location'])
             ->find();
@@ -50,10 +50,10 @@ class TicketsRepository
         ];
     }
 
-    public function getTicketDataByCode(string $code): ?array
+    public function getTicketDataByAccessCode(string $access_code): ?array
     {
         $session = BookingSessionsQuery::create()
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->joinWith('Bookings')
             ->select(['Bookings.Seat', 'Bookings.Token'])
             ->find();
@@ -70,12 +70,12 @@ class TicketsRepository
         return $tickets;
     }
 
-    public function seatBelongsToCode(string $code, string $seat): bool
+    public function seatBelongsToAccessCode(string $access_code, string $seat): bool
     {
 
         $booking = BookingsQuery::create()
             ->useBookingSessionsQuery()
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->endUse()
             ->filterBySeat($seat)
             ->findOne();
@@ -87,13 +87,13 @@ class TicketsRepository
         return true;
     }
 
-    public function removeSeatFromBooking(string $code, string $seat): void
+    public function removeSeatFromBooking(string $access_code, string $seat): void
     {
 
 
         $booking = BookingsQuery::create()
             ->useBookingSessionsQuery()
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->endUse()
             ->filterBySeat($seat)
             ->findOne();
@@ -104,7 +104,7 @@ class TicketsRepository
         }
 
         $session = BookingSessionsQuery::create()
-            ->filterByAccessCode($code)
+            ->filterByAccessCode($access_code)
             ->findOne();
         if ($session) {
             $remainingSeats = BookingsQuery::create()
@@ -118,4 +118,20 @@ class TicketsRepository
 
     }
 
+    public function cancelBooking(string $access_code): array
+    {
+        $session = BookingSessionsQuery::create()
+            ->filterByAccessCode($access_code)
+            ->select(['Name', 'Email'])
+            ->findOne();
+
+        $info = $session;
+
+        BookingSessionsQuery::create()
+            ->filterByAccessCode($access_code)
+            ->findOne()
+            ->delete();
+
+        return $info;
+    }
 }

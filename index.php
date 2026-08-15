@@ -53,14 +53,15 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
 
     // tickets view
     $r->addRoute('GET', '/tickets', ['TicketsController', 'ticketsAuth']);
-    $r->addRoute('GET', '/tickets/{code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
+    $r->addRoute('GET', '/tickets/{access_code:[A-Z0-9]+}', ['TicketsController', 'ticketsHome']);
     $r->addRoute('GET', '/tickets/logout', ['TicketsController', 'logout']);
     $r->addRoute('GET', '/tickets/{access_code:[A-Z0-9]+}/export-pdf', ['ExportController', 'exportPDF']);
     $r->addRoute('GET', '/tickets/{access_code:[A-Z0-9]+}/calendar', ['ExportController', 'exportICS']);
     $r->addRoute('GET', '/events/passed', ['InitialController', 'eventPassed']);
+    $r->addRoute('GET', '/tickets/cancelled', ['InitialController', 'bookingCancelled']);
 
     // partial routes
-    $r->addRoute('POST', '/partials/tickets/{code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']);
+    $r->addRoute('POST', '/partials/tickets/{access_code:[A-Z0-9]+}/home-seats', ['TicketsController', 'partialHomeSeats']);
 
 
     // post routes todo:RATELIMIT
@@ -74,7 +75,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     
     // ticekts view
     $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']);
-    $r->addRoute('POST', '/tickets/{code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
+    $r->addRoute('POST', '/tickets/{access_code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
+    $r->addRoute('POST', '/tickets/{access_code:[A-Z0-9]+}/cancel', ['TicketsController', 'cancelBooking']);
 
     // error routes
     $r->addRoute(['GET', 'DELETE', 'POST', 'PUT'], '/404', ['ErrorController', 'notFound']);
@@ -102,6 +104,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff/events/new', ['StaffController', 'new', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/edit', ['StaffController', 'edit', 'staff']);
     $r->addRoute('DELETE', '/staff/events/{id:\d+}', ['StaffController', 'deleteEvent', 'staff']);
+    $r->addRoute('GET', '/staff/events/{id:\d+}/bookings/export', ['StaffController', 'exportBookings', 'staff']);
 
 
     $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);

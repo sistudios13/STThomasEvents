@@ -4,25 +4,22 @@ declare(strict_types=1);
 
 namespace App\Staff\Controllers;
 
-use App\Staff\Services\UserService;
 use App\Staff\Services\ManagementService;
-use App\Services\AuthService;
 use App\Services\EventService;
+use App\Services\ExportService;
 
 
 class StaffController
 {
     private ManagementService $managementService;
-    private UserService $userService;
-    private AuthService $authService;
     private EventService $eventService;
+    private ExportService $exportService;
 
     public function __construct()
     {
         $this->managementService = new ManagementService();
-        // $this->userService = new UserService();
-        // $this->authService = new AuthService();
         $this->eventService = new EventService();
+        $this->exportService = new ExportService();
     }
     public function index(): void
     {
@@ -342,6 +339,31 @@ class StaffController
             ";
 
         exit();
+    }
+
+    public function exportBookings($id): void
+    {
+        try {
+            $eventData = $this->managementService->findEventById(intval($id));
+            $csv = $this->exportService->bookingsToCsv(intval($id));
+        } catch (\Exception $exception) {
+            http_response_code(404);
+            echo $exception->getMessage();
+            return;
+        }
+
+        if (!$eventData) {
+            http_response_code(404);
+            echo "Event not found.";
+            return;
+        }
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="bookings-' . $eventData['Name'] . '.csv"');
+        header('Content-Length: ' . \strlen($csv));
+
+        echo $csv;
+        exit;
     }
 
 }

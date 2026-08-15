@@ -21,16 +21,41 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
 ?>
 
 <section class="space-y-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:flex-col md:items-start lg:flex-row">
         <div class="space-y-2">
             <div class="space-y-1">
                 <h1 class="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl"><?= htmlspecialchars($eventData['Name']) ?></h1>
                 <p class="text-sm text-gray-500">Review the event details, schedule, and location.</p>
             </div>
         </div>
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <a href="<?= url("/staff/events/{$id}/edit") ?>" class="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
-                Edit event
+        <div class="flex flex-col gap-2 sm:flex-row md:flex-col md:w-full lg:flex-row lg:w-fit" x-data="{
+            copyText: '<?= \App\Config\Settings::APP_URL ?>events/<?= $id ?>/',
+            copyNotification: false,
+            copyToClipboard() {
+                navigator.clipboard.writeText(this.copyText);
+                this.copyNotification = true;
+                let that = this;
+                setTimeout(function(){
+                    that.copyNotification = false;
+                }, 3000);
+            }
+        }">
+            <?php if ($eventData['EndsAt'] > date('Y-m-d H:i:s')): ?>
+                <button @click="copyToClipboard();" class="inline-flex whitespace-nowrap items-center justify-center rounded-md border border-gray-200 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 group">
+                    <svg x-show="!copyNotification" class="size-5 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z" />
+                    </svg>
+                    <span x-show="!copyNotification">Copy Event Link</span>
+                    <svg x-show="copyNotification" class="size-5 text-green-700 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 7 2 2 4-4m-5-9v4h4V3h-4Z" />
+                    </svg>
+
+                    <span x-show="copyNotification" class="text-green-700" x-cloak>Copied to Clipboard</span>
+                </button>
+            <?php endif; ?>
+
+            <a href="<?= url("/staff/events/{$id}/edit") ?>" class="inline-flex whitespace-nowrap items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+                Event Settings
             </a>
         </div>
     </div>
@@ -54,17 +79,17 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
     <div class="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
         <div class="space-y-6">
             <section class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div class="flex flex-row items-center justify-between">
-                        <div>
-                            <h2 class=" font-medium text-lg text-gray-800">Schedule</h2>
-                            <p class="mt-1 text-sm text-gray-500">Key timing details for this event.</p>
-                        </div>
-                        <?php if ($eventData['EndsAt'] > date('Y-m-d H:i:s') && $eventData['StartsAt'] < date('Y-m-d H:i:s')): ?>
-                            <span class="inline-flex items-center rounded px-2.5 py-1 text-xs font-medium bg-green-100 text-green-800">In Progress</span>
-                        <?php endif; ?>
+
+                <div class="flex flex-row items-center justify-between">
+                    <div>
+                        <h2 class=" font-medium text-lg text-gray-800">Schedule</h2>
+                        <p class="mt-1 text-sm text-gray-500">Key timing details for this event.</p>
                     </div>
+                    <?php if ($eventData['EndsAt'] > date('Y-m-d H:i:s') && $eventData['StartsAt'] < date('Y-m-d H:i:s')): ?>
+                        <span class="inline-flex items-center whitespace-nowrap rounded px-2.5 py-1 text-xs font-medium bg-green-100 text-green-800">In Progress</span>
+                    <?php endif; ?>
                 </div>
+
 
                 <div class="mt-5 grid gap-3 sm:grid-cols-3">
                     <div class="rounded-lg border border-gray-100 bg-gray-50 p-4">

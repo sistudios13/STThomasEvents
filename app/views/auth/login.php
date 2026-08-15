@@ -13,7 +13,7 @@
             <div class="space-y-8">
                 <div class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">
                     <label for="email" class="text-xs font-semibold text-gray-500 uppercase pb-2 tracking-wide">Email</label>
-                    <input type="email" name="email" id="email" autocomplete="email" required class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base">
+                    <input type="email" name="email" id="email" autocomplete="email" maxlength="200" minlength="5" required class="w-full bg-transparent text-gray-900 py-2 focus:outline-none text-base">
                 </div>
 
                 <div class="border-b border-gray-300 pb-0 focus-within:border-green-600 transition">

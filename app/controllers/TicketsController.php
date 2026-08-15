@@ -34,15 +34,15 @@ class TicketsController
     public function AuthenticateTickets(): void
     {
         $email = trim($_POST['email']) ?? '';
-        $code = trim(strtoupper($_POST['code'])) ?? '';
+        $access_code = trim(strtoupper($_POST['access_code'])) ?? '';
 
-        if (empty($email) || empty($code)) {
+        if (empty($email) || empty($access_code)) {
             http_response_code(400);
-            echo 'Email and code are required';
+            echo 'Email and access code are required';
             return;
         }
         try {
-            $auth = $this->ticketsService->authenticateTickets($email, $code);
+            $auth = $this->ticketsService->authenticateTickets($email, $access_code);
         } catch (\InvalidArgumentException $e) {
             http_response_code(400);
             echo $e->getMessage();
@@ -51,24 +51,24 @@ class TicketsController
 
         if ($auth == false) {
             http_response_code(400);
-            echo 'Invalid email or code.';
+            echo 'Invalid email or access code.';
             return;
         }
 
-        $_SESSION['access_code'] = $code;
+        $_SESSION['access_code'] = $access_code;
 
-        header('HX-Redirect: ' . url('/tickets/' . $code));
+        header('HX-Redirect: ' . url('/tickets/' . $access_code));
     }
 
-    public function ticketsHome(string $code): void
+    public function ticketsHome(string $access_code): void
     {
-        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $code) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $access_code) {
             header('Location: ' . url('/tickets/'));
             exit;
         }
 
         try {
-            $data = $this->ticketsService->getBookingDataByCode($code);
+            $data = $this->ticketsService->getBookingDataByAccessCode($access_code);
         } catch (\InvalidArgumentException $e) {
             header('Location: ' . url('/tickets/'));
             exit;
@@ -86,21 +86,21 @@ class TicketsController
 
         render('tickets_home', 'main', [
             'pageTitle' => 'My Tickets - St. Thomas Events',
-            'code' => $code,
+            'access_code' => $access_code,
             'data' => $data,
         ]);
     }
 
-    public function partialHomeSeats(string $code): void
+    public function partialHomeSeats(string $access_code): void
     {
-        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $_POST['code']) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $_POST['access_code']) {
             redirectToUrl(url('/tickets/'));
             exit;
         }
 
         try {
-            $tickets = $this->ticketsService->getTicketDataByCode($code);
-            $booking = $this->ticketsService->getBookingDataByCode($code);
+            $tickets = $this->ticketsService->getTicketDataByAccessCode($access_code);
+            $booking = $this->ticketsService->getBookingDataByAccessCode($access_code);
         } catch (\InvalidArgumentException $e) {
             http_response_code(400);
             echo $e->getMessage();
@@ -110,14 +110,14 @@ class TicketsController
         require __DIR__ . '/../views/partials/tickets.php';
     }
 
-    public function removeSeat(string $code, string $seat): void
+    public function removeSeat(string $access_code, string $seat): void
     {
-        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $code) {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $access_code) {
             redirectToUrl(url('/tickets/'));
             exit;
         }
         try {
-            $this->ticketsService->removeSeatFromBooking($code, $seat);
+            $this->ticketsService->removeSeatFromBooking($access_code, $seat);
         } catch (\Exception $exception) {
             http_response_code(400);
             echo $exception->getMessage() ?? 'An Error Occurred';
@@ -126,6 +126,25 @@ class TicketsController
         header('HX-Trigger: refresh-list');
         header('HX-Success-Message: Seat removed successfully');
         exit;
+    }
+
+    public function cancelBooking(string $access_code): void
+    {
+        if (!isset($_SESSION['access_code']) || $_SESSION['access_code'] != $access_code) {
+            redirectToUrl(url('/tickets/'));
+            exit;
+        }
+        try {
+            $this->ticketsService->cancelBooking($access_code);
+        } catch (\Exception $exception) {
+            http_response_code(400);
+            echo $exception->getMessage() ?? 'An Error Occurred';
+            return;
+        }
+
+        session_destroy();
+        header('HX-Success-Message: Booking Cancelled successfully');
+        redirectToUrl(url('/tickets/cancelled/'));
     }
 
 

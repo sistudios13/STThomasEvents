@@ -107,7 +107,7 @@ class ExportController
         }
 
         try {
-            $data = $this->ticketsService->getBookingDataByCode($access_code);
+            $data = $this->ticketsService->getBookingDataByAccessCode($access_code);
         } catch (\InvalidArgumentException $e) {
             header('Location: ' . url('/tickets/'));
             exit;
@@ -143,6 +143,7 @@ class ExportController
         exit;
 
     }
+
 
 
 }

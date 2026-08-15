@@ -130,7 +130,7 @@ class ConfirmationController
         }
 
         session_unset();
-        header('HX-Redirect: ' . url('/events/confirmed/?code=' . htmlspecialchars(\strval($redirectInfo[0])) . '&email=' . htmlspecialchars(strval($redirectInfo[1])))); 
+        header('HX-Redirect: ' . url('/events/confirmed/?access_code=' . htmlspecialchars(\strval($redirectInfo[0])) . '&email=' . htmlspecialchars(strval($redirectInfo[1])))); 
 
     }
 

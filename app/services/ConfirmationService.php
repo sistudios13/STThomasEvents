@@ -69,7 +69,7 @@ class ConfirmationService
 
         $pdfOutput = $this->exportService->ticketsToPdf($access_code);
 
-        $url = \App\Config\Settings::APP_URL . "tickets/?code=" . $access_code . "&email=" . urlencode($email);
+        $url = \App\Config\Settings::APP_URL . "tickets/?access_code=" . $access_code . "&email=" . urlencode($email);
 
         $sent = $this->emailService->sendEmail(
             $email,

@@ -74,6 +74,15 @@ class InitialController
         ]);
     }
 
+    public function bookingCancelled(): void
+    {
+        session_destroy();
+        render('booking_cancel', null, [
+            'pageTitle' => 'Booking Cancelled - St. Thomas Events',
+
+        ]);
+    }
+
 
 
 

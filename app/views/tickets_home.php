@@ -2,24 +2,24 @@
 // --- Build "Add to Calendar" links (ICS download + Google/Outlook/Office365/Yahoo) ---
 $tzEvent = new DateTimeZone('America/New_York');
 $tzUtc = new DateTimeZone('UTC');
- 
+
 $dtStartLocal = new DateTime($data['Events.StartsAt'], $tzEvent);
 $dtEndLocal = new DateTime($data['Events.EndsAt'], $tzEvent);
 $dtStartUtc = (clone $dtStartLocal)->setTimezone($tzUtc);
 $dtEndUtc = (clone $dtEndLocal)->setTimezone($tzUtc);
- 
+
 $calTitle = $data['Events.Name'];
 $calLocation = $data['Events.Location'];
 $calDescription = $data['Events.Description'];
- 
+
 function icsEscape(string $text): string
 {
     $text = str_replace(['\\', ';', ',', "\r\n", "\n"], ['\\\\', '\\;', '\\,', '\\n', '\\n'], $text);
     return $text;
 }
- 
-$icsUrl = url('/tickets/' . $code . '/calendar/');
- 
+
+$icsUrl = url('/tickets/' . $access_code . '/calendar/');
+
 // Google Calendar
 $googleUrl = 'https://calendar.google.com/calendar/render?' . http_build_query([
     'action' => 'TEMPLATE',
@@ -28,7 +28,7 @@ $googleUrl = 'https://calendar.google.com/calendar/render?' . http_build_query([
     'details' => $calDescription,
     'location' => $calLocation,
 ]);
- 
+
 // Outlook.com
 $outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?' . http_build_query([
     'path' => '/calendar/action/compose',
@@ -39,7 +39,7 @@ $outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?' . http_bui
     'body' => $calDescription,
     'location' => $calLocation,
 ]);
- 
+
 // Office 365
 $office365Url = 'https://outlook.office.com/calendar/0/deeplink/compose?' . http_build_query([
     'path' => '/calendar/action/compose',
@@ -50,7 +50,7 @@ $office365Url = 'https://outlook.office.com/calendar/0/deeplink/compose?' . http
     'body' => $calDescription,
     'location' => $calLocation,
 ]);
- 
+
 // Yahoo Calendar
 $yahooDiff = $dtStartLocal->diff($dtEndLocal);
 $yahooDuration = sprintf('%02d%02d', ($yahooDiff->days * 24) + $yahooDiff->h, $yahooDiff->i);
@@ -64,7 +64,7 @@ $yahooUrl = 'https://calendar.yahoo.com/?' . http_build_query([
     'desc' => $calDescription,
     'in_loc' => $calLocation,
 ]);
-?> 
+?>
 
 <div class="items-start grid grid-cols-1 lg:grid-cols-2 gap-12 w-full ">
     <div class="flex flex-col gap-8 overflow-visible">
@@ -180,64 +180,85 @@ $yahooUrl = 'https://calendar.yahoo.com/?' . http_build_query([
 
             <!-- Add to Calendar -->
             <div class="relative mt-6" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false">
-                <button
-                    type="button"
-                    @click="open = !open"
-                    :aria-expanded="open"
-                    class="w-full flex gap-2 items-center justify-center py-2.5 bg-green-600 shadow-sm text-white rounded-md hover:bg-green-700 transition-colors font-medium text-sm"
-                >
+                <button type="button" @click="open = !open" :aria-expanded="open" class="w-full flex gap-2 items-center justify-center py-2.5 bg-green-600 shadow-sm text-white rounded-md hover:bg-green-700 transition-colors font-medium text-sm">
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M4 9.05H3v2h1v-2Zm16 2h1v-2h-1v2ZM10 14a1 1 0 1 0 0 2v-2Zm4 2a1 1 0 1 0 0-2v2Zm-3 1a1 1 0 1 0 2 0h-2Zm2-4a1 1 0 1 0-2 0h2Zm-2-5.95a1 1 0 1 0 2 0h-2Zm2-3a1 1 0 1 0-2 0h2Zm-7 3a1 1 0 0 0 2 0H6Zm2-3a1 1 0 1 0-2 0h2Zm8 3a1 1 0 1 0 2 0h-2Zm2-3a1 1 0 1 0-2 0h2Zm-13 3h14v-2H5v2Zm14 0v12h2v-12h-2Zm0 12H5v2h14v-2Zm-14 0v-12H3v12h2Zm0 0H3a2 2 0 0 0 2 2v-2Zm14 0v2a2 2 0 0 0 2-2h-2Zm0-12h2a2 2 0 0 0-2-2v2Zm-14-2a2 2 0 0 0-2 2h2v-2Zm-1 6h16v-2H4v2ZM10 16h4v-2h-4v2Zm3 1v-4h-2v4h2Zm0-9.95v-3h-2v3h2Zm-5 0v-3H6v3h2Zm10 0v-3h-2v3h2Z" />
                     </svg>
                     Add to Calendar
                     <svg class="w-4 h-4 ml-0.5 transition-transform" :class="open && 'rotate-180'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
- 
-                <div
-                    x-show="open"
-                    x-transition:enter="transition ease-out duration-150"
-                    x-transition:enter-start="opacity-0 -translate-y-1"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-100"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    x-cloak
-                    @click="open = false"
-                    class="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-md shadow-lg  z-10"
-                >
-                    <a href="<?= htmlspecialchars($icsUrl) ?>"
-                       class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
+
+                <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-cloak @click="open = false" class="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-md shadow-lg  z-10">
+                    <a href="<?= htmlspecialchars($icsUrl) ?>" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
                         <span class="w-2 h-2 rounded-full bg-gray-400 flex-shrink-0"></span>
                         Apple Calendar / Download ICS
                     </a>
-                    <a href="<?= htmlspecialchars($googleUrl) ?>" target="_blank" rel="noopener"
-                       class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
+                    <a href="<?= htmlspecialchars($googleUrl) ?>" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
                         <span class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></span>
                         Google Calendar
                     </a>
-                    <a href="<?= htmlspecialchars($outlookUrl) ?>" target="_blank" rel="noopener"
-                       class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
+                    <a href="<?= htmlspecialchars($outlookUrl) ?>" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
                         <span class="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0"></span>
                         Outlook.com
                     </a>
-                    <a href="<?= htmlspecialchars($office365Url) ?>" target="_blank" rel="noopener"
-                       class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
+                    <a href="<?= htmlspecialchars($office365Url) ?>" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
                         <span class="w-2 h-2 rounded-full bg-indigo-500 flex-shrink-0"></span>
                         Office 365
                     </a>
-                    <a href="<?= htmlspecialchars($yahooUrl) ?>" target="_blank" rel="noopener"
-                       class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
+                    <a href="<?= htmlspecialchars($yahooUrl) ?>" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100">
                         <span class="w-2 h-2 rounded-full bg-purple-500 flex-shrink-0"></span>
                         Yahoo Calendar
                     </a>
                 </div>
             </div>
+
+            <div class="mt-6 rounded-lg border border-red-100 bg-red-50/70 p-4" x-data="{ showDeleteModal: false, loading: false }">
+                <div class="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm font-semibold text-red-900">Not going to show up?</p>
+                        <p class="mt-1 text-sm leading-relaxed text-red-800">
+                            We would really appreciate it if you could cancel your booking if you can't make it. Thank you!
+                        </p>
+                    </div>
+
+                    <button @click="showDeleteModal=true" type="button" class="inline-flex disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap items-center justify-center rounded-md border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-700 gap-2 shadow-sm transition-colors hover:bg-red-100 hover:text-red-800">
+                        Cancel Booking
+                    </button>
+                    <div x-cloak x-show="showDeleteModal" class="fixed inset-0 z-[40] flex h-[100dvh] w-screen items-center justify-center overflow-y-auto p-4 pt-6 text-gray-900 sm:items-center sm:pt-4">
+                        <div x-show="showDeleteModal" x-transition:enter="ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="showModal=false" class="fixed inset-0 h-[100lvh] w-screen bg-white/70 backdrop-blur-sm"></div>
+                        <div x-show="showDeleteModal" @click.away="showDeleteModal=false;" x-trap="showDeleteModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 -translate-y-2 sm:scale-95" class="relative z-10 mx-auto my-4 w-full max-w-lg overflow-y-auto rounded-lg border border-gray-100 bg-white px-7 py-6 shadow-lg">
+                            <div class="flex items-center justify-between pb-3">
+                                <h3 class="mr-6 text-lg font-semibold">Are you sure you want to cancel your booking?</h3>
+                                <button type="button" @click="showDeleteModal=false;" class="flex h-8 w-8 items-center justify-center rounded-full text-gray-600 hover:bg-gray-50 hover:text-gray-800">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="w-auto font-normal text-gray-700">
+                                <p>Are you sure you want to cancel your booking? This action cannot be undone.
+                                </p>
+                            </div>
+
+
+                            <div class="flex justify-between pt-8">
+                                <button @click="showDeleteModal=false;" hx-post="<?= url('/tickets/' . $access_code . '/cancel/') ?>" hx-swap="none" :disabled="loading" hx-vals="js:{_csrf : '<?= csrf_token() ?>'}" @htmx:before-request="loading = true" @htmx:after-request="loading = false" type="button" class="rounded-md bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 disabled:cursor-not-allowed disabled:opacity-50 focus:ring-offset-2">
+                                    <span x-text="loading ? 'Cancelling...' : 'Cancel Booking'"></span>
+                                </button>
+                                
+                                <button type="button" @click="showDeleteModal=false;" class="rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 ">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="min-h-[720px] w-full min-w-0" hx-vals="js:{code: '<?= $code ?>', _csrf : '<?= csrf_token() ?>'}" hx-post="<?= url('/partials/tickets/' . $code . '/home-seats/') ?>" hx-trigger="load, refresh-list from:body" hx-swap="innerHTML">
+    <div class="min-h-[720px] w-full min-w-0" hx-vals="js:{access_code: '<?= $access_code ?>', _csrf : '<?= csrf_token() ?>'}" hx-post="<?= url('/partials/tickets/' . $access_code . '/home-seats/') ?>" hx-trigger="load, refresh-list from:body" hx-swap="innerHTML">
         <div id="seats-container" class="col-span-3">
             <p class="text-gray-600">Loading seats...</p>
         </div>

@@ -46,13 +46,7 @@ class ManagementRepository
         return $event ? $event->toArray() : null;
     }
 
-    public function getBookings(
-        int $event_id,
-        int $page = 1,
-        ?string $search = null,
-        ?string $sort_key = null,
-        ?string $sort_order = null
-    ): array {
+    public function getBookings( int $event_id, int $page = 1, ?string $search = null, ?string $sort_key = null, ?string $sort_order = null, ?int $limit = null): array {
         // Whitelist sortable columns
         $sortableColumns = [
             'id' => BookingSessionsTableMap::COL_ID,
@@ -61,6 +55,8 @@ class ManagementRepository
             'timestamp' => BookingSessionsTableMap::COL_TIMESTAMP,
             'status' => BookingSessionsTableMap::COL_EMAIL_VERIFIED,
         ];
+
+        $limit ??= Settings::STAFF_TABLE_MAX_ROWS;
 
         $query = BookingSessionsQuery::create()
             ->filterByEventId($event_id)
@@ -100,8 +96,8 @@ class ManagementRepository
         }
 
         $sessions = $query
-            ->limit(Settings::STAFF_TABLE_MAX_ROWS)
-            ->offset(($page - 1) * Settings::STAFF_TABLE_MAX_ROWS)
+            ->limit($limit)
+            ->offset(($page - 1) * $limit)
             ->find();
 
         //Get seats for each session and return as array
