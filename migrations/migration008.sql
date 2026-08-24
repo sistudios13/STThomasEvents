@@ -1,0 +1,1 @@
+ALTER TABLE `bookings` ADD `checked_in` BOOLEAN NOT NULL DEFAULT FALSE AFTER `token`;

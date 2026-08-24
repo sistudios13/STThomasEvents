@@ -105,12 +105,18 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff/events/{id:\d+}/edit', ['StaffController', 'edit', 'staff']);
     $r->addRoute('DELETE', '/staff/events/{id:\d+}', ['StaffController', 'deleteEvent', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/bookings/export', ['StaffController', 'exportBookings', 'staff']);
+    $r->addRoute('GET', '/staff/check-in', ['CheckInController', 'index', 'staff']);
+    $r->addRoute('GET', '/staff/check-in/{id:\d+}/scan', ['CheckInController', 'scan', 'staff']);
 
+    
+    $r->addRoute('GET', '/staff/check-in/{id:\d+}/manual', ['CheckInController', 'manual', 'staff']);
 
     $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);
     $r->addRoute('POST', '/staff/settings/delete-account', ['UserController', 'deleteAccount', 'staff']);
     $r->addRoute('POST', '/staff/events/new', ['StaffController', 'newEvent', 'staff']);
     $r->addRoute('POST', '/staff/events/{id:\d+}/edit', ['StaffController', 'editEvent', 'staff']);
+    $r->addRoute('POST', '/staff/check-in/{id:\d+}/scan', ['CheckInController', 'processScan', 'staff']);
+    $r->addRoute('POST', '/staff/check-in/{id:\d+}/undo', ['CheckInController', 'undoScan', 'staff']);
 
 
 });

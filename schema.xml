@@ -40,6 +40,7 @@
     <column name="code_expires_at" phpName="CodeExpiresAt" type="DATETIME" required="true"/>
     <column name="email_verified" phpName="EmailVerified" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="token" phpName="Token" type="VARCHAR" size="14" required="true"/>
+    <column name="checked_in" phpName="CheckedIn" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="events" name="fk_bookings_event_id" onDelete="CASCADE">
       <reference local="event_id" foreign="id"/>

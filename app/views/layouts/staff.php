@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scrollbar-gutter: stable">
 
 <head>
     <meta charset="UTF-8">
@@ -93,6 +93,14 @@
 
                         <span>Create New Event</span>
                     </a>
+                    <a href="<?= url('/staff/check-in/') ?>" class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-700 underline-offset-2 hover:bg-gray-200 hover:text-gray-900 focus-visible:underline focus:outline-hidden ">
+                        <svg class="size-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+</svg>
+
+
+                        <span>Check In</span>
+                    </a>
                 </div>
                 <!-- bottom -->
                 <div class="flex flex-col gap-2">
@@ -115,7 +123,7 @@
         </nav>
 
         <!-- main content  -->
-        <main id="main-content" class="flex-grow overflow-x-hidden py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl md:mx-auto">
+        <main id="main-content" class="flex-grow overflow-x-hidden overflow-y-clip py-12 md:py-16 lg:py-20 text-gray-900 px-4 sm:px-6 lg:px-8 max-w-7xl md:mx-auto">
             <?= $content ?? '' ?>
         </main>
 

@@ -19,6 +19,7 @@
       "app/controllers/",
       "app/services/",
       "app/services/staff/",
+      "app/services/staff/CheckInService.php",
       "app/repositories/staff/"
     ]
  },
