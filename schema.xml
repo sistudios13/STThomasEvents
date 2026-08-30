@@ -21,6 +21,7 @@
     <column name="code_expires_at" phpName="CodeExpiresAt" type="DATETIME" required="true"/>
     <column name="email_verified" phpName="EmailVerified" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="access_code" phpName="AccessCode" type="VARCHAR" size="6" required="true"/>
+    <column name="reminder_sent_at" phpName="ReminderSentAt" type="DATETIME" required="false"/>
     <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="events" name="fk_booking_sessions_event_id" onDelete="CASCADE">
       <reference local="event_id" foreign="id"/>

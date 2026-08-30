@@ -25,7 +25,7 @@ class CheckInService
         $this->managementRepository = new ManagementRepository();
         $this->checkInRepository = new CheckInRepository();
     }
-    
+
     public function getCurrentSeatedEventById(int $id): ?array // With Seatmap
     {
         return $this->checkInRepository->findCurrentSeatedById($id);
@@ -38,9 +38,9 @@ class CheckInService
     {
         $bookingExists = $this->checkInRepository->bookingExists($qr_data);
         $checkinData = $this->checkInRepository->checkInBooking($event_id, $qr_data);
-       if ($bookingExists && $checkinData === false) { //
-            throw new \Exception('Wrong Event'); 
-        } 
+        if ($bookingExists && $checkinData === false) { //
+            throw new \Exception('Wrong Event');
+        }
         if ($checkinData === false) {
             throw new \Exception('Booking not found');
         }
@@ -49,10 +49,10 @@ class CheckInService
         }
 
         $stats = $this->checkInRepository->getCheckInStats($event_id);
-        
+
         return [
             'id' => $checkinData['Id'],
-            'name' => $checkinData['Name'], 
+            'name' => $checkinData['Name'],
             'seat' => $checkinData['Seat'],
             'time' => date('g:i A'),
             'checked' => $stats['checked'],
@@ -64,6 +64,16 @@ class CheckInService
     public function undoCheckIn(int $event_id, int $booking_id): ?string
     {
         return $this->checkInRepository->undoCheckIn($event_id, $booking_id); //returns seat, or null if not successful
+    }
+
+    public function getBookingByAccessCode(string $access_code, int $event_id): ?array
+    {
+        return $this->checkInRepository->getBookingByAccessCode($access_code, $event_id);
+    }
+
+    public function checkInOne(int $event_id, int $session_id, int $booking_id): ?array
+    {
+        return $this->checkInRepository->checkInOne($event_id, $session_id, $booking_id);
     }
 
 }

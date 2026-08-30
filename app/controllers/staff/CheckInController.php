@@ -94,6 +94,7 @@ class CheckInController
             http_response_code(400);
             echo 'Invalid check-in data.';
             return;
+
         }
 
         require __DIR__ . '/../../views/fragments/scan_success.php';
@@ -125,5 +126,81 @@ class CheckInController
         http_response_code(200);
         header('HX-Success-Message: Check-in for seat ' . $seat . ' has been undone.');
     }
+    public function manual(string $id): void
+    {
+        $eventData = $this->checkInService->getCurrentSeatedEventById(\intval($id));
+        if (!$eventData) {
+            http_response_code(404);
+            header('Location: ' . url('/404/'));
+            return;
+        }
+
+        render('staff/manual', 'staff', [
+            'pageTitle' => 'Manual Check-In - St. Thomas Events',
+            'eventData' => $eventData,
+            'id' => $id,
+            'stats' => $this->checkInService->getCheckInStats(\intval($id)),
+        ]);
+    }
+
+    public function manualSearch(string $id): void
+    {
+        $eventData = $this->checkInService->getCurrentSeatedEventById(\intval($id));
+        if (!$eventData) {
+            http_response_code(404);
+            header('Location: ' . url('/404/'));
+            return;
+        }
+
+        $access_code = $_POST['access_code'] ?? null;
+        if (empty($access_code)) {
+            http_response_code(400);
+            echo 'No access code provided.';
+            return;
+        }
+
+        $booking = $this->checkInService->getBookingByAccessCode($access_code, \intval($id));
+        if (!$booking) {
+            http_response_code(404);
+            echo 'Booking not found for the provided access code.';
+            return;
+        }
+
+        require __DIR__ . '/../../views/fragments/manual_results.php';
+    }
+
+    public function checkInOne(string $id): void //finish
+    {
+        $eventData = $this->checkInService->getCurrentSeatedEventById(\intval($id));
+        if (!$eventData) {
+            http_response_code(404);
+            header('Location: ' . url('/404/'));
+            return;
+        }
+
+        $session_id = $_POST['session_id'] ?? null;
+        $booking_id = $_POST['booking_id'] ?? null;
+        if (empty($session_id) || empty($booking_id)) {
+            http_response_code(400);
+            echo 'Missing session or booking ID.';
+            return;
+        }
+
+        try {
+            $checkin = $this->checkInService->checkInOne(\intval($id), \intval($session_id), \intval($booking_id));
+        } catch (\Exception $e) {
+            http_response_code(400);
+            echo $e->getMessage();
+            return;
+        }
+
+        if (!$checkin) {
+            http_response_code(400);
+            echo 'Invalid check-in data.';
+            return;
+        }
+
+        require __DIR__ . '/../../views/fragments/manual_one.php';
+    } 
 
 }

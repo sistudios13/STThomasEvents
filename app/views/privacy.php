@@ -75,8 +75,8 @@
                 If you have any questions about this privacy policy or your event booking information, contact us through the support page or email below.
             </p>
             <div class="mt-4 flex flex-col sm:flex-row gap-3">
-                <a href="mailto:stthomaseventsinfo@gmail.com" class="text-green-700 font-medium hover:text-green-800 transition">
-                    stthomaseventsinfo@gmail.com
+                <a href="mailto:<?= App\Config\Settings::SUPPORT_EMAIL ?>" class="text-green-700 font-medium hover:text-green-800 transition">
+                    <?= App\Config\Settings::SUPPORT_EMAIL ?>
                 </a>
                 <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-700 transition">
                     Visit the support page

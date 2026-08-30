@@ -103,5 +103,60 @@ class CheckInRepository
         return $booking->getSeat(); // Return the seat
     }
 
+    public function getBookingByAccessCode(string $access_code, int $event_id): ?array
+    {
+        $session = BookingSessionsQuery::create()
+            ->filterByAccessCode($access_code)
+            ->filterByEventId($event_id)
+            ->findOne();
+
+        if (!$session) {
+            return null;
+        }
+
+        $bookings = BookingsQuery::create()
+            ->filterBySessionId($session->getId())
+            ->find();
+
+        if ($bookings->count() == 0) {
+            return null;
+        }
+
+        $tickets = ['session' => $session->toArray(), 'bookings' => []];
+        foreach ($bookings as $booking) {
+            $tickets['bookings'][] = $booking->toArray();
+        }
+
+        return $tickets;
+    }
+
+    public function checkInOne(int $event_id, int $session_id, int $booking_id): ?array
+    {
+        $booking = BookingsQuery::create()
+            ->filterByEventId($event_id)
+            ->filterBySessionId($session_id)
+            ->filterById($booking_id)
+            ->findOne();
+
+        if (!$booking) {
+            return null; // Booking not found
+        }
+
+        if ($booking->getCheckedIn()) {
+            return null; // Already checked in
+        }
+
+        // Mark the booking as checked in
+        $booking->setCheckedIn(true);
+        $booking->save();
+
+        $data = $booking->toArray();
+
+
+        return $data;
+    }
+
+
+
     
 }

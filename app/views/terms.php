@@ -1,4 +1,6 @@
-<section class="max-w-3xl mx-auto leading-7 px-2 sm:px-0">
+<?php 
+use App\Config\Settings;
+?><section class="max-w-3xl mx-auto leading-7 px-2 sm:px-0">
     <div class="border-b border-gray-200 pb-6 mb-8">
         <p class="text-sm font-semibold uppercase tracking-widest text-green-700">Terms of Service</p>
         <h1 class="mt-2 text-3xl sm:text-4xl font-bold text-gray-900">St. Thomas Events</h1>
@@ -78,8 +80,8 @@
                 If you have questions about these terms, contact us through the support page or email below.
             </p>
             <div class="mt-4 flex flex-col sm:flex-row gap-3">
-                <a href="mailto:stthomaseventsinfo@gmail.com" class="text-green-700 font-medium hover:text-green-800 transition">
-                    stthomaseventsinfo@gmail.com
+                <a href="mailto:<?= App\Config\Settings::SUPPORT_EMAIL ?>" class="text-green-700 font-medium hover:text-green-800 transition">
+                    <?= App\Config\Settings::SUPPORT_EMAIL ?>
                 </a>
                 <a href="<?= url('/support') ?>" class="text-gray-600 hover:text-green-700 transition">
                     Visit the support page

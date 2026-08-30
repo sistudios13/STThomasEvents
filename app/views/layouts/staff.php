@@ -164,6 +164,7 @@
                         <li><a href="<?= url('/staff/events/') ?>" class="hover:text-white transition">Events</a></li>
                         <li><a href="<?= url('staff/events/new/') ?>" class="hover:text-white transition">New Event</a></li>
                         <li><a href="<?= url('/staff/settings') ?>" class="hover:text-white transition">Settings</a></li>
+                        <li><a href="<?= url('/staff/check-in/') ?>" class="hover:text-white transition">Check In</a></li>
 
                     </ul>
                 </div>

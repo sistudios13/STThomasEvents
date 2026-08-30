@@ -8,7 +8,7 @@ final class Settings
 {
     public const APP_URL = 'http://localhost/stthomas-events/';
     public const APP_VERSION = '1.0';
-    public const STAGE = 0; //0=dev 1=prod
+    public const STAGE = 1; //0=dev 1=prod
     public const HOLD_DURATION = 60 * 5; // 5 minutes
     public const EMAIL_CONFIRMATION_DURATION = 60 * 5; // 5 minutes
     public const REMEMBER_ME_DURATION = 60 * 60 * 24 * 7; // 7 days

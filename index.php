@@ -117,8 +117,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/staff/events/{id:\d+}/edit', ['StaffController', 'editEvent', 'staff']);
     $r->addRoute('POST', '/staff/check-in/{id:\d+}/scan', ['CheckInController', 'processScan', 'staff']);
     $r->addRoute('POST', '/staff/check-in/{id:\d+}/undo', ['CheckInController', 'undoScan', 'staff']);
-
-
+    $r->addRoute('POST', '/staff/check-in/{id:\d+}/manual', ['CheckInController', 'manualSearch', 'staff']);
+    $r->addRoute('POST', '/staff/check-in/{id:\d+}/manual/one', ['CheckInController', 'checkInOne', 'staff']);
 });
 
 // Dispatch the request

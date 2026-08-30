@@ -1,3 +1,26 @@
+<?php if (isset($_GET['access_code'], $_GET['email'])): ?>
+
+<div
+    x-data
+    x-init="
+        document.addEventListener('htmx:load', () => {
+            htmx.ajax('POST', '<?= url('/tickets/authenticate/') ?>', {
+                values: {
+                    _csrf: '<?= csrf_token() ?>',
+                    access_code: '<?= htmlspecialchars($_GET['access_code']) ?>',
+                    email: '<?= htmlentities($_GET['email']) ?>'
+                },
+                target: '#result',
+                swap: 'innerHTML'
+            })
+        }, { once: true })
+    "
+>
+    <div id="result"></div>
+</div>
+
+<?php endif; ?>
+
 <div class="grid grid-cols-1 lg:items-center gap-12">
     <div>
         <h1 class="text-3xl font-bold text-gray-900 mb-4">Access Your Tickets</h1>
