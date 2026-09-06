@@ -130,7 +130,7 @@ class ReservationController
             return;
         }
 
-        render('event_expired', null, [
+        render('event_expired', 'no_header', [
             'pageTitle' => 'Session Expired - St. Thomas Events',
             'eventData' => $event,
             'step' => 1
@@ -156,7 +156,7 @@ class ReservationController
         }
 
 
-        render('event_cancel', null, [
+        render('event_cancel', 'no_header', [
             'pageTitle' => 'Reservation Cancelled - St. Thomas Events',
             'eventData' => $event,
 

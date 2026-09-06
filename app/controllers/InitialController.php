@@ -53,7 +53,7 @@ class InitialController
     public function eventPassed(): void
     {
         session_destroy();
-        render('event_passed', null, [
+        render('event_passed', 'no_header', [
             'pageTitle' => 'Event Passed - St. Thomas Events',
 
         ]);
@@ -77,7 +77,7 @@ class InitialController
     public function bookingCancelled(): void
     {
         session_destroy();
-        render('booking_cancel', null, [
+        render('booking_cancel', 'no_header', [
             'pageTitle' => 'Booking Cancelled - St. Thomas Events',
 
         ]);

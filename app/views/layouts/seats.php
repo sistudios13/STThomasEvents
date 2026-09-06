@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <p class="text-gray-400 text-sm">St. Thomas Events is the place to book tickets for various events at St. Thomas High School.</p>
-                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp<br> <span class="font-normal">simonsites.com</span></a>
+                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp<br> <span class="font-normal">Powered by simonsites.com</span></a>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>

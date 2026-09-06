@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `staff_invites` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `token` VARCHAR(255) NOT NULL UNIQUE,
+  `expires_at` DATETIME NOT NULL,
+  `used_at` DATETIME NULL DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `staff_invites_token` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

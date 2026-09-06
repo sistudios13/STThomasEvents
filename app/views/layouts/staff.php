@@ -43,8 +43,13 @@
         <nav x-cloak class="fixed left-0 z-20 flex h-dvh w-60 shrink-0 flex-col border-r border-gray-200 bg-gray-100 p-4 transition-transform duration-300 md:sticky md:top-0 md:w-64 md:translate-x-0" x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'" aria-label="sidebar navigation">
             <!-- logo  -->
             <a href="#" class="ml-2  w-fit text-2xl font-bold text-gray-900 ">
+                <span class="text-base font-medium ">Staff Portal</span>
+                <br>
                 St. Thomas Events
+
+
             </a>
+
 
             <hr class="my-4 text-gray-200">
 
@@ -95,8 +100,8 @@
                     </a>
                     <a href="<?= url('/staff/check-in/') ?>" class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-700 underline-offset-2 hover:bg-gray-200 hover:text-gray-900 focus-visible:underline focus:outline-hidden ">
                         <svg class="size-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-</svg>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                        </svg>
 
 
                         <span>Check In</span>
@@ -104,6 +109,15 @@
                 </div>
                 <!-- bottom -->
                 <div class="flex flex-col gap-2">
+                    <?php if (isAdmin()): ?>
+                        <a href="<?= url('/staff/manage/') ?>" class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-700 underline-offset-2 hover:bg-gray-200 hover:text-gray-900 focus-visible:underline focus:outline-hidden ">
+                            <svg class="size-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+</svg>
+
+                            Manage Staff Members</span>
+                        </a>
+                    <?php endif; ?>
                     <a href="<?= url('/staff/settings/') ?>" class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-gray-700 underline-offset-2 hover:bg-gray-200 hover:text-gray-900 focus-visible:underline focus:outline-hidden ">
                         <svg class="size-5 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z" />
@@ -151,11 +165,11 @@
                     <div class="flex items-center gap-2 mb-4">
                         <div href="<?= url('/') ?>" class="flex items-center gap-2">
                             <img src="<?= url('/assets/sttlogo.png') ?>" alt="St. Thomas High School Logo" class="size-16">
-                            <span class="text-lg leading-5 font-bold text-white">St. Thomas Events Staff</span>
+                            <span class="text-lg leading-5 font-bold text-white">St. Thomas Events Staff Portal</span>
                         </div>
                     </div>
 
-                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">simonsites.com</span></a>
+                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">Powered by simonsites.com</span></a>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>

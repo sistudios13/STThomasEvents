@@ -17,8 +17,17 @@ class CheckInController
         $this->checkInService = new CheckInService();
     }
     public function index(): void
-    {
+    {   
+
+    
         $events = $this->eventService->getAllCurrentEvents();
+
+        if (!$events) {
+            http_response_code(404);
+            redirectToUrl(url('/staff/'));
+            return;
+        }
+
         $seated = array_filter($events, function ($event) {
             return $event['Seating'] === true;
         });

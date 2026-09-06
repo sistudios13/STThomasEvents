@@ -59,4 +59,6 @@ class AuthController
             'pageTitle' => 'Account Deleted - St. Thomas Events'
         ]);
     }
+
+    
 }

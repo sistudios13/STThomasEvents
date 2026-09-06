@@ -28,6 +28,10 @@ class ManagementService
         $data = $this->eventRepository->findAll();
 
         $grouped = [];
+        
+        if (empty($data)) {
+            return [];
+        }
 
         foreach ($data as $event) {
             $startsAt = strtotime($event['StartsAt']);

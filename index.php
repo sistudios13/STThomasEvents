@@ -72,7 +72,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/events/{id:\d+}/confirm', ['ConfirmationController', 'confirmBooking']);
     $r->addRoute('POST', '/events/{id:\d+}/resend-verification', ['BookingController', 'resendVerification']);
 
-    
+
     // ticekts view
     $r->addRoute('POST', '/tickets/authenticate', ['TicketsController', 'AuthenticateTickets']);
     $r->addRoute('POST', '/tickets/{access_code:[A-Z0-9]+}/remove/{seat:[A-Z0-9]+}', ['TicketsController', 'removeSeat']);
@@ -92,11 +92,13 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/auth/deleted', ['AuthController', 'accountDeleted']);
 
     //staff routes: add 'staff' to array
-    
 
     $r->addRoute('GET', '/staff', ['StaffController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/dashboard', ['StaffController', 'dashboard', 'staff']);
     $r->addRoute('GET', '/staff/settings', ['UserController', 'settings', 'staff']);
+    $r->addRoute('GET', '/staff/manage', ['StaffInviteController', 'staffManage', 'staff']);
+    $r->addRoute('POST', '/staff/invite/send', ['StaffInviteController', 'sendInvite', 'staff']);
+    $r->addRoute('DELETE', '/staff/invites/{id:\d+}', ['StaffInviteController', 'deleteInvite', 'staff']);
     $r->addRoute('GET', '/staff/events', ['StaffController', 'events', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}', ['StaffController', 'manageEvent', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/bookings', ['StaffController', 'bookingsPartial', 'staff']);
@@ -108,7 +110,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff/check-in', ['CheckInController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/check-in/{id:\d+}/scan', ['CheckInController', 'scan', 'staff']);
 
-    
+
     $r->addRoute('GET', '/staff/check-in/{id:\d+}/manual', ['CheckInController', 'manual', 'staff']);
 
     $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);
@@ -119,6 +121,10 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/staff/check-in/{id:\d+}/undo', ['CheckInController', 'undoScan', 'staff']);
     $r->addRoute('POST', '/staff/check-in/{id:\d+}/manual', ['CheckInController', 'manualSearch', 'staff']);
     $r->addRoute('POST', '/staff/check-in/{id:\d+}/manual/one', ['CheckInController', 'checkInOne', 'staff']);
+
+    // Registration routes (public)
+    $r->addRoute('GET', '/staff/register/{token:[a-f0-9]+}', ['RegistrationController', 'showRegistrationForm']);
+    $r->addRoute('POST', '/staff/register/complete', ['RegistrationController', 'completeRegistration']);
 });
 
 // Dispatch the request

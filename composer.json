@@ -20,6 +20,9 @@
       "app/services/",
       "app/services/staff/",
       "app/services/staff/CheckInService.php",
+      "app/services/staff/StaffInviteService.php",
+      "app/repositories/staff/StaffInviteRepository.php",
+      "app/controllers/RegistrationController.php",
       "app/services/ReminderService.php",
       "app/repositories/staff/"
     ]

@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
-    <meta name="description" content="<?= $pageDescription ?? 'St. Thomas Events is a ticket booking system for various events at St. Thomas High School.' ?>">
-
+    <meta name="description" content="<?= $pageDescription ?? 'St. Thomas Events is a ticket booking system for events at St. Thomas High School. Created by Simon Papp and powered by simonsites.com' ?>">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
@@ -98,7 +97,7 @@
                         </div>
                     </div>
                     <p class="text-gray-400 text-sm">St. Thomas Events is the place to book tickets for various events at St. Thomas High School.</p>
-                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">simonsites.com</span></a>
+                    <a href="https://simonsites.com" target="_blank" class="mt-4 inline-block text-base text-white font-medium hover:text-gray-200 transition">Created by Simon Papp <br> <span class="font-normal">Powered By simonsites.com</span></a>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Quick Links</h4>

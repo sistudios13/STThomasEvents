@@ -137,4 +137,10 @@ if (!function_exists('basePath')) {
         global $auth;
         return $auth->isLoggedIn();
     }
+
+    function isAdmin(): bool
+    {
+        global $auth;
+        return $auth->hasRole(\Delight\Auth\Role::ADMIN);
+    }
 }
