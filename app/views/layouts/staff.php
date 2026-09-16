@@ -8,9 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <script defer src="<?= url('/scripts/alpine-focus.min.js')  ?>"></script>
+    <script defer src="<?= url('/scripts/alpine.min.js')  ?>"></script>
+     <script defer src="<?= url('/scripts/htmx.min.js')  ?>"></script>
     <!-- Icons -->
     <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="<?= url('/assets/favicon.svg') ?>" />

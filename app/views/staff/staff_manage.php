@@ -104,4 +104,41 @@ $now = new DateTime();
             </div>
         <?php endif; ?>
     </section>
+    <section class="mt-6 rounded-lg border border-gray-100 bg-white p-4">
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold text-gray-900">Staff Members</h2>
+            <p class="mt-1 text-sm text-gray-500">Everyone with access to staff portal</p>
+        </div>
+
+        <?php if (!$staff): ?>
+            <p class="rounded-md bg-gray-50 px-3 py-4 text-sm text-gray-500">No staff members found</p>
+        <?php else: ?>
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[38rem] text-left text-sm">
+                    <thead class="border-b border-gray-200 text-xs uppercase tracking-wide text-gray-500">
+                        <tr>
+                            <th scope="col" class="px-3 py-3 font-medium">User</th>
+
+                            <th scope="col" class="px-3 py-3 font-medium">Role</th>
+                            <th scope="col" class="px-3 py-3 font-medium">Registered</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700">
+                        <?php foreach ($staff as $member): ?>
+                            <tr>
+                                <td class="px-3 py-3">
+                                    <div class="font-medium text-gray-900"><?= htmlspecialchars($member['username']) ?></div>
+                                    <div class="text-xs text-gray-500"><?= htmlspecialchars($member['email']) ?></div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-3 text-gray-500"><?= $member['roles_mask'] ? 'Admin' : 'Staff' ?></td>
+                                <td class="whitespace-nowrap px-3 py-3 text-gray-500"><?= date('Y-m-d g:iA', $member['registered']) ?></td>
+
+                            </tr>
+
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </section>
 </div>

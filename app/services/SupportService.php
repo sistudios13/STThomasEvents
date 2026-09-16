@@ -30,8 +30,8 @@ class SupportService
         - Users book by selecting an event, choosing seats, and completing the booking flow.
         - Tickets are sent by email after a successful booking.
         - Users can contact support by email at ' . Settings::SUPPORT_EMAIL . '.
-        - The support page also lists phone support and live chat during business hours.
-        - Cancellations or changes may be allowed up to 48 hours before the event.
+        - Payments take place at the door. Cash Only.
+        - Cancellations are allowed. It can be done from tickets access page.
 
         How to respond:
         - Keep answers short and clear.

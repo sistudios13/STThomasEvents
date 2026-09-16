@@ -96,9 +96,11 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff', ['StaffController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/dashboard', ['StaffController', 'dashboard', 'staff']);
     $r->addRoute('GET', '/staff/settings', ['UserController', 'settings', 'staff']);
+
     $r->addRoute('GET', '/staff/manage', ['StaffInviteController', 'staffManage', 'staff']);
     $r->addRoute('POST', '/staff/invite/send', ['StaffInviteController', 'sendInvite', 'staff']);
     $r->addRoute('DELETE', '/staff/invites/{id:\d+}', ['StaffInviteController', 'deleteInvite', 'staff']);
+
     $r->addRoute('GET', '/staff/events', ['StaffController', 'events', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}', ['StaffController', 'manageEvent', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/bookings', ['StaffController', 'bookingsPartial', 'staff']);
@@ -107,10 +109,9 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/staff/events/{id:\d+}/edit', ['StaffController', 'edit', 'staff']);
     $r->addRoute('DELETE', '/staff/events/{id:\d+}', ['StaffController', 'deleteEvent', 'staff']);
     $r->addRoute('GET', '/staff/events/{id:\d+}/bookings/export', ['StaffController', 'exportBookings', 'staff']);
+
     $r->addRoute('GET', '/staff/check-in', ['CheckInController', 'index', 'staff']);
     $r->addRoute('GET', '/staff/check-in/{id:\d+}/scan', ['CheckInController', 'scan', 'staff']);
-
-
     $r->addRoute('GET', '/staff/check-in/{id:\d+}/manual', ['CheckInController', 'manual', 'staff']);
 
     $r->addRoute('POST', '/staff/settings/change-password', ['UserController', 'changePassword', 'staff']);

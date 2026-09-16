@@ -94,4 +94,14 @@ class StaffInviteRepository
             return false;
         }
     }
+
+    public function getStaffMembers(): array
+    {
+        // get users with pdo bc not in propel
+        $pdo = \Propel\Runtime\Propel::getWriteConnection('stthomas-events');
+        $stmt = $pdo->prepare('SELECT id, email, username, status, verified, roles_mask, registered FROM users ORDER BY roles_mask  DESC;');
+        $stmt->execute();
+        $staffMembers = $stmt->fetchAll();
+        return $staffMembers;
+    }
 }

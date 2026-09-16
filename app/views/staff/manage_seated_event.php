@@ -147,7 +147,7 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
         <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div class="flex justify-between items-center gap-2">
                 <div>
-                    <h2 class="text-lg font-semibold tracking-tight text-gray-900">Bookings</h2>
+                    <h2 class="text-lg font-medium tracking-tight text-gray-800">Bookings</h2>
                     <p class="mt-1 text-sm text-gray-500">Search, sort, and review attendee bookings for this event.</p>
                 </div>
                 <a href="<?= url("/staff/events/{$id}/bookings/export/") ?>" class="inline-flex md:hidden whitespace-nowrap items-center justify-center rounded-md border border-gray-200 bg-white px-2 sm:px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
@@ -190,6 +190,9 @@ $priceTiers = is_array($priceTiers) ? $priceTiers : [];
             ?>
         </div>
 
+    </div>
+    <div class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm max-w-full overflow-x-auto" >
+        <?php require __DIR__ . '/../fragments/staff_seatmap.php'; ?>
     </div>
 
 </section>

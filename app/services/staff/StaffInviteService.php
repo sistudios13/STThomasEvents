@@ -99,4 +99,9 @@ class StaffInviteService
     {
         return $this->inviteRepository->deleteInvite($id);
     }
+
+    public function getStaffMembers(): array
+    {
+        return $this->inviteRepository->getStaffMembers();
+    }
 }

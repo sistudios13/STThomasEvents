@@ -91,6 +91,7 @@ class StaffController
             'sortOrder' => $info['sort_order'],
             'info' => $info,
             'bookings' => $bookings,
+            'reservedSeats' => $this->eventService->getUnavailableSeats(intval($id)),
         ]);
     }
 
@@ -216,7 +217,7 @@ class StaffController
                     <h2 class='text-2xl font-semibold tracking-tight text-gray-900'>Event Created Successfully</h2>
                     <p class='mt-1 text-sm text-gray-500'>The event has been created successfully. Click below to manage the event.</p>
                     <div class='mt-4 flex gap-2'>
-                        <a href='" . url("/staff/events/{$eventId}/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>Manage Event</a>
+                        <a href='" . url("/staff/events/{$eventId}/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>Manage Event</a>
                     </div>
                 </section>
                 <script>
@@ -281,7 +282,7 @@ class StaffController
                     <h2 class='text-2xl font-semibold tracking-tight text-gray-900'>Event Updated Successfully</h2>
                     <p class='mt-1 text-sm text-gray-500'>The event has been updated successfully. Click below to manage the event.</p>
                     <div class='mt-4 flex gap-2'>
-                        <a href='" . url("/staff/events/{$id}/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>Manage Event</a>
+                        <a href='" . url("/staff/events/{$id}/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>Manage Event</a>
                     </div>
                 </section>
                 <script>
@@ -327,7 +328,7 @@ class StaffController
                 <h2 class='text-2xl font-semibold tracking-tight text-gray-900'>Event Deleted Successfully</h2>
                 <p class='mt-1 text-sm text-gray-500'>The event has been deleted successfully.</p>
                 <div class='mt-4 flex gap-2'>
-                    <a href='" . url("/staff/dashboard/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>To Dashboard</a>
+                    <a href='" . url("/staff/dashboard/") . "' class='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>To Dashboard</a>
                 </div>
             </section>
             <script>

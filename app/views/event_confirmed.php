@@ -6,7 +6,7 @@
     <title><?= $pageTitle ?? 'St. Thomas Events' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href='<?= url('/styles/main.css') ?>'>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="<?= url('/scripts/alpine.min.js') ?>"></script>
     <!-- Icons -->
     <link rel="icon" type="image/png" href="<?= url('/assets/favicon-96x96.png') ?>" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="<?= url('/assets/favicon.svg') ?>" />
@@ -87,7 +87,7 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <script src="<?= url('/assets/htmx.min.js') ?>"></script>
     <script>
         // HTMX error handling
         document.body.addEventListener('htmx:responseError', function (event) {

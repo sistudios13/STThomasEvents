@@ -55,7 +55,7 @@ class AuthController
 
     public function accountDeleted(): void
     {
-        render('auth/account_deleted', null, [
+        render('auth/account_deleted', 'no_header', [
             'pageTitle' => 'Account Deleted - St. Thomas Events'
         ]);
     }

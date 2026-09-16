@@ -28,7 +28,8 @@ class StaffInviteController
 
         render('staff/staff_manage', 'staff', [
             'pageTitle' => 'Invite Staff Member - St. Thomas Events',
-            'invites' => $this->inviteService->getInvites()
+            'invites' => $this->inviteService->getInvites(),
+            'staff' => $this->inviteService->getStaffMembers()
         ]);
     }
 

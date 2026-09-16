@@ -2,14 +2,24 @@
 
 declare(strict_types=1);
 
+namespace App\Cron;
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/helpers.php';
-require_once __DIR__ . '/../generated-conf/config.php';
+
+date_default_timezone_set('America/New_York');
+
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/config/helpers.php';
+require_once __DIR__ . '/generated-conf/config.php';
 
 use App\Services\ReminderService;
 use App\Config\Settings;
 use App\Services\EmailService;
+
+
+if (($_GET['token'] ?? '') !== 'key_here') {
+    http_response_code(403);
+    exit('Forbidden');
+}
 
 
 /*
@@ -20,6 +30,7 @@ use App\Services\EmailService;
 $reminderService = new ReminderService();
 $emailService = new EmailService();
 $reminders = $reminderService->getUpcomingReminders();
+
 
 foreach ($reminders as $reminder) {
     $url = Settings::APP_URL . "tickets/?access_code=" . $reminder['accessCode'] . "&email=" . urlencode($reminder['email']);
@@ -48,3 +59,5 @@ foreach ($reminders as $reminder) {
     $reminderService->markReminderSent($reminder['id']);
 
 }
+
+echo "Reminders sent successfully.";
